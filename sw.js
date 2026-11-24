@@ -1,6 +1,6 @@
 // Kelime Sınavı: internetsiz çalışma. Sayfayı güncellersen VERSION'ı bir artır.
-const VERSION = 'kelime-v1';
-const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
+const VERSION = 'kelime-v27';
+const FILES = ['./', './index.html', './data.js', './topics.js', './orig.js', './extra.js', './sound.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));

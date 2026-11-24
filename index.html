@@ -278,14 +278,85 @@ h1, h2, p { margin: 0; }
   * { transition: none !important; }
   .card.leave, .card.enter { animation: none !important; }
 }
+
+
+/* v2: özel testler, uzun ana ekran */
+.lv .nm { display: flex; flex-direction: column; }
+.lv .nm small { font-weight: 500; font-size: 13px; color: var(--muted); }
+.lv[aria-checked="true"] .nm small { color: inherit; opacity: .85; }
+.lv .meta { display: flex; flex-direction: column; align-items: flex-end; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; line-height: 1.35; }
+.lv .meta b { font-weight: 600; font-size: 13px; }
+.lv .meta i { font-style: normal; }
+.lv[aria-checked="true"] .meta { color: inherit; opacity: .9; }
+.home .primary { position: sticky; bottom: 12px; box-shadow: 0 10px 24px -10px rgba(51, 71, 255, .6); }
+.home { padding-bottom: 8px; }
+.dirs { display: flex; gap: 8px; margin-top: 10px; }
+.dirs .cnt { flex: 1; width: auto; height: auto; padding: 12px 6px; font-size: 14px; }
+.lv[disabled] { opacity: .55; cursor: default; }
+.lv.nav .meta b { font-size: 22px; }
+.hl { color: var(--accent); font-weight: 800; }
+.stage p { margin: 0; }
+.word.sent { font-size: clamp(24px, 7vw, 32px); line-height: 1.3; letter-spacing: -0.01em; font-weight: 700; }
+.word.tr { font-size: clamp(34px, 10vw, 48px); }
+.sub { font-size: 16px; font-style: italic; }
+.tag { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.seen { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+.seen b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.sub2 { font-size: 15px; color: var(--muted); }
+.blank { display: inline-block; min-width: 3.2em; border-bottom: 3px solid var(--accent); transform: translateY(2px); }
+.e-note { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 8px 10px; }
+.e-note b { color: var(--ink); }
+/* v26: hata bayrağı */
+.flagb { background: none; border: 0; min-width: 40px; min-height: 44px; display: grid; place-items: center; color: var(--muted); cursor: pointer; }
+.flagb svg { width: 22px; height: 22px; }
+.flagb[aria-pressed="true"] { color: var(--bad); }
+.flagb[aria-pressed="true"] svg path:nth-child(2) { fill: currentColor; }
+.e-btns { display: flex; align-items: center; gap: 0; }
+.fdel { background: none; border: 0; color: var(--bad); font-weight: 600; padding: 8px 4px; min-height: 40px; cursor: pointer; font: inherit; font-weight: 600; }
+/* v25: konu ekranındaki geri düğmesi */
+.toprow .exit { background: none; border: 0; padding: 8px 4px; font: inherit; font-weight: 600; font-size: 16px; color: var(--muted); min-height: 44px; cursor: pointer; }
+/* v18: dar ekranda uzun şık kırılsın, kısa ekranda kart sığsın */
+.word.mid { font-size: clamp(32px, 10vw, 54px); }
+.primary:disabled { opacity: .5; box-shadow: none; cursor: default; }
+.stage .cog { font-size: 13px; font-weight: 600; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); border-radius: 99px; padding: 4px 12px; }
+.opt > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 340px) { .opt { font-size: 16px; padding-right: 12px; } .card { padding: 12px; } }
+@media (max-height: 800px) {
+  #app { padding-top: 10px; padding-bottom: 12px; }
+  .quiz { gap: 8px; }
+  .deck { margin-bottom: 22px; }
+  .card { padding: 12px; gap: 8px; }
+  .stage { padding: 6px 0; min-height: 120px; gap: 8px; }
+  .word { font-size: clamp(34px, 11vw, 60px); }
+  .word.tr { font-size: clamp(28px, 8.5vw, 40px); }
+  .word.sent { font-size: clamp(21px, 6vw, 28px); }
+  .word.mid { font-size: clamp(28px, 9vw, 44px); }
+  .opts { gap: 8px; }
+  .opt { min-height: 48px; padding-top: 6px; padding-bottom: 6px; font-size: 17px; }
+  .pas { min-height: 48px; }
+  .spk { width: 40px; height: 40px; }
+}
+@media (max-height: 600px) {
+  .stage { min-height: 90px; padding: 2px 0; }
+  .word { font-size: clamp(30px, 10vw, 48px); }
+  .opt { min-height: 44px; font-size: 16px; }
+  .tag { font-size: 12px; }
+}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<script>(function(){try{var t=JSON.parse(localStorage.getItem("kelime-theme"));if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
+<script src="sound.js"></script>
+<script src="data.js"></script>
+<script src="topics.js"></script>
+<script src="orig.js"></script>
+<script src="extra.js"></script>
 <script>
 (function () {
   'use strict';
 
+  var D = window.KELIME_DATA;
   var LEVELS = [
     { id: 'A1', name: 'Başlangıç' },
     { id: 'A2', name: 'Temel' },
@@ -293,294 +364,308 @@ h1, h2, p { margin: 0; }
     { id: 'B2', name: 'Orta üstü' },
     { id: 'C1', name: 'İleri' }
   ];
+  var MODES = [
+    { id: 'irreg', code: 'V2', name: 'Düzensiz fiiller', note: 'Geçmiş zaman biçimleri' },
+    { id: 'syn', code: '≈', name: 'Anlamı yakın kelimeler', note: 'Cümleye uyan kelimeyi seç' },
+    { id: 'spell', code: 'th', name: 'Yazılışı benzer kelimeler', note: 'Doğru yazılışı bul' },
+    { id: 'orig', code: 'Old', name: 'Orijinal anlamlar', note: 'Kelimenin eski anlamı ne?' },
+    { id: 'poly', code: '1+', name: 'Çok anlamlı kelimeler', note: 'Anlamı OLMAYANI bul' },
+    { id: 'ant', code: '⇄', name: 'Zıt anlamlılar', note: 'Tersi hangisi?' },
+    { id: 'simile', code: 'as', name: 'Benzetmeler', note: 'as … as … kalıpları' },
+    { id: 'idiom', code: 'Dy', name: 'Deyimler', note: 'Kalıplaşmış ifadeler' }
+  ];
+  var TOPICS = window.KELIME_TOPICS || [];
   var COUNTS = [10, 20, 30, 40, 50];
-
-  // kelime | Türkçe anlam | İngilizce örnek cümle | cümlenin Türkçesi
-  var RAW = {
-A1: `
-apple|elma|I eat an apple every day.|Her gün bir elma yerim.
-book|kitap|This book is very interesting.|Bu kitap çok ilginç.
-water|su|Can I have a glass of water?|Bir bardak su alabilir miyim?
-house|ev|They live in a small house.|Küçük bir evde yaşıyorlar.
-friend|arkadaş|She is my best friend.|O benim en iyi arkadaşım.
-family|aile|My family is very big.|Ailem çok büyük.
-school|okul|The children go to school by bus.|Çocuklar okula otobüsle gider.
-teacher|öğretmen|Our teacher is very kind.|Öğretmenimiz çok kibar.
-mother|anne|My mother cooks dinner.|Annem akşam yemeği pişirir.
-father|baba|My father works in a bank.|Babam bir bankada çalışıyor.
-brother|erkek kardeş|My brother plays football.|Erkek kardeşim futbol oynar.
-sister|kız kardeş|My sister is ten years old.|Kız kardeşim on yaşında.
-dog|köpek|The dog is sleeping on the sofa.|Köpek kanepede uyuyor.
-cat|kedi|The cat drinks milk.|Kedi süt içiyor.
-car|araba|He has a red car.|Onun kırmızı bir arabası var.
-bread|ekmek|We buy fresh bread every morning.|Her sabah taze ekmek alırız.
-milk|süt|I drink milk with breakfast.|Kahvaltıda süt içerim.
-table|masa|The keys are on the table.|Anahtarlar masanın üstünde.
-chair|sandalye|Please sit on that chair.|Lütfen şu sandalyeye otur.
-door|kapı|Close the door, please.|Lütfen kapıyı kapat.
-window|pencere|Open the window, it is hot.|Pencereyi aç, hava sıcak.
-big|büyük|They have a big garden.|Onların büyük bir bahçesi var.
-small|küçük|This room is too small.|Bu oda çok küçük.
-happy|mutlu|I am happy today.|Bugün mutluyum.
-sad|üzgün|He looks sad.|Üzgün görünüyor.
-hot|sıcak|The soup is very hot.|Çorba çok sıcak.
-cold|soğuk|The water is too cold.|Su çok soğuk.
-new|yeni|I need a new phone.|Yeni bir telefona ihtiyacım var.
-red|kırmızı|She wears a red dress.|O kırmızı bir elbise giyiyor.
-blue|mavi|The sky is blue.|Gökyüzü mavi.
-green|yeşil|The grass is green.|Çimen yeşil.
-black|siyah|He has a black bag.|Onun siyah bir çantası var.
-white|beyaz|Snow is white.|Kar beyazdır.
-yellow|sarı|The sun looks yellow today.|Güneş bugün sarı görünüyor.
-eat|yemek yemek|We eat lunch at noon.|Öğle yemeğini öğlen yeriz.
-drink|içmek|I drink tea in the evening.|Akşamları çay içerim.
-sleep|uyumak|Babies sleep a lot.|Bebekler çok uyur.
-run|koşmak|I run in the park every morning.|Her sabah parkta koşarım.
-walk|yürümek|We walk to school.|Okula yürüyerek gideriz.
-read|okumak|She likes to read at night.|Geceleri okumayı sever.
-write|yazmak|Please write your name here.|Lütfen adını buraya yaz.
-open|açmak|Can you open the box?|Kutuyu açabilir misin?
-day|gün|It is a beautiful day.|Güzel bir gün.
-night|gece|The stars come out at night.|Yıldızlar geceleyin çıkar.
-morning|sabah|I wake up early in the morning.|Sabahları erken kalkarım.
-city|şehir|Istanbul is a big city.|İstanbul büyük bir şehir.
-street|sokak|The street is quiet at night.|Sokak geceleri sessizdir.
-money|para|I don't have much money.|Fazla param yok.
-tree|ağaç|There is a tall tree in front of our house.|Evimizin önünde uzun bir ağaç var.
-rain|yağmur|The rain stopped an hour ago.|Yağmur bir saat önce durdu.
-`,
-A2: `
-beautiful|güzel|The village is very beautiful in spring.|Köy ilkbaharda çok güzeldir.
-expensive|pahalı|This watch is too expensive for me.|Bu saat benim için çok pahalı.
-cheap|ucuz|The tickets were cheap.|Biletler ucuzdu.
-difficult|zor|The exam was very difficult.|Sınav çok zordu.
-easy|kolay|This question is easy.|Bu soru kolay.
-dangerous|tehlikeli|It is dangerous to swim here.|Burada yüzmek tehlikelidir.
-busy|meşgul|I am busy this afternoon.|Bu öğleden sonra meşgulüm.
-tired|yorgun|He came home tired.|Eve yorgun geldi.
-hungry|aç|The children are hungry.|Çocuklar aç.
-angry|kızgın|My boss was angry yesterday.|Patronum dün kızgındı.
-weather|hava durumu|The weather is nice today.|Bugün hava güzel.
-holiday|tatil|We are going on holiday in July.|Temmuzda tatile gidiyoruz.
-journey|yolculuk|The journey took five hours.|Yolculuk beş saat sürdü.
-ticket|bilet|I bought two tickets for the concert.|Konser için iki bilet aldım.
-airport|havalimanı|We arrived at the airport early.|Havalimanına erken vardık.
-hotel|otel|The hotel is near the beach.|Otel plaja yakın.
-luggage|bagaj|Your luggage is heavy.|Bagajın ağır.
-passport|pasaport|Don't forget your passport.|Pasaportunu unutma.
-kitchen|mutfak|My mother is in the kitchen.|Annem mutfakta.
-bedroom|yatak odası|The bedroom is upstairs.|Yatak odası üst katta.
-neighbour|komşu|Our neighbour is a doctor.|Komşumuz bir doktor.
-dentist|diş hekimi|I have an appointment with the dentist.|Diş hekimiyle randevum var.
-hospital|hastane|He is in the hospital.|Hastanede.
-medicine|ilaç|Take this medicine twice a day.|Bu ilacı günde iki kez al.
-headache|baş ağrısı|I have a terrible headache.|Çok kötü bir baş ağrım var.
-farmer|çiftçi|The farmer works in the field.|Çiftçi tarlada çalışıyor.
-engineer|mühendis|My uncle is an engineer.|Amcam bir mühendis.
-salary|maaş|He gets his salary at the end of the month.|Maaşını ay sonunda alır.
-meeting|toplantı|The meeting starts at nine.|Toplantı dokuzda başlıyor.
-company|şirket|She works for a big company.|Büyük bir şirkette çalışıyor.
-customer|müşteri|The customer wants a refund.|Müşteri para iadesi istiyor.
-invite|davet etmek|I want to invite you to my party.|Seni partime davet etmek istiyorum.
-borrow|ödünç almak|Can I borrow your pen?|Kalemini ödünç alabilir miyim?
-lend|ödünç vermek|I can lend you some money.|Sana biraz para ödünç verebilirim.
-carry|taşımak|He carried the heavy bag upstairs.|Ağır çantayı üst kata taşıdı.
-choose|seçmek|You can choose any colour.|Herhangi bir renk seçebilirsin.
-forget|unutmak|I forgot my keys at home.|Anahtarlarımı evde unuttum.
-remember|hatırlamak|Do you remember his name?|Onun adını hatırlıyor musun?
-learn|öğrenmek|I want to learn English.|İngilizce öğrenmek istiyorum.
-travel|seyahat etmek|They travel to Italy every summer.|Her yaz İtalya'ya seyahat ederler.
-visit|ziyaret etmek|We visit our grandparents on Sundays.|Pazar günleri büyükanne ve büyükbabamızı ziyaret ederiz.
-wait|beklemek|Please wait here for a moment.|Lütfen burada bir dakika bekleyin.
-cook|yemek pişirmek|My father cooks very well.|Babam çok iyi yemek pişirir.
-clean|temizlemek|I clean my room every Saturday.|Odamı her cumartesi temizlerim.
-early|erken|He always arrives early.|Her zaman erken gelir.
-late|geç|Sorry, I am late.|Üzgünüm, geç kaldım.
-always|her zaman|She always drinks tea in the morning.|Sabahları her zaman çay içer.
-never|asla|I never eat meat.|Asla et yemem.
-sometimes|bazen|Sometimes we go to the cinema.|Bazen sinemaya gideriz.
-arrive|varmak|The train arrives at six.|Tren altıda varır.
-`,
-B1: `
-achieve|başarmak|She worked hard to achieve her goals.|Hedeflerini başarmak için çok çalıştı.
-advice|tavsiye|Can you give me some advice?|Bana biraz tavsiye verebilir misin?
-afford|parası yetmek|I can't afford a new car.|Yeni bir araba almaya param yetmez.
-argue|tartışmak|They argue about money all the time.|Sürekli para konusunda tartışıyorlar.
-arrange|ayarlamak|I will arrange a meeting for Monday.|Pazartesi için bir toplantı ayarlayacağım.
-attitude|tutum|His attitude towards work is very positive.|İşe karşı tutumu çok olumlu.
-average|ortalama|The average age in the class is twenty.|Sınıftaki yaş ortalaması yirmi.
-award|ödül|She won an award for her novel.|Romanıyla bir ödül kazandı.
-brave|cesur|The firefighter was very brave.|İtfaiyeci çok cesurdu.
-career|kariyer|He is at the start of his career.|Kariyerinin başında.
-cheerful|neşeli|She is always cheerful in the morning.|Sabahları hep neşelidir.
-colleague|iş arkadaşı|My colleague helped me with the report.|İş arkadaşım rapor konusunda bana yardım etti.
-complain|şikâyet etmek|Customers often complain about the noise.|Müşteriler sık sık gürültüden şikâyet ediyor.
-confident|kendinden emin|He felt confident before the interview.|Mülakattan önce kendinden emin hissediyordu.
-consider|dikkate almak|You should consider all the options.|Tüm seçenekleri dikkate almalısın.
-crowded|kalabalık|The bus was crowded this morning.|Otobüs bu sabah kalabalıktı.
-damage|zarar|The storm caused serious damage.|Fırtına ciddi zarara yol açtı.
-decision|karar|It was a difficult decision.|Zor bir karardı.
-delay|gecikme|There was a long delay at the airport.|Havalimanında uzun bir gecikme yaşandı.
-disappointed|hayal kırıklığına uğramış|I was disappointed with the result.|Sonuçtan hayal kırıklığına uğradım.
-discover|keşfetmek|Scientists discovered a new species.|Bilim insanları yeni bir tür keşfetti.
-environment|çevre|We must protect the environment.|Çevreyi korumalıyız.
-experience|deneyim|She has a lot of work experience.|Çok fazla iş deneyimi var.
-fair|adil|The teacher is strict but fair.|Öğretmen katı ama adil.
-fix|onarmak|Can you fix my bike?|Bisikletimi onarabilir misin?
-generous|cömert|He is generous with his time.|Zamanı konusunda cömerttir.
-improve|geliştirmek|I want to improve my English.|İngilizcemi geliştirmek istiyorum.
-income|gelir|Their monthly income is low.|Aylık gelirleri düşük.
-independent|bağımsız|She wants to be independent.|Bağımsız olmak istiyor.
-involve|içermek|The job involves a lot of travel.|Bu iş çok seyahat içeriyor.
-knowledge|bilgi|He has a lot of knowledge about history.|Tarih hakkında çok bilgisi var.
-lack|eksiklik|The project failed because of a lack of money.|Proje para eksikliği yüzünden başarısız oldu.
-lonely|yalnız hisseden|He felt lonely in the big city.|Büyük şehirde kendini yalnız hissetti.
-manage|yönetmek|She manages a small team.|Küçük bir ekibi yönetiyor.
-mention|bahsetmek|He didn't mention the problem.|Sorundan bahsetmedi.
-neighbourhood|mahalle|Our neighbourhood is very safe.|Mahallemiz çok güvenli.
-opportunity|fırsat|This is a great opportunity.|Bu harika bir fırsat.
-patient|sabırlı|You need to be patient with children.|Çocuklara karşı sabırlı olmalısın.
-prefer|tercih etmek|I prefer tea to coffee.|Çayı kahveye tercih ederim.
-pressure|baskı|He works well under pressure.|Baskı altında iyi çalışır.
-promise|söz vermek|I promise I will call you.|Seni arayacağıma söz veriyorum.
-reduce|azaltmak|We need to reduce the costs.|Maliyetleri azaltmamız gerekiyor.
-refuse|reddetmek|She refused the offer.|Teklifi reddetti.
-reliable|güvenilir|He is a reliable worker.|O güvenilir bir çalışan.
-research|araştırma|They are doing research on sleep.|Uykuyla ilgili araştırma yapıyorlar.
-respect|saygı|You should show respect to older people.|Yaşlılara saygı göstermelisin.
-schedule|program|My schedule is full this week.|Bu hafta programım dolu.
-suggest|önermek|I suggest we take a taxi.|Taksiye binmemizi öneriyorum.
-unemployed|işsiz|He has been unemployed for six months.|Altı aydır işsiz.
-valuable|değerli|Your time is valuable.|Zamanın değerli.
-`,
-B2: `
-abandon|terk etmek|They had to abandon the car in the snow.|Arabayı karda terk etmek zorunda kaldılar.
-acknowledge|kabul etmek|He acknowledged his mistake.|Hatasını kabul etti.
-adequate|yeterli|The room is adequate for two people.|Oda iki kişi için yeterli.
-ambition|hırs|Her ambition drives her to work late.|Hırsı onu geç saatlere kadar çalıştırıyor.
-assume|varsaymak|I assumed you had already left.|Çoktan gittiğini varsaymıştım.
-awkward|garip|There was an awkward silence.|Garip bir sessizlik oldu.
-benefit|fayda|Exercise has many health benefits.|Egzersizin sağlığa birçok faydası var.
-cautious|temkinli|Be cautious when you drive in the fog.|Sisli havada araba kullanırken temkinli ol.
-claim|iddia etmek|He claims he never saw the letter.|Mektubu hiç görmediğini iddia ediyor.
-stubborn|inatçı|He is too stubborn to listen.|Dinlemeyecek kadar inatçı.
-consequence|sonuç|You must think about the consequences.|Sonuçlarını düşünmelisin.
-contribute|katkıda bulunmak|Everyone contributed to the project.|Herkes projeye katkıda bulundu.
-convince|ikna etmek|I couldn't convince him to stay.|Onu kalması için ikna edemedim.
-deliberate|kasıtlı|The damage was deliberate.|Zarar kasıtlıydı.
-demand|talep|There is a high demand for engineers.|Mühendislere yüksek talep var.
-deny|inkâr etmek|He denied taking the money.|Parayı almayı inkâr etti.
-dispute|anlaşmazlık|The two countries are in a dispute over land.|İki ülke toprak konusunda anlaşmazlık yaşıyor.
-efficient|verimli|The new machine is more efficient.|Yeni makine daha verimli.
-eliminate|ortadan kaldırmak|We must eliminate waste.|İsrafı ortadan kaldırmalıyız.
-emphasise|vurgulamak|The speaker emphasised the importance of sleep.|Konuşmacı uykunun önemini vurguladı.
-ensure|sağlamak|Please ensure that the door is locked.|Lütfen kapının kilitli olmasını sağla.
-evidence|kanıt|There is no evidence against him.|Ona karşı hiçbir kanıt yok.
-exaggerate|abartmak|Don't exaggerate, it wasn't that bad.|Abartma, o kadar kötü değildi.
-expand|genişlemek|The company wants to expand abroad.|Şirket yurtdışına doğru genişlemek istiyor.
-flexible|esnek|My working hours are flexible.|Çalışma saatlerim esnek.
-genuine|samimi|Her smile was genuine.|Gülümsemesi samimiydi.
-inevitable|kaçınılmaz|Change is inevitable.|Değişim kaçınılmazdır.
-initiative|inisiyatif|He took the initiative and called her.|İnisiyatif alıp onu aradı.
-insight|içgörü|The book gave me a useful insight.|Kitap bana faydalı bir içgörü kazandırdı.
-justify|haklı çıkarmak|Nothing can justify violence.|Hiçbir şey şiddeti haklı çıkaramaz.
-maintain|sürdürmek|It is hard to maintain a healthy diet.|Sağlıklı beslenmeyi sürdürmek zor.
-obstacle|engel|Lack of time is the main obstacle.|Zaman eksikliği başlıca engel.
-obvious|bariz|The answer is obvious.|Cevap çok bariz.
-overcome|üstesinden gelmek|She overcame her fear of flying.|Uçma korkusunun üstesinden geldi.
-reluctant|isteksiz|He was reluctant to help.|Yardım etmeye isteksizdi.
-predict|tahmin etmek|Nobody can predict the future.|Kimse geleceği tahmin edemez.
-prevent|önlemek|Vaccines prevent many diseases.|Aşılar birçok hastalığı önler.
-rely|güvenmek|You can rely on me.|Bana güvenebilirsin.
-reputation|itibar|The restaurant has a good reputation.|Restoranın iyi bir itibarı var.
-resign|istifa etmek|The minister resigned yesterday.|Bakan dün istifa etti.
-restrict|kısıtlamak|The law restricts the use of phones.|Yasa telefon kullanımını kısıtlıyor.
-significant|kayda değer|There was a significant increase in prices.|Fiyatlarda kayda değer bir artış oldu.
-temporary|geçici|It is only a temporary solution.|Bu sadece geçici bir çözüm.
-tend|eğiliminde olmak|Prices tend to rise in summer.|Fiyatlar yazın artma eğilimindedir.
-threaten|tehdit etmek|He threatened to leave the company.|Şirketten ayrılmakla tehdit etti.
-vulnerable|savunmasız|Young children are vulnerable.|Küçük çocuklar savunmasızdır.
-witness|tanık|A witness saw the accident.|Bir tanık kazayı gördü.
-compensate|telafi etmek|The company will compensate for the loss.|Şirket kaybı telafi edecek.
-reveal|ortaya çıkarmak|The report revealed serious problems.|Rapor ciddi sorunları ortaya çıkardı.
-suspicious|şüpheli|I saw a suspicious man near the house.|Evin yakınında şüpheli bir adam gördüm.
-`,
-C1: `
-ambiguous|belirsiz|The contract's wording is ambiguous.|Sözleşmenin ifadesi belirsiz.
-arbitrary|keyfî|The decision seemed completely arbitrary.|Karar tamamen keyfî görünüyordu.
-candid|açık sözlü|She gave a candid answer.|Açık sözlü bir cevap verdi.
-coherent|tutarlı|He could not give a coherent explanation.|Tutarlı bir açıklama yapamadı.
-compelling|ikna edici|She made a compelling argument.|İkna edici bir argüman sundu.
-comprehensive|kapsamlı|They published a comprehensive report.|Kapsamlı bir rapor yayımladılar.
-concede|yenilgiyi kabul etmek|The candidate conceded defeat after the vote.|Aday, oylamadan sonra yenilgiyi kabul etti.
-conspicuous|göze çarpan|Her red coat was conspicuous in the crowd.|Kırmızı paltosu kalabalıkta göze çarpıyordu.
-contemplate|uzun uzun düşünmek|He contemplated moving abroad.|Yurtdışına taşınmayı uzun uzun düşündü.
-controversial|tartışmalı|The new law is highly controversial.|Yeni yasa son derece tartışmalı.
-crucial|hayati|Sleep is crucial for learning.|Uyku öğrenme için hayati önem taşır.
-cumulative|birikimli|The cumulative effect of stress is serious.|Stresin birikimli etkisi ciddidir.
-detrimental|zararlı|Smoking is detrimental to your health.|Sigara sağlığınıza zararlıdır.
-discrepancy|tutarsızlık|There is a discrepancy between the two reports.|İki rapor arasında bir tutarsızlık var.
-dwindle|azalıp tükenmek|Our savings dwindled over the years.|Birikimlerimiz yıllar içinde azalıp tükendi.
-elaborate|ayrıntılı açıklamak|Could you elaborate on that point?|Bu noktayı ayrıntılı açıklayabilir misin?
-elusive|yakalanması zor|Success remained elusive.|Başarı yakalanması zor kaldı.
-embrace|benimsemek|The company embraced new technology.|Şirket yeni teknolojiyi benimsedi.
-enhance|artırmak|This tool will enhance your performance.|Bu araç performansını artıracak.
-exacerbate|daha da kötüleştirmek|Stress can exacerbate the problem.|Stres sorunu daha da kötüleştirebilir.
-feasible|uygulanabilir|The plan is not financially feasible.|Plan mali açıdan uygulanabilir değil.
-fluctuate|dalgalanmak|Prices fluctuate throughout the year.|Fiyatlar yıl boyunca dalgalanır.
-hinder|engel olmak|Bad weather hindered the rescue.|Kötü hava kurtarma çalışmalarına engel oldu.
-imminent|yakın zamanda olacak|A storm is imminent.|Bir fırtına yakın zamanda geliyor.
-implicit|örtük|There was an implicit threat in his words.|Sözlerinde örtük bir tehdit vardı.
-inherent|doğasında olan|Risk is inherent in any investment.|Risk, her yatırımın doğasında vardır.
-integrate|entegre etmek|The school integrates art into every subject.|Okul sanatı her derse entegre ediyor.
-intricate|girift|The carpet has an intricate pattern.|Halının girift bir deseni var.
-lenient|hoşgörülü|The judge was lenient with him.|Yargıç ona karşı hoşgörülüydü.
-meticulous|titiz|He is meticulous about his work.|İşinde çok titizdir.
-mitigate|hafifletmek|Trees help mitigate the effects of heat.|Ağaçlar sıcağın etkilerini hafifletmeye yardımcı olur.
-notorious|kötü şöhretli|The area is notorious for crime.|Bölge suçla kötü şöhretli.
-obsolete|modası geçmiş|Paper maps are almost obsolete.|Kâğıt haritalar neredeyse modası geçti.
-pragmatic|pragmatik|She takes a pragmatic approach to problems.|Sorunlara pragmatik yaklaşır.
-profound|derin|The film had a profound effect on me.|Film üzerimde derin bir etki bıraktı.
-reinforce|pekiştirmek|Repetition reinforces learning.|Tekrar öğrenmeyi pekiştirir.
-scrutiny|sıkı inceleme|The decision faced public scrutiny.|Karar kamuoyunun sıkı incelemesine tabi oldu.
-sceptical|şüpheci|I am sceptical about his promises.|Verdiği sözlere karşı şüpheciyim.
-substantial|hatırı sayılır|He inherited a substantial amount of money.|Hatırı sayılır miktarda para miras aldı.
-subtle|belli belirsiz|There is a subtle difference between the words.|Kelimeler arasında belli belirsiz bir fark var.
-superficial|yüzeysel|His knowledge of the subject is superficial.|Konu hakkındaki bilgisi yüzeysel.
-thrive|gelişip serpilmek|Plants thrive in this climate.|Bitkiler bu iklimde gelişip serpilir.
-unprecedented|eşi benzeri görülmemiş|The crisis is unprecedented.|Kriz eşi benzeri görülmemiş.
-volatile|istikrarsız|The market is volatile.|Piyasa istikrarsız.
-withdraw|geri çekmek|She withdrew her application.|Başvurusunu geri çekti.
-whereas|oysa ki|Some people like tea, whereas others prefer coffee.|Bazıları çayı sever, oysa ki diğerleri kahveyi tercih eder.
-ubiquitous|her yerde bulunan|Smartphones have become ubiquitous.|Akıllı telefonlar her yerde bulunur hale geldi.
-resilient|dirençli|Children are often more resilient than adults.|Çocuklar çoğu zaman yetişkinlerden daha dirençlidir.
-ostensibly|görünüşte|He was ostensibly on a business trip.|Görünüşte iş seyahatindeydi.
-tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir kanıt yok.
-`
-  };
-
-  var WORDS = {};
-  LEVELS.forEach(function (l) {
-    WORDS[l.id] = RAW[l.id].split('\n').map(function (s) { return s.trim(); }).filter(Boolean).map(function (s) {
-      var p = s.split('|');
-      return { en: p[0], tr: p[1], ex: p[2], exTr: p[3], level: l.id };
-    });
-  });
+  var LABEL = {};
+  LEVELS.forEach(function (l) { LABEL[l.id] = l.id; });
+  MODES.forEach(function (m) { LABEL[m.id] = m.name; });
+  TOPICS.forEach(function (t) { LABEL['tp-' + t.id] = t.name; });
+  LABEL.wrong = 'Yanlışlarım';
 
   // ---------- yardımcılar ----------
   function load(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function reEsc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   function shuffle(a) {
     a = a.slice();
     for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
     return a;
   }
+  function lines(t) { return t.split('\n').map(function (s) { return s.trim(); }).filter(Boolean); }
+
+  // ---------- veri ----------
+  var NOT_COG = { cure: 1 }; // yazılışı İngilizceye tesadüfen benzeyenler, not gösterilmez
+  var COG_YES = { 'Jerusalem / Al-Quds': 1, 'Mecca / Makkah': 1 }; // otomatik yakalanmayan benzerler
+  var POOL = {};
+  LEVELS.forEach(function (l) {
+    POOL[l.id] = lines(D.vocab[l.id]).map(function (s) {
+      var p = s.split('|');
+      return { kind: 'vocab', key: l.id + '|' + p[0], level: l.id, en: p[0], tr: p[1], ex: p[2], exTr: p[3], cog: cognate(p[0], p[1]) };
+    });
+  });
+
+  var VERBS = lines(D.irreg).map(function (s) {
+    var p = s.split('|');
+    return { base: p[0], v2: p[1], v3: p[2], tr: p[3] };
+  });
+  POOL.irreg = [];
+  VERBS.forEach(function (v) {
+    [2, 3].forEach(function (a) { POOL.irreg.push({ kind: 'irreg', key: 'irreg|' + v.base + '|' + a, v: v, ask: a }); });
+  });
+
+  var EXTRA = window.KELIME_EXTRA || { syn: '', poly: '', ant: '', antCl: [] };
+  function nearWords(a, b) {
+    var cl = EXTRA.antCl || [];
+    for (var i = 0; i < cl.length; i++) { if (cl[i].indexOf(a) >= 0 && cl[i].indexOf(b) >= 0) return true; }
+    return false;
+  }
+  // ---------- aynı anlamdaki kelimeler aynı soruda şık olmasın ----------
+  var TRM = { 'İ': 'i', 'I': 'i', 'ı': 'i', 'Ş': 's', 'ş': 's', 'Ç': 'c', 'ç': 'c', 'Ğ': 'g', 'ğ': 'g', 'Ö': 'o', 'ö': 'o', 'Ü': 'u', 'ü': 'u', 'Â': 'a', 'â': 'a', 'Î': 'i', 'î': 'i', 'Û': 'u', 'û': 'u' };
+  function phr(tr) {
+    var t = String(tr).replace(/\([^)]*\)/g, '').replace(/[İIıŞşÇçĞğÖöÜüÂâÎîÛû]/g, function (c) { return TRM[c]; }).toLowerCase();
+    return t.split(/[,;\/]/).map(function (x) { return x.replace(/[^a-z ]/g, '').replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+  }
+  var SIMIX = {};
+  (EXTRA.sim || []).forEach(function (c, i) { c.forEach(function (w) { w = w.toLowerCase(); (SIMIX[w] = SIMIX[w] || []).push(i); }); });
+  function sameCl(a, b) {
+    var x = SIMIX[String(a).toLowerCase()], y = SIMIX[String(b).toLowerCase()];
+    if (!x || !y) return false;
+    for (var i = 0; i < x.length; i++) if (y.indexOf(x[i]) >= 0) return true;
+    return false;
+  }
+  var PH = {};
+  function phrOf(it) { return PH[it.key] || (PH[it.key] = phr(it.tr)); }
+  function tooClose(a, b) {
+    if (a.en.toLowerCase() === b.en.toLowerCase() || a.tr === b.tr || sameCl(a.en, b.en)) return true;
+    var p = phrOf(a), q = phrOf(b);
+    for (var i = 0; i < p.length; i++) if (q.indexOf(p[i]) >= 0) return true;
+    return false;
+  }
+  // ---------- akıllı şık: aynı anlam grubu > aynı tür > diğerleri ----------
+  var TAGS = EXTRA.tags || {}, CAT = {};
+  function posTr(tr) {
+    var ps = String(tr).replace(/\([^)]*\)/g, '').split(/[,;]/).map(function (x) { return x.trim(); }).filter(Boolean);
+    if (ps.length && ps.every(function (x) { return /(mak|mek)$/.test(x); })) return 'v';
+    if (ps.length && /^[^ ]+(lı|li|lu|lü|sız|siz|suz|süz|sal|sel)$/.test(ps[0])) return 'a';
+    return 'n';
+  }
+  var TTAGS = EXTRA.ttags || {};
+  function catOf(en, tr, pid) {
+    var k = (pid || '') + '|' + en + '|' + tr;
+    if (CAT[k] === undefined) {
+      var c = pid ? null : TAGS[String(en).toLowerCase()];
+      if (!c) {
+        c = posTr(tr);
+        if (c === 'n' && /^[a-z]+(ous|ive|ful|less|able|ible)$/.test(String(en).toLowerCase())) c = 'a';
+        var sub = pid && pid.indexOf('tp-') === 0 ? (TTAGS[pid.slice(3)] || {})[en] : null;
+        if (sub) c += '.' + sub;
+      }
+      CAT[k] = c;
+    }
+    return CAT[k];
+  }
+  function catScore(a, b) {
+    var x = a.split('.'), y = b.split('.'), s = 0;
+    for (var i = 0; i < Math.min(x.length, y.length) && x[i] === y[i]; i++) s += 2;
+    return s;
+  }
+  function wcB(t) { return Math.min(3, String(t).replace(/\([^)]*\)/g, '').trim().split(/\s+/).length); }
+  function pickDecoys(it, pool, n, side) {
+    // Cevap Türkçeye benzeyen bir kelimeyse şıklar da benzerlerden; sonra aynı anlam grubu ve tür; sonra aynı kelime sayısı
+    var want = !!it.cog, ci = catOf(it.en, it.tr, it.pid), cands = [], spare = [];
+    pool.forEach(function (w) {
+      if (w === it || w.en === it.en || w.tr === it.tr) return;
+      if (tooClose(it, w)) { spare.push(w); return; }
+      var sc = (!!w.cog === want ? 10 : 0) + catScore(ci, catOf(w.en, w.tr, w.pid)) + (side && wcB(w[side]) === wcB(it[side]) ? 1 : 0) + Math.random() * 0.9;
+      cands.push([sc, w]);
+    });
+    cands.sort(function (a, b) { return b[0] - a[0]; });
+    var out = [];
+    for (var i = 0; i < cands.length && out.length < n; i++) {
+      var w = cands[i][1], ok = true;
+      for (var j = 0; j < out.length; j++) if (tooClose(out[j], w)) { ok = false; break; }
+      if (ok) out.push(w);
+    }
+    for (var k = 0; out.length < n && k < spare.length; k++) if (spare[k].tr !== it.tr && spare[k].en !== it.en) out.push(spare[k]);
+    return out;
+  }
+  var SYN = [];
+  (function () {
+    var cur = null;
+    lines(D.syn + '\n' + EXTRA.syn).forEach(function (l) {
+      if (l[0] === '@') { cur = { title: l.slice(1).trim(), w: [], n: {}, q: [] }; SYN.push(cur); }
+      else if (l[0] === '=') { var p = l.slice(1).split('|'); cur.w.push(p[0].trim()); cur.n[p[0].trim()] = p[1]; }
+      else if (l[0] === '?') { var q = l.slice(1).split('|'); cur.q.push({ s: q[0].trim(), a: q[1], t: q[2] }); }
+    });
+  })();
+  POOL.syn = [];
+  SYN.forEach(function (g, gi) {
+    g.q.forEach(function (q, qi) { POOL.syn.push({ kind: 'syn', key: 'syn|' + gi + '|' + qi, g: g, s: q.s, a: q.a, trS: q.t }); });
+  });
+
+  var SPELL = [];
+  (function () {
+    var cur = null;
+    lines(D.spell).forEach(function (l) {
+      if (l[0] === '@') { cur = { title: l.slice(1).trim(), i: [] }; SPELL.push(cur); }
+      else { var p = l.split('|'); cur.i.push({ w: p[0], tr: p[1], ex: p[2], exTr: p[3] }); }
+    });
+  })();
+  POOL.spell = [];
+  SPELL.forEach(function (g) {
+    g.i.forEach(function (x) { POOL.spell.push({ kind: 'spell', key: 'spell|' + x.w, g: g, w: x.w, tr: x.tr, ex: x.ex, exTr: x.exTr }); });
+  });
+
+  function norm(s) {
+    return s.toLowerCase().replace(/[ıİ]/g, 'i').replace(/ş/g, 's').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ö/g, 'o').replace(/[üû]/g, 'u').replace(/[âá]/g, 'a').replace(/î/g, 'i').replace(/[^a-z]/g, '');
+  }
+  function lev(a, b) {
+    var d = [], i, j;
+    for (i = 0; i <= a.length; i++) { d[i] = [i]; }
+    for (j = 1; j <= b.length; j++) d[0][j] = j;
+    for (i = 1; i <= a.length; i++) for (j = 1; j <= b.length; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[a.length][b.length];
+  }
+  function cognate(en, tr) {
+    if (NOT_COG[en]) return false;
+    if (COG_YES[en]) return true;
+    var x = norm(en), y = norm(tr);
+    if (!x || !y) return false;
+    return lev(x, y) <= Math.floor(Math.max(x.length, y.length) * 0.4);
+  }
+  TOPICS.forEach(function (t) {
+    POOL['tp-' + t.id] = lines(t.items).map(function (s) {
+      var p = s.split('|');
+      return { kind: 'topic', key: 'topic|' + t.id + '|' + p[0], tname: t.name, en: p[0], tr: p[1], ex: p[2], exTr: p[3], pid: 'tp-' + t.id, cog: cognate(p[0], p[1]) };
+    });
+  });
+
+  POOL.orig = lines(window.KELIME_ORIG || '').map(function (s) {
+    var p = s.split('|');
+    return { kind: 'orig', key: 'orig|' + p[0], w: p[0], old: p[1], mod: p[2], en: p[3], tr: p[4], note: p[5] };
+  });
+
+  POOL.poly = lines(EXTRA.poly).map(function (s) {
+    var p = s.split('|');
+    return { kind: 'poly', key: 'poly|' + p[0], w: p[0], t: p[1].split(';').map(function (x) { return x.trim(); }), d: p[2].split(';').map(function (x) { return x.trim(); }) };
+  });
+  ['simile', 'idiom'].forEach(function (pid) {
+    POOL[pid] = lines(EXTRA[pid] || '').map(function (s) {
+      var p = s.split('|');
+      return { kind: 'idiom', key: pid + '|' + p[0], pid: pid, en: p[0], w: p[0], tr: p[1], lit: p[2], ex: p[3], exTr: p[4] };
+    });
+  });
+  POOL.ant = [];
+  lines(EXTRA.ant).forEach(function (s) {
+    var p = s.split('|');
+    POOL.ant.push({ kind: 'ant', key: 'ant|' + p[0] + '|' + p[1], w: p[0], o: p[1], trW: p[2], trO: p[3] });
+    POOL.ant.push({ kind: 'ant', key: 'ant|' + p[1] + '|' + p[0], w: p[1], o: p[0], trW: p[3], trO: p[2] });
+  });
+
+  // ---------- görülen kelimeler: aynı kelimeler sürekli gelmesin ----------
+  var stats = load('kelime-stats', {});
+  function weight(it) {
+    var s = stats[it.key];
+    if (!s) return 100 + Math.random() * 10;           // hiç görülmeyenler önce
+    var days = Math.min(30, (Date.now() - s.t) / 864e5); // eski görülenler sonra
+    var need = Math.max(0, s.bad - s.ok);                // yanlış bilinenler daha sık
+    return 1 + days + 3 * need + Math.random() * 2;
+  }
+  function pickItems(pool, n) {
+    if (pool.length <= n) return shuffle(pool);
+    var w = pool.map(function (it) { return { it: it, w: weight(it) }; });
+    w.sort(function (a, b) { return b.w - a.w; });
+    return shuffle(w.slice(0, Math.min(n, w.length)).map(function (x) { return x.it; }));
+  }
+  function record(it, ok) {
+    var s = stats[it.key] || (stats[it.key] = { n: 0, ok: 0, bad: 0, t: 0 });
+    s.n++; if (ok) s.ok++; else s.bad++;
+    s.t = Date.now();
+    save('kelime-stats', stats);
+  }
+  var ALL = {};
+  Object.keys(POOL).forEach(function (id) { POOL[id].forEach(function (it) { ALL[it.key] = it; }); });
+  function wrongItems() {
+    return Object.keys(stats).filter(function (k) { return ALL[k] && stats[k].bad > stats[k].ok; }).map(function (k) { return ALL[k]; });
+  }
+  function poolOf(id) { return id === 'wrong' ? wrongItems() : POOL[id]; }
+  function seenCount(id) { return POOL[id].filter(function (it) { return stats[it.key]; }).length; }
+
+  // ---------- soru kurma ----------
+  function regular(b) {
+    if (/e$/.test(b)) return b + 'd';
+    if (/[^aeiou]y$/.test(b)) return b.slice(0, -1) + 'ied';
+    if (b.length <= 4 && /[^aeiou][aeiou][^aeiouwxy]$/.test(b)) return b + b.slice(-1) + 'ed';
+    return b + 'ed';
+  }
+  function buildQuestion(it) {
+    var opts, answer;
+    if (it.kind === 'vocab') {
+      answer = it.tr;
+      opts = [answer].concat(pickDecoys(it, POOL[it.level], 3, 'tr').map(function (w) { return w.tr; }));
+    } else if (it.kind === 'irreg') {
+      var v = it.v;
+      answer = it.ask === 2 ? v.v2 : v.v3;
+      var other = it.ask === 2 ? v.v3 : v.v2;
+      var prio = [];
+      [other, regular(v.base), v.base].forEach(function (c) { if (c !== answer && prio.indexOf(c) < 0) prio.push(c); });
+      var picked = shuffle(prio).slice(0, 2);
+      shuffle(VERBS).forEach(function (x) {
+        var c = it.ask === 2 ? x.v2 : x.v3;
+        if (picked.length < 3 && c !== answer && picked.indexOf(c) < 0) picked.push(c);
+      });
+      opts = [answer].concat(picked);
+    } else if (it.kind === 'syn') {
+      answer = it.a;
+      opts = [answer].concat(shuffle(it.g.w.filter(function (w) { return w !== it.a; })).slice(0, 3));
+    } else if (it.kind === 'orig') {
+      answer = it.old;
+      var taken = phr(it.old).concat(phr(it.mod)), others = [];
+      var po = posTr(it.old);
+      shuffle(POOL.orig).map(function (x) { return [(posTr(x.old) === po ? 2 : 0) + Math.random(), x]; }).sort(function (a, b) { return b[0] - a[0]; }).map(function (p) { return p[1]; }).forEach(function (x) {
+        if (others.length >= 2 || x.w === it.w || x.old === it.old || x.old === it.mod) return;
+        var p = phr(x.old);
+        for (var i = 0; i < p.length; i++) if (taken.indexOf(p[i]) >= 0) return;
+        taken = taken.concat(p); others.push(x.old);
+      });
+      opts = [answer, it.mod].concat(others);
+    } else if (it.kind === 'poly') {
+      var fake = it.d[Math.floor(Math.random() * it.d.length)];
+      opts = shuffle(shuffle(it.t).slice(0, 3).concat(fake));
+      return { it: it, kind: it.kind, opts: opts, correct: opts.indexOf(fake), chosen: null };
+    } else if (it.kind === 'ant') {
+      answer = it.o;
+      var seenO = {}; seenO[it.o] = 1; seenO[it.w] = 1;
+      var ca = catOf(it.o, it.trO);
+      var decoys = shuffle(POOL.ant).map(function (x) { return [catScore(ca, catOf(x.o, x.trO)) + Math.random() * 0.9, x]; })
+        .sort(function (a, b) { return b[0] - a[0]; }).map(function (p) { return p[1]; })
+        .filter(function (x) { if (seenO[x.o] || nearWords(x.o, it.o) || nearWords(x.o, it.w)) return false; seenO[x.o] = 1; return true; }).slice(0, 3).map(function (x) { return x.o; });
+      opts = [answer].concat(decoys);
+    } else if (it.kind === 'idiom') {
+      answer = it.tr;
+      opts = [answer].concat(pickDecoys(it, POOL[it.pid], 3, 'tr').map(function (w) { return w.tr; }));
+    } else if (it.kind === 'topic') {
+      var dir = S.dir;
+      answer = dir === 'tr2en' ? it.en : it.tr;
+      opts = [answer].concat(pickDecoys(it, POOL[it.pid], 3, dir === 'tr2en' ? 'en' : 'tr').map(function (w) { return dir === 'tr2en' ? w.en : w.tr; }));
+      opts = shuffle(opts);
+      return { it: it, kind: it.kind, dir: dir, opts: opts, correct: opts.indexOf(answer), chosen: null };
+    } else {
+      answer = it.w;
+      opts = [answer].concat(shuffle(it.g.i.filter(function (x) { return x.w !== it.w; })).slice(0, 3).map(function (x) { return x.w; }));
+    }
+    opts = shuffle(opts);
+    return { it: it, kind: it.kind, opts: opts, correct: opts.indexOf(answer), chosen: null };
+  }
+
+  // ---------- ses ----------
   var SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
   var SPEAKER_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6"/><path d="m21 9-5 6"/></svg>';
+  var CARD_B64 = window.CARD_B64 || '';
+  var audioCtx = null, warmed = false, cardBuf = null, cardLoading = false;
 
-  // Kart sesi: dosya yok, tarayıcıda üretilen kısa bir "fışt"
-  var audioCtx = null, warmed = false;
   function unlockAudio() {
     try {
       var AC = window.AudioContext || window.webkitAudioContext;
@@ -588,22 +673,17 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
       if (!audioCtx) audioCtx = new AC();
       if (audioCtx.state === 'suspended') audioCtx.resume();
       loadCard();
-      // İlk seste ses donanımı uyanırken gecikme olmasın diye sessiz bir ses çal
       if (!warmed) {
         warmed = true;
-        var wb = audioCtx.createBuffer(1, 1, 22050);
         var ws = audioCtx.createBufferSource();
-        ws.buffer = wb;
+        ws.buffer = audioCtx.createBuffer(1, 1, 22050);
         ws.connect(audioCtx.destination);
         ws.start(0);
       }
     } catch (e) {}
   }
-  // Kart sesi: kayıttan kesilmiş kısa klip (mp3, ~6 KB). Yüklenemezse üretilmiş sese döner.
-  var CARD_B64 = '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VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+3DEbYPAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
-  var cardBuf = null, cardLoading = false;
   function loadCard() {
-    if (cardBuf || cardLoading || !audioCtx) return;
+    if (cardBuf || cardLoading || !audioCtx || !CARD_B64) return;
     cardLoading = true;
     try {
       var bin = atob(CARD_B64), u = new Uint8Array(bin.length);
@@ -612,144 +692,279 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
       if (p && p.catch) p.catch(function () {});
     } catch (e) {}
   }
+  function swishSynth() {
+    try {
+      var t = audioCtx.currentTime, sr = audioCtx.sampleRate, dur = 0.11;
+      var len = Math.floor(sr * dur), buf = audioCtx.createBuffer(1, len, sr), d = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) { var x = i / len; d[i] = (Math.random() * 2 - 1) * Math.min(1, x / 0.06) * Math.pow(1 - x, 2.2); }
+      var src = audioCtx.createBufferSource(); src.buffer = buf;
+      var hp = audioCtx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1800;
+      var g = audioCtx.createGain(); g.gain.value = 0.1;
+      src.connect(hp); hp.connect(g); g.connect(audioCtx.destination); src.start(t);
+    } catch (e) {}
+  }
+  function playCard() {
+    if (!cardBuf) { swishSynth(); return; }
+    var src = audioCtx.createBufferSource();
+    src.buffer = cardBuf;
+    var g = audioCtx.createGain();
+    g.gain.value = 0.15;
+    src.connect(g); g.connect(audioCtx.destination);
+    src.start();
+  }
   function swish() {
     if (!S.sound) return;
     try {
       unlockAudio();
       if (!audioCtx) return;
-      if (!cardBuf) { swishSynth(); return; }
-      var src = audioCtx.createBufferSource();
-      src.buffer = cardBuf;
-      var g = audioCtx.createGain();
-      g.gain.value = 0.15;
-      src.connect(g); g.connect(audioCtx.destination);
-      src.start();
+      if (audioCtx.state === 'running') { playCard(); return; }
+      // Ses çıkışı uyuyorsa: hemen uyanırsa çal, geç uyanırsa hiç çalma (gecikmeli ses olmasın)
+      var t0 = Date.now(), p = audioCtx.resume();
+      if (p && p.then) p.then(function () { if (Date.now() - t0 < 150 && audioCtx.state === 'running') playCard(); }, function () {});
     } catch (e) {}
   }
-
-  function swishSynth() {
-    if (!S.sound) return;
+  // Test sırasında telefonun ses çıkışı uyumasın diye duyulmayacak kadar kısık bir sinyal çalar
+  var keepSrc = null;
+  function keepAlive(on) {
     try {
-      unlockAudio();
-      if (!audioCtx) return;
-      // Kâğıt çekme "fırt": kısa, kuru, pütürlü gürültü. Hızlı başlar, hızlı söner.
-      var t = audioCtx.currentTime, sr = audioCtx.sampleRate, dur = 0.11;
-      var len = Math.floor(sr * dur);
-      var buf = audioCtx.createBuffer(1, len, sr);
-      var d = buf.getChannelData(0);
-      var grain = Math.max(1, Math.floor(sr / 900)), amp = 1;
-      for (var i = 0; i < len; i++) {
-        if (i % grain === 0) amp = 0.35 + Math.random() * 0.65;
-        var x = i / len;
-        var env = Math.min(1, x / 0.06) * Math.pow(1 - x, 2.2);
-        d[i] = (Math.random() * 2 - 1) * amp * env;
+      if (on && S.sound && audioCtx && !keepSrc) {
+        var len = audioCtx.sampleRate, buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * 1e-5;
+        keepSrc = audioCtx.createBufferSource(); keepSrc.buffer = buf; keepSrc.loop = true;
+        keepSrc.connect(audioCtx.destination); keepSrc.start();
+      } else if ((!on || !S.sound) && keepSrc) {
+        keepSrc.stop(); keepSrc.disconnect(); keepSrc = null;
       }
-      var src = audioCtx.createBufferSource();
-      src.buffer = buf;
-      var hp = audioCtx.createBiquadFilter();
-      hp.type = 'highpass'; hp.frequency.value = 1800; hp.Q.value = 0.7;
-      var pk = audioCtx.createBiquadFilter();
-      pk.type = 'peaking'; pk.frequency.value = 4800; pk.Q.value = 0.8; pk.gain.value = 6;
-      var g = audioCtx.createGain();
-      g.gain.value = 0.14;
-      src.connect(hp); hp.connect(pk); pk.connect(g); g.connect(audioCtx.destination);
-      src.start(t);
+    } catch (e) { keepSrc = null; }
+  }
+  var VOICE = null;
+  function pickVoice() {
+    try {
+      var vs = window.speechSynthesis.getVoices() || [], en = vs.filter(function (v) { return /^en[-_]/i.test(v.lang); });
+      VOICE = en.filter(function (v) { return /^en[-_]US/i.test(v.lang) && v.localService; })[0] ||
+        en.filter(function (v) { return /^en[-_](US|GB)/i.test(v.lang); })[0] || en[0] || null;
     } catch (e) {}
   }
-
+  if (window.speechSynthesis) {
+    pickVoice();
+    try { window.speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch (e) { window.speechSynthesis.onvoiceschanged = pickVoice; }
+  }
   function speak(text) {
     try {
-      if (!window.speechSynthesis) return;
-      window.speechSynthesis.cancel();
+      var ss = window.speechSynthesis;
+      if (!ss) return;
+      if (!VOICE) pickVoice();
+      ss.cancel();
+      if (ss.paused) ss.resume();
       var u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US'; u.rate = 0.9;
-      window.speechSynthesis.speak(u);
+      u.lang = VOICE ? VOICE.lang : 'en-US'; u.rate = 0.9;
+      if (VOICE) u.voice = VOICE;
+      setTimeout(function () { ss.speak(u); }, 60);
     } catch (e) {}
-  }
-
-  function buildQuestion(word) {
-    var pool = WORDS[word.level].filter(function (w) { return w.en !== word.en && w.tr !== word.tr; });
-    var opts = shuffle([word].concat(shuffle(pool).slice(0, 3)));
-    return { w: word, opts: opts.map(function (o) { return o.tr; }), correct: opts.indexOf(word), chosen: null };
   }
 
   // ---------- durum ----------
   var S = {
     screen: 'home',
-    level: load('kelime-level', 'A1'),
+    level: null,
+    flags: load('kelime-flags', {}), fconfirm: false, fcopied: false,
+    theme: (function () { var t = load('kelime-theme', 'auto'); return t === 'light' || t === 'dark' ? t : 'auto'; })(),
     count: load('kelime-count', 20),
     qs: [], i: 0, locked: false, confirm: false, tab: 'bad', testLevel: 'A1',
-    sound: load('kelime-sound', true) !== false
+    sound: load('kelime-sound', true) !== false,
+    dir: load('kelime-dir', 'tr2en') === 'en2tr' ? 'en2tr' : 'tr2en'
   };
   var best = load('kelime-best', {});
-  if (!WORDS[S.level]) S.level = 'A1';
+  function applyTheme() {
+    var r = document.documentElement;
+    if (S.theme === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', S.theme);
+  }
+  applyTheme();
   if (COUNTS.indexOf(S.count) < 0) S.count = 20;
 
   var app = document.getElementById('app');
   var timer = null;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function startTest(words, level) {
-    S.testLevel = level;
-    S.qs = words.map(buildQuestion);
-    S.i = 0; S.locked = false; S.confirm = false; S.anim = true; S.screen = 'quiz';
+  function startTest(items, mode) {
+    S.testLevel = mode;
+    S.qs = shuffle(items).map(buildQuestion);
+    S.i = 0; S.locked = false; S.confirm = false; S.screen = 'quiz';
     render();
   }
 
-  // ---------- ekranlar ----------
-  function renderHome() {
-    var lv = LEVELS.map(function (l) {
-      var b = best[l.id];
-      return '<button class="lv" role="radio" aria-checked="' + (S.level === l.id) + '" data-level="' + l.id + '">' +
-        '<span class="code">' + l.id + '</span><span class="nm">' + l.name + '</span>' +
-        '<span class="best">' + (b != null ? 'En iyi %' + b : 'Henüz yok') + '</span></button>';
-    }).join('');
-    var cn = COUNTS.map(function (c) {
+  // ---------- ana ekran ----------
+  function row(id, code, name, note) {
+    var b = best[id];
+    return '<button class="lv" role="radio" aria-checked="' + (S.level === id) + '" data-level="' + id + '">' +
+      '<span class="code">' + code + '</span>' +
+      '<span class="nm">' + name + (note ? '<small>' + note + '</small>' : '') + '</span>' +
+      '<span class="meta"><b>' + (b != null ? 'En iyi %' + b : 'Henüz yok') + '</b><i>' + seenCount(id) + '/' + POOL[id].length + ' görüldü</i></span></button>';
+  }
+  function chipsHTML() {
+    return COUNTS.map(function (c) {
       return '<button class="cnt" role="radio" aria-checked="' + (S.count === c) + '" data-count="' + c + '">' + c + '</button>';
     }).join('');
+  }
+  function startBtn(onTopics) {
+    var ok = S.level && (onTopics ? S.level.indexOf('tp-') === 0 : S.level.indexOf('tp-') !== 0);
+    if (!ok) return '<button class="primary" id="start" disabled>' + (onTopics ? 'Bir konu seç' : 'Bir test seç') + '</button>';
+    return '<button class="primary" id="start">' + startLabel() + ' · ' + S.count + ' soru</button>';
+  }
+  function themeHTML() {
+    var o = [['auto', 'Otomatik'], ['light', 'Açık'], ['dark', 'Koyu']];
+    return '<section><h2 class="label">Görünüm</h2><div class="dirs" role="radiogroup" aria-label="Görünüm">' +
+      o.map(function (x) { return '<button class="cnt" role="radio" aria-checked="' + (S.theme === x[0]) + '" data-thm="' + x[0] + '">' + x[1] + '</button>'; }).join('') +
+      '</div></section>';
+  }
+  function startLabel() {
+    if (S.level.length === 2) return S.level + ' sınavını başlat';
+    return (LABEL[S.level] || 'Testi') + ' testini başlat';
+  }
+  function flagRow() {
+    var n = flagKeys().length;
+    return '<button class="lv nav" data-go="flags"><span class="code">⚑</span><span class="nm">Hata listesi<small>Hatalı bulduğun kartlar</small></span><span class="meta"><b>' + (n ? n + ' kart' : 'Henüz yok') + '</b></span></button>';
+  }
+  function wrongRow() {
+    var n = wrongItems().length;
+    return '<button class="lv" role="radio" aria-checked="' + (S.level === 'wrong') + '" data-level="wrong"' + (n ? '' : ' disabled') + '>' +
+      '<span class="code">!</span><span class="nm">Yanlışlarım<small>Yanlış ya da pas geçtiklerin</small></span>' +
+      '<span class="meta"><b>' + (n ? n + ' kelime' : 'Henüz yok') + '</b></span></button>';
+  }
+  function wordOf(it) {
+    var w = it.kind === 'irreg' ? it.v.base : it.kind === 'syn' ? it.a : (it.kind === 'vocab' || it.kind === 'topic') ? it.en : it.w;
+    return String(w).toLowerCase();
+  }
+  function wordTotals() {
+    var all = {}, seen = {};
+    Object.keys(POOL).forEach(function (id) {
+      POOL[id].forEach(function (it) {
+        var w = wordOf(it); all[w] = 1;
+        var s = stats[it.key]; if (s && s.n > 0) seen[w] = 1;
+      });
+    });
+    return [Object.keys(seen).length, Object.keys(all).length];
+  }
+  function renderHome() {
+    var wt = wordTotals();
+    var lv = LEVELS.map(function (l) { return row(l.id, l.id, l.name, ''); }).join('');
+    var md = MODES.map(function (m) { return row(m.id, m.code, m.name, m.note); }).join('');
+    var total = TOPICS.reduce(function (s, t) { return s + POOL['tp-' + t.id].length; }, 0);
+    var nav = '<button class="lv nav" data-go="topics"><span class="code">Aa</span><span class="nm">Konu testleri<small>' + TOPICS.length + ' konu · ' + total + ' kelime</small></span><span class="meta"><b>›</b></span></button>';
     app.innerHTML =
       '<div class="home">' +
       '<div><div class="toprow"><p class="kicker">İngilizce kelime sınavı</p>' +
       '<button class="snd" id="snd" aria-pressed="' + S.sound + '">' + (S.sound ? SPEAKER + 'Ses açık' : SPEAKER_OFF + 'Ses kapalı') + '</button></div>' +
-      '<h1 class="title">Kelimeyi bil, seviyeni gör.</h1></div>' +
-      '<section><h2 class="label">Seviye</h2><div class="levels" role="radiogroup" aria-label="Seviye">' + lv + '</div></section>' +
-      '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + cn + '</div></section>' +
-      '<button class="primary" id="start">' + S.level + ' sınavını başlat · ' + S.count + ' soru</button>' +
+      '<h1 class="title">Kelimeyi bil, seviyeni gör.</h1>' +
+      '<p class="seen">Şimdiye kadar gördüğün kelime: <b>' + wt[0] + '</b> / ' + wt[1] + '</p></div>' +
+      '<section><h2 class="label">Seviye sınavı</h2><div class="levels" role="radiogroup" aria-label="Seviye">' + lv + '</div></section>' +
+      '<section><h2 class="label">Özel testler</h2><div class="levels" role="radiogroup" aria-label="Özel testler">' + wrongRow() + md + nav + flagRow() + '</div></section>' +
+      '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
+      themeHTML() +
+      startBtn(false) +
+      '</div>';
+  }
+  function renderTopics() {
+    var groups = [];
+    TOPICS.forEach(function (t) { if (groups.indexOf(t.group) < 0) groups.push(t.group); });
+    var body = groups.map(function (g) {
+      var rows = TOPICS.filter(function (t) { return t.group === g; }).map(function (t) { return row('tp-' + t.id, t.code, t.name, t.note); }).join('');
+      return '<section><h2 class="label">' + esc(g) + '</h2><div class="levels" role="radiogroup" aria-label="' + esc(g) + '">' + rows + '</div></section>';
+    }).join('');
+    var dr = '<section><h2 class="label">Soru yönü</h2><div class="dirs" role="radiogroup" aria-label="Soru yönü">' +
+      '<button class="cnt" role="radio" aria-checked="' + (S.dir === 'tr2en') + '" data-dir="tr2en">Türkçe → İngilizce</button>' +
+      '<button class="cnt" role="radio" aria-checked="' + (S.dir === 'en2tr') + '" data-dir="en2tr">İngilizce → Türkçe</button></div></section>';
+    app.innerHTML =
+      '<div class="home">' +
+      '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">Konu testleri</h1></div>' +
+      body + dr +
+      '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
+      startBtn(true) +
       '</div>';
   }
 
+  // ---------- soru ekranı ----------
+  function blankHTML(s) { return esc(s).replace('___', '<span class="blank"></span>'); }
+  function cloze(ex, w) {
+    var re = new RegExp("(^|[^A-Za-z'])" + reEsc(w) + "(?![A-Za-z'])", 'i');
+    return re.test(ex) ? ex.replace(re, function (m, p) { return p + '_____'; }) : '';
+  }
+  function hl(s) { return esc(s).replace(/\*(.+?)\*/g, '<b class="hl">$1</b>'); }
+  function faceHTML(q, live) {
+    var it = q.it, tg = live ? 'h1' : 'div', tag, main, say = '';
+    if (q.kind === 'vocab') {
+      tag = it.level; say = it.en;
+      main = '<' + tg + ' class="word"' + (live ? ' lang="en"' : '') + '>' + esc(it.en) + '</' + tg + '>';
+    } else if (q.kind === 'irreg') {
+      tag = it.ask === 2 ? 'V2' : 'V3'; say = it.v.base;
+      main = '<' + tg + ' class="word"' + (live ? ' lang="en"' : '') + '>' + esc(it.v.base) + '</' + tg + '>' +
+        '<p class="sub">' + (it.ask === 2 ? 'Geçmiş zaman (V2) hangisi?' : 'Geçmiş zaman ortacı (V3) hangisi?') + '</p>' +
+        '<p class="sub2">' + esc(it.v.tr) + '</p>';
+    } else if (q.kind === 'syn') {
+      tag = 'Anlam';
+      main = '<' + tg + ' class="word sent" lang="en">' + blankHTML(it.s) + '</' + tg + '>' +
+        '<p class="sub2">' + esc(it.trS) + '</p>';
+    } else if (q.kind === 'orig') {
+      tag = 'Eski anlam'; say = it.w;
+      main = '<' + tg + ' class="word" lang="en">' + esc(it.w) + '</' + tg + '>' +
+        '<p class="sub2">Bu kelimenin ESKİ anlamı hangisi?</p>';
+    } else if (q.kind === 'poly') {
+      tag = 'Çok anlamlı'; say = it.w;
+      main = '<' + tg + ' class="word" lang="en">' + esc(it.w) + '</' + tg + '>' +
+        '<p class="sub2">Hangisi bu kelimenin anlamı DEĞİL?</p>';
+    } else if (q.kind === 'ant') {
+      tag = 'Zıt anlam'; say = it.w;
+      main = '<' + tg + ' class="word" lang="en">' + esc(it.w) + '</' + tg + '>' +
+        '<p class="sub">' + esc(it.trW) + '</p><p class="sub2">Zıt anlamlısı hangisi?</p>';
+    } else if (q.kind === 'idiom') {
+      tag = it.pid === 'simile' ? 'Benzetme' : 'Deyim'; say = it.en;
+      main = '<' + tg + ' class="word sent" lang="en">' + esc(it.en) + '</' + tg + '>' + '<p class="sub2">Türkçe karşılığı hangisi?</p>';
+    } else if (q.kind === 'topic') {
+      tag = it.tname;
+      if (q.dir === 'tr2en') {
+        main = '<' + tg + ' class="word tr">' + esc(it.tr) + '</' + tg + '>' + '<p class="sub2">İngilizcesi hangisi?</p>';
+      } else {
+        say = it.en;
+        main = '<' + tg + ' class="word' + (it.en.length > 14 ? ' sent' : it.en.length > 9 ? ' mid' : '') + '" lang="en">' + esc(it.en) + '</' + tg + '>' + '<p class="sub2">Türkçesi hangisi?</p>';
+      }
+    } else {
+      tag = 'Yazılış';
+      var c = cloze(it.ex, it.w);
+      main = '<' + tg + ' class="word tr">' + esc(it.tr) + '</' + tg + '>' +
+        (c ? '<p class="sub" lang="en">' + esc(c) + '</p>' : '') +
+        '<p class="sub2">Doğru yazılış hangisi?</p>';
+    }
+    if ((q.kind === 'vocab' || q.kind === 'topic') && it.cog) main += '<p class="cog">Türkçesi benzer kelime: yazılışına dikkat et</p>';
+    var o = q.opts.map(function (t, k) {
+      return '<button class="opt"' + (live ? ' data-opt="' + k + '"' : ' tabindex="-1"') + '><span class="k">' + 'ABCD'[k] + '</span><span>' + esc(t) + '</span></button>';
+    }).join('');
+    var spk = say ? '<button class="spk"' + (live ? ' data-say="' + esc(say) + '" aria-label="Telaffuzu dinle"' : ' tabindex="-1"') + '>' + SPEAKER + '</button>' : '';
+    return '<main class="stage"><span class="tag">' + tag + '</span>' + main + spk + '</main>' +
+      '<section class="opts"' + (live ? ' aria-label="Şıklar"' : '') + '>' + o + '</section>';
+  }
   function renderQuiz() {
-    var q = S.qs[S.i];
-    var n = S.qs.length;
-    // Kartın yüzü. live=false olan kopya arkadaki karttır: tıklanmaz, okunmaz, sadece öne gelince görünür olur.
-    var face = function (qq, live) {
-      var o = qq.opts.map(function (t, k) {
-        return '<button class="opt"' + (live ? ' data-opt="' + k + '"' : ' tabindex="-1"') + '><span class="k">' + 'ABCD'[k] + '</span><span>' + esc(t) + '</span></button>';
-      }).join('');
-      var tg = live ? 'h1' : 'div';
-      return '<main class="stage"><span class="tag">' + qq.w.level + '</span><' + tg + ' class="word"' + (live ? ' lang="en"' : '') + '>' + esc(qq.w.en) + '</' + tg + '>' +
-        '<button class="spk"' + (live ? ' data-say="' + esc(qq.w.en) + '" aria-label="Telaffuzu dinle"' : ' tabindex="-1"') + '>' + SPEAKER + '</button></main>' +
-        '<section class="opts"' + (live ? ' aria-label="Şıklar"' : '') + '>' + o + '</section>';
-    };
-    var left = n - S.i - 1;
-    var peek = left >= 1 ? '<div class="card back b1" aria-hidden="true" inert>' + face(S.qs[S.i + 1], false) + '</div>' : '';
-    var peek2 = left >= 2 ? '<div class="card back b2" aria-hidden="true"></div>' : '';
+    var q = S.qs[S.i], n = S.qs.length;
     var sheet = S.confirm
       ? '<div class="sheet"><p>Testten çıkmak istiyor musun?</p>' +
         '<button class="primary" id="finish">Bitir, sonucu gör</button>' +
         '<button class="ghost" id="tohome">Ana ekrana dön</button>' +
         '<button class="ghost" id="resume">Devam et</button></div>'
       : '';
+    var left = n - S.i - 1;
+    var peek = left >= 1 ? '<div class="card back b1" aria-hidden="true" inert>' + faceHTML(S.qs[S.i + 1], false) + '</div>' : '';
+    var peek2 = left >= 2 ? '<div class="card back b2" aria-hidden="true"></div>' : '';
     app.innerHTML =
       '<div class="quiz">' +
       '<header class="qhead"><button class="exit" id="exit">Çık</button>' +
       '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + S.i + '"><div style="width:' + (S.i / n * 100) + '%"></div></div>' +
-      '<span class="qcount">' + (S.i + 1) + '/' + n + '</span></header>' +
+      flagBtn('live', q) + '<span class="qcount">' + (S.i + 1) + '/' + n + '</span></header>' +
       sheet +
-      '<div class="deck">' + peek2 + peek + '<div class="card front">' + face(q, true) + '</div></div>' +
+      '<div class="deck">' + peek2 + peek + '<div class="card front">' + faceHTML(q, true) + '</div></div>' +
       '<button class="pas" id="pas">Pas geç<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 6 6-6 6"/><path d="m13 6 6 6-6 6"/></svg></button>' +
       '</div>';
   }
 
+  // ---------- sonuç ekranı ----------
   function counts() {
     var c = { ok: 0, bad: 0, skip: 0, done: 0 };
     S.qs.forEach(function (q) {
@@ -766,7 +981,115 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
     if (q.chosen === -1) return 'skip';
     return q.chosen === q.correct ? 'ok' : 'bad';
   }
+  function spkBtn(w) { return '<button class="spk" data-say="' + esc(w) + '" aria-label="Telaffuzu dinle">' + SPEAKER + '</button>'; }
 
+  var FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
+  function flagData(q) {
+    var it = q.it, d;
+    if (q.kind === 'vocab') d = { t: it.level, w: it.en, a: it.tr };
+    else if (q.kind === 'topic') d = { t: it.tname, w: it.en, a: it.tr };
+    else if (q.kind === 'irreg') d = { t: 'Düzensiz fiil', w: it.v.base + ' · ' + it.v.v2 + ' · ' + it.v.v3, a: it.v.tr };
+    else if (q.kind === 'syn') d = { t: 'Eş anlam', w: it.s, a: it.a };
+    else if (q.kind === 'orig') d = { t: 'Orijinal anlam', w: it.w, a: it.old };
+    else if (q.kind === 'poly') d = { t: 'Çok anlamlı', w: it.w, a: it.t.join(' · ') };
+    else if (q.kind === 'ant') d = { t: 'Zıt anlam', w: it.w + ' ⇄ ' + it.o, a: it.trW + ' ⇄ ' + it.trO };
+    else if (q.kind === 'idiom') d = { t: it.pid === 'simile' ? 'Benzetme' : 'Deyim', w: it.en, a: it.tr };
+    else d = { t: 'Yazılış', w: it.w, a: it.tr };
+    d.k = it.key || (q.kind + ':' + d.w);
+    if (it.ex) d.x = it.ex + (it.exTr ? ' / ' + it.exTr : '');
+    return d;
+  }
+  function flagBtn(ref, q) {
+    var on = !!S.flags[flagData(q).k];
+    return '<button class="flagb" data-flag="' + ref + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Hata işaretini kaldır' : 'Bu kartta hata var') + '">' + FLAG + '</button>';
+  }
+  function toggleFlag(q, btn) {
+    var d = flagData(q);
+    if (S.flags[d.k]) delete S.flags[d.k]; else S.flags[d.k] = d;
+    save('kelime-flags', S.flags);
+    if (btn) { var on = !!S.flags[d.k]; btn.setAttribute('aria-pressed', on); btn.setAttribute('aria-label', on ? 'Hata işaretini kaldır' : 'Bu kartta hata var'); }
+  }
+  function flagKeys() { return Object.keys(S.flags); }
+  function flagText() {
+    var ks = flagKeys();
+    return 'Kelime Sınavı hata listesi (' + ks.length + ')\n' + ks.map(function (k, i) {
+      var d = S.flags[k];
+      return (i + 1) + ') [' + d.t + '] ' + d.w + ' → ' + d.a + (d.x ? ' | örnek: ' + d.x : '');
+    }).join('\n');
+  }
+  function renderFlags() {
+    var ks = flagKeys();
+    var list = ks.length ? ks.map(function (k) {
+      var d = S.flags[k];
+      return '<li class="entry"><div class="e-top"><span class="e-word" lang="en">' + esc(d.w) + '</span>' +
+        '<button class="fdel" data-fdel="' + esc(k) + '">Kaldır</button></div>' +
+        '<div class="e-tr">' + esc(d.a) + '</div><p class="e-note">' + esc(d.t) + '</p>' + (d.x ? '<p class="e-trs">' + esc(d.x) + '</p>' : '') + '</li>';
+    }).join('') : '<li class="empty">Henüz işaretlediğin bir kart yok.</li>';
+    app.innerHTML =
+      '<div class="home">' +
+      '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">Hata listesi</h1>' +
+      '<p class="seen">Testte yanlış gördüğün kartlardaki bayrağa dokun. Buraya düşer.</p></div>' +
+      (ks.length ? '<div class="actions"><button class="primary" id="fcopy">' + (S.fcopied ? 'Kopyalandı ✓' : 'Hepsini kopyala') + '</button>' +
+        '<button class="ghost" id="fclear">' + (S.fconfirm ? 'Emin misin? Tekrar dokun' : 'Listeyi temizle') + '</button></div>' : '') +
+      '<ul class="list">' + list + '</ul></div>';
+  }
+  function copyText(txt, done) {
+    function fb() {
+      var ta = document.createElement('textarea'); ta.value = txt; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta); done(ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { done(true); }, fb); else fb();
+  }
+  function entryHTML(q, kind) {
+    var it = q.it, yours = (kind === 'bad') ? q.opts[q.chosen] : null, top, sub, body = '';
+    if (q.kind === 'vocab') {
+      top = it.en; sub = it.tr;
+      body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'orig') {
+      top = it.w; sub = 'Eski anlamı: ' + it.old;
+      body = '<p class="e-note"><b>Bugün:</b> ' + esc(it.mod) + '</p><p class="e-note">' + esc(it.note) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'poly') {
+      top = it.w; sub = it.t.join(' · ');
+      body = '<p class="e-note"><b>Anlamı olmayan:</b> ' + esc(q.opts[q.correct]) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'ant') {
+      top = it.w + ' ⇄ ' + it.o; sub = it.trW + ' ⇄ ' + it.trO;
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'idiom') {
+      top = it.en; sub = it.tr;
+      body = '<p class="e-note"><b>Kelimesi kelimesine:</b> ' + esc(it.lit) + '</p><p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'topic') {
+      top = it.en; sub = it.tr;
+      body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'irreg') {
+      top = it.v.base + ' · ' + it.v.v2 + ' · ' + it.v.v3; sub = it.v.tr;
+      body = '<p class="e-trs">' + (it.ask === 2 ? 'Sorulan: geçmiş zaman (V2)' : 'Sorulan: geçmiş zaman ortacı (V3)') + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'syn') {
+      top = it.a; sub = it.g.title;
+      body = '<p class="e-en" lang="en">' + esc(it.s).replace('___', '<b>' + esc(it.a) + '</b>') + '</p>' +
+        '<p class="e-trs">' + esc(it.trS) + '</p>' +
+        '<p class="e-note"><b>' + esc(it.a) + ':</b> ' + esc(it.g.n[it.a]) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>' +
+        '<p class="e-note"><b>' + esc(yours) + ':</b> ' + esc(it.g.n[yours]) + '</p>';
+    } else {
+      top = it.w; sub = it.tr;
+      body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
+      if (yours) {
+        var y = it.g.i.filter(function (x) { return x.w === yours; })[0];
+        body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s>' + (y ? ' (anlamı: ' + esc(y.tr) + ')' : '') + '</div>';
+      }
+    }
+    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
+    return '<li class="entry k-' + kind + '"><div class="e-top"><span class="e-word" lang="en">' + esc(top) + '</span><span class="e-btns">' + spkBtn(say) + flagBtn('r' + S.qs.indexOf(q), q) + '</span></div>' +
+      '<div class="e-tr">' + esc(sub) + '</div>' + body + '</li>';
+  }
   function renderResult() {
     var c = counts(), n = S.qs.length;
     var pct = Math.round(c.ok / n * 100);
@@ -776,34 +1099,34 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
       return '<button class="stat ' + k + '" data-tab="' + k + '" aria-pressed="' + (S.tab === k) + '"><b>' + c[k] + '</b><span>' + label + '</span></button>';
     };
     var items = S.qs.filter(function (q) { return kindOf(q) === S.tab; });
-    var list = items.length ? items.map(function (q) {
-      var yours = (S.tab === 'bad') ? '<div class="e-yours">Senin cevabın: <s>' + esc(q.opts[q.chosen]) + '</s></div>' : '';
-      return '<li class="entry k-' + S.tab + '"><div class="e-top"><span class="e-word" lang="en">' + esc(q.w.en) + '</span>' +
-        '<button class="spk" data-say="' + esc(q.w.en) + '" aria-label="Telaffuzu dinle">' + SPEAKER + '</button></div>' +
-        '<div class="e-tr">' + esc(q.w.tr) + '</div>' +
-        '<p class="e-en" lang="en">' + esc(q.w.ex) + '</p><p class="e-trs">' + esc(q.w.exTr) + '</p>' + yours + '</li>';
-    }).join('') : '<li class="empty">' + (S.tab === 'bad' ? 'Hiç yanlışın yok.' : S.tab === 'skip' ? 'Hiç pas geçmedin.' : 'Doğru cevap yok.') + '</li>';
+    var list = items.length ? items.map(function (q) { return entryHTML(q, S.tab); }).join('')
+      : '<li class="empty">' + (S.tab === 'bad' ? 'Hiç yanlışın yok.' : S.tab === 'skip' ? 'Hiç pas geçmedin.' : 'Doğru cevap yok.') + '</li>';
     var redo = (c.bad + c.skip) > 0 ? '<button class="primary" id="redo">Yanlış ve pasları tekrar sor (' + (c.bad + c.skip) + ')</button>' : '';
     app.innerHTML =
       '<div class="res">' +
-      '<p class="kicker">' + S.testLevel + ' · ' + n + ' soru</p>' +
+      '<p class="kicker">' + esc(LABEL[S.testLevel]) + ' · ' + n + ' soru</p>' +
       '<div class="score"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="trk" cx="60" cy="60" r="52" fill="none" stroke-width="12"/>' +
       '<circle class="val" cx="60" cy="60" r="52" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (CIRC * pct / 100) + ' ' + CIRC + '"/></svg>' +
       '<div class="pct">%' + pct + '</div></div>' +
       '<div><h1>' + title + '</h1><p class="meta">Tamamlanan ' + c.done + ' / ' + n + ' soru</p></div></div>' +
       '<div class="stats">' + stat('ok', 'Doğru') + stat('bad', 'Yanlış') + stat('skip', 'Pas') + '</div>' +
-      '<p class="hint">Kartlara dokunarak kelimelerin anlamını ve örnek cümlelerini gör.</p>' +
+      '<p class="hint">Kartlara dokunarak ayrıntıları ve örnek cümleleri gör.</p>' +
       '<ul class="list">' + list + '</ul>' +
-      '<div class="actions">' + redo + '<button class="ghost" id="again">Aynı seviyede yeni test</button><button class="ghost" id="tohome">Ana ekran</button></div>' +
+      '<div class="actions">' + redo + '<button class="ghost" id="again">Aynı testte yeni sorular</button><button class="ghost" id="tohome">Ana ekran</button></div>' +
       '</div>';
   }
 
   function render() {
     if (S.screen === 'home') renderHome();
+    else if (S.screen === 'topics') renderTopics();
+    else if (S.screen === 'flags') renderFlags();
     else if (S.screen === 'quiz') renderQuiz();
     else renderResult();
-    window.scrollTo(0, 0);
+    if (S.screen !== lastScreen || S.screen === 'quiz') window.scrollTo(0, 0);
+    lastScreen = S.screen;
+    keepAlive(S.screen === 'quiz');
   }
+  var lastScreen = null;
 
   // ---------- akış ----------
   function finish() {
@@ -811,13 +1134,12 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
     var c = counts();
     if (c.done === S.qs.length) {
       var pct = Math.round(c.ok / S.qs.length * 100);
-      if (best[S.testLevel] == null || pct > best[S.testLevel]) { best[S.testLevel] = pct; save('kelime-best', best); }
+      if (S.testLevel !== 'wrong' && (best[S.testLevel] == null || pct > best[S.testLevel])) { best[S.testLevel] = pct; save('kelime-best', best); }
     }
     S.tab = c.bad > 0 ? 'bad' : (c.skip > 0 ? 'skip' : 'ok');
     S.screen = 'result';
     render();
   }
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function next() {
     swish();
     var go = function () {
@@ -838,8 +1160,8 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
     S.locked = true;
     var q = S.qs[S.i];
     q.chosen = k;
-    var btns = app.querySelectorAll('.card.front .opt');
-    btns.forEach(function (b, idx) {
+    record(q.it, k === q.correct);
+    app.querySelectorAll('.card.front .opt').forEach(function (b, idx) {
       if (idx === q.correct) b.classList.add('right');
       else if (idx === k) b.classList.add('wrong');
       else b.classList.add('dim');
@@ -849,7 +1171,9 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
   function pass() {
     if (S.locked || S.confirm) return;
     S.locked = true;
-    S.qs[S.i].chosen = -1;
+    var q = S.qs[S.i];
+    q.chosen = -1;
+    record(q.it, false);
     var pb = document.getElementById('pas');
     if (pb) pb.classList.add('picked');
     app.querySelectorAll('.card.front .opt').forEach(function (b) { b.classList.add('dim'); });
@@ -862,8 +1186,21 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
     if (!t) return;
     if (S.sound) unlockAudio();
     if (t.dataset.say) { speak(t.dataset.say); return; }
-    if (t.dataset.level) { S.level = t.dataset.level; save('kelime-level', S.level); render(); return; }
+    if (t.dataset.level) { S.level = t.dataset.level; render(); return; }
+    if (t.dataset.thm) { S.theme = t.dataset.thm; save('kelime-theme', S.theme); applyTheme(); render(); return; }
+    if (t.dataset.go) {
+      S.screen = t.dataset.go;
+      if (S.screen === 'topics' && (!S.level || S.level.indexOf('tp-') !== 0)) S.level = null;
+      render(); return;
+    }
+    if (t.dataset.dir) { S.dir = t.dataset.dir; save('kelime-dir', S.dir); render(); return; }
     if (t.dataset.count) { S.count = +t.dataset.count; save('kelime-count', S.count); render(); return; }
+    if (t.dataset.flag) {
+      var fq = t.dataset.flag === 'live' ? S.qs[S.i] : S.qs[+t.dataset.flag.slice(1)];
+      if (fq) toggleFlag(fq, t);
+      return;
+    }
+    if (t.dataset.fdel) { delete S.flags[t.dataset.fdel]; save('kelime-flags', S.flags); S.fcopied = false; renderFlags(); return; }
     if (t.dataset.opt) { answer(+t.dataset.opt); return; }
     if (t.dataset.tab) { S.tab = t.dataset.tab; renderResult(); return; }
     switch (t.id) {
@@ -871,16 +1208,27 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
         S.sound = !S.sound; save('kelime-sound', S.sound); render();
         if (S.sound) { unlockAudio(); setTimeout(swish, 150); }
         break;
-      case 'start': startTest(shuffle(WORDS[S.level]).slice(0, S.count), S.level); break;
+      case 'start':
+        var sp = S.level ? poolOf(S.level) : null;
+        if (sp && sp.length) startTest(pickItems(sp, S.count), S.level);
+        break;
       case 'pas': pass(); break;
+      case 'fcopy': copyText(flagText(), function (ok) { S.fcopied = ok; renderFlags(); if (!ok) { var b = document.getElementById('fcopy'); if (b) b.textContent = 'Kopyalanamadı'; } }); break;
+      case 'fclear':
+        if (!S.fconfirm) { S.fconfirm = true; renderFlags(); }
+        else { S.flags = {}; save('kelime-flags', S.flags); S.fconfirm = false; S.fcopied = false; renderFlags(); }
+        break;
       case 'exit': if (!S.locked) { S.confirm = true; render(); } break;
       case 'resume': S.confirm = false; render(); break;
       case 'finish': S.confirm = false; finish(); break;
-      case 'tohome': clearTimeout(timer); S.screen = 'home'; S.confirm = false; render(); break;
-      case 'again': startTest(shuffle(WORDS[S.testLevel]).slice(0, S.qs.length), S.testLevel); break;
+      case 'tohome': clearTimeout(timer); S.fconfirm = false; S.fcopied = false; S.screen = 'home'; S.confirm = false; S.level = null; render(); break;
+      case 'again':
+        var pl = poolOf(S.testLevel);
+        if (pl.length) startTest(pickItems(pl, S.qs.length), S.testLevel); else { S.screen = 'home'; render(); }
+        break;
       case 'redo':
-        var again = S.qs.filter(function (q) { var k = kindOf(q); return k === 'bad' || k === 'skip'; }).map(function (q) { return q.w; });
-        startTest(shuffle(again), S.testLevel);
+        var again = S.qs.filter(function (q) { var k = kindOf(q); return k === 'bad' || k === 'skip'; }).map(function (q) { return q.it; });
+        startTest(again, S.testLevel);
         break;
     }
   });
@@ -892,7 +1240,14 @@ tangible|elle tutulur|There is no tangible proof yet.|Henüz elle tutulur bir ka
     else if (k === 'p') pass();
   });
 
-  // Ses kaydını sayfa açılır açılmaz çöz: ilk dokunuşta hazır olsun (bağlam dokunuşa kadar uyur)
+  // Ses kaydını sayfa açılır açılmaz çöz; bağlam ilk dokunuşa kadar uyur
+  ['touchend', 'pointerup', 'keydown'].forEach(function (ev) {
+    document.addEventListener(ev, function () { if (S.sound) unlockAudio(); }, { capture: true, passive: true });
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && S.sound && audioCtx && audioCtx.state !== 'running') { try { audioCtx.resume(); } catch (e) {} }
+    if (document.hidden) keepAlive(false); else keepAlive(S.screen === 'quiz');
+  });
   if (S.sound) {
     try {
       var AC0 = window.AudioContext || window.webkitAudioContext;
