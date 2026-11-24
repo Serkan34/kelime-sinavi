@@ -306,6 +306,35 @@ h1, h2, p { margin: 0; }
 .blank { display: inline-block; min-width: 3.2em; border-bottom: 3px solid var(--accent); transform: translateY(2px); }
 .e-note { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 8px 10px; }
 .e-note b { color: var(--ink); }
+/* v35: soru şekilleri, yazarak cevap, dinleme, eşleştirme */
+.styles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.styles .cnt { width: auto; height: auto; min-height: 44px; padding: 10px 4px; font-size: 14px; }
+.styles .cnt:disabled { opacity: .45; }
+.hint2 { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.hintw { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 22px; letter-spacing: .18em; font-weight: 700; color: var(--accent); white-space: pre-wrap; overflow-wrap: anywhere; }
+.tform { display: grid; gap: 10px; }
+.tin { width: 100%; box-sizing: border-box; font: inherit; font-size: 20px; font-weight: 600; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); min-height: 54px; }
+.tin:focus { outline: none; border-color: var(--accent); }
+.tbox { height: 54px; border-radius: 14px; border: 2px dashed var(--line); }
+.tfb { display: grid; gap: 8px; padding: 14px 16px; border-radius: 14px; border: 2px solid; font-size: 17px; text-align: left; }
+.tfb.ok { border-color: var(--ok); background: var(--ok-bg); color: var(--ok); }
+.tfb.bad { border-color: var(--bad); background: var(--bad-bg); color: var(--ink); }
+.tfb.skip { border-color: var(--skip); background: var(--skip-bg); color: var(--ink); }
+.tfb b[lang] { font-size: 19px; }
+.tfb .primary { margin-top: 4px; }
+.bigspk { width: 96px; height: 96px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 60%, #000); }
+.bigspk svg { width: 44px; height: 44px; }
+.bigspk:active { transform: translateY(3px); box-shadow: 0 3px 0 color-mix(in srgb, var(--accent) 60%, #000); }
+.mstage { flex: 0; min-height: 0; padding: 6px 0 2px; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; }
+.mcol { display: grid; gap: 8px; align-content: start; }
+.mbtn { font: inherit; font-size: 15px; font-weight: 600; line-height: 1.2; min-height: 52px; padding: 6px 6px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; overflow-wrap: break-word; word-break: normal; hyphens: manual; text-align: center; }
+@media (max-width: 360px) { .mgrid { gap: 6px; } .mcol { gap: 6px; } .mbtn { font-size: 13.5px; padding: 5px 4px; letter-spacing: -0.01em; } }
+@media (max-height: 600px) { .mbtn { min-height: 44px; } .mstage { padding: 0; } .mstage .sub2 { font-size: 13px; } }
+.mbtn.sel { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.mbtn.right { border-color: var(--ok); background: var(--ok-bg); color: var(--ok); opacity: .75; }
+.mbtn.wrong { border-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
+.pas[hidden] { display: none; }
 /* v26: hata bayrağı */
 .flagb { background: none; border: 0; min-width: 40px; min-height: 44px; display: grid; place-items: center; color: var(--muted); cursor: pointer; }
 .flagb svg { width: 22px; height: 22px; }
@@ -372,8 +401,21 @@ h1, h2, p { margin: 0; }
     { id: 'poly', code: '1+', name: 'Çok anlamlı kelimeler', note: 'Anlamı OLMAYANI bul' },
     { id: 'ant', code: '⇄', name: 'Zıt anlamlılar', note: 'Tersi hangisi?' },
     { id: 'simile', code: 'as', name: 'Benzetmeler', note: 'as … as … kalıpları' },
-    { id: 'idiom', code: 'Dy', name: 'Deyimler', note: 'Kalıplaşmış ifadeler' }
+    { id: 'idiom', code: 'Dy', name: 'Deyimler', note: 'Kalıplaşmış ifadeler' },
+    { id: 'phrasal', code: 'Up', name: 'Phrasal verbs', note: 'give up, look after…' },
+    { id: 'prep', code: 'at', name: 'Edatlar', note: 'in, on, at ve kalıplar' },
+    { id: 'form', code: 'Tür', name: 'Kelime türleri', note: 'happy → happiness' }
   ];
+  var STYLES = [
+    { id: 'mc', name: 'Şıklı' },
+    { id: 'type', name: 'Yazarak' },
+    { id: 'listen', name: 'Dinleyerek' },
+    { id: 'fill', name: 'Boşluk doldur' },
+    { id: 'match', name: 'Eşleştirme' }
+  ];
+  var STYLE_NAME = {};
+  STYLES.forEach(function (x) { STYLE_NAME[x.id] = x.name; });
+  var CAN_SPEAK = !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
   var TOPICS = window.KELIME_TOPICS || [];
   var COUNTS = [10, 20, 30, 40, 50];
   var LABEL = {};
@@ -557,6 +599,16 @@ h1, h2, p { margin: 0; }
       return { kind: 'idiom', key: pid + '|' + p[0], pid: pid, en: p[0], w: p[0], tr: p[1], lit: p[2], ex: p[3], exTr: p[4] };
     });
   });
+  POOL.phrasal = lines(EXTRA.phrasal || '').map(function (s) {
+    var p = s.split('|');
+    return { kind: 'phr', key: 'phr|' + p[0], pid: 'phrasal', en: p[0], w: p[0], tr: p[1], ex: p[2], exTr: p[3] };
+  });
+  ['prep', 'form'].forEach(function (id) {
+    POOL[id] = lines(EXTRA[id] || '').map(function (s) {
+      var p = s.split('|');
+      return { kind: id, key: id + '|' + p[0], s: p[0], a: p[1], d: p[2].split(','), trS: p[3], note: p[4] };
+    });
+  });
   POOL.ant = [];
   lines(EXTRA.ant).forEach(function (s) {
     var p = s.split('|');
@@ -564,34 +616,76 @@ h1, h2, p { margin: 0; }
     POOL.ant.push({ kind: 'ant', key: 'ant|' + p[1] + '|' + p[0], w: p[1], o: p[0], trW: p[3], trO: p[2] });
   });
 
-  // ---------- görülen kelimeler: aynı kelimeler sürekli gelmesin ----------
+  // ---------- akıllı tekrar ----------
+  // Önce hiç görülmeyenler; yanında bir miktar zorlanılan kelime; bilinenler aralıkları açılarak seyrek gelir.
   var stats = load('kelime-stats', {});
-  function weight(it) {
-    var s = stats[it.key];
-    if (!s) return 100 + Math.random() * 10;           // hiç görülmeyenler önce
-    var days = Math.min(30, (Date.now() - s.t) / 864e5); // eski görülenler sonra
-    var need = Math.max(0, s.bad - s.ok);                // yanlış bilinenler daha sık
-    return 1 + days + 3 * need + Math.random() * 2;
+  function skey(it, style) { return style && style !== 'mc' ? style + ':' + it.key : it.key; }
+  function streak(s) { return s.st != null ? s.st : (s.ok > s.bad ? 1 : 0); }
+  function stage(it, style) {
+    var s = stats[skey(it, style)];
+    if (!s) return 'new';
+    var st = streak(s);
+    if (st === 0) return 'hard';
+    if (st === 1) return 'learn';
+    return 'known';
   }
-  function pickItems(pool, n) {
+  function overdue(it, style) {
+    var s = stats[skey(it, style)], st = streak(s);
+    return (Date.now() - s.t) / 864e5 - Math.pow(2, st - 1);
+  }
+  function pickItems(pool, n, style) {
     if (pool.length <= n) return shuffle(pool);
-    var w = pool.map(function (it) { return { it: it, w: weight(it) }; });
-    w.sort(function (a, b) { return b.w - a.w; });
-    return shuffle(w.slice(0, Math.min(n, w.length)).map(function (x) { return x.it; }));
+    var g = { 'new': [], hard: [], learn: [], known: [] };
+    shuffle(pool).forEach(function (it) { g[stage(it, style)].push(it); });
+    var byOld = function (a, b) { return stats[skey(a, style)].t - stats[skey(b, style)].t; };
+    g.hard.sort(byOld); g.learn.sort(byOld);
+    g.known.sort(function (a, b) { return overdue(b, style) - overdue(a, style); });
+    var out = [];
+    function take(arr, k) { while (k-- > 0 && arr.length && out.length < n) out.push(arr.shift()); }
+    take(g.hard, Math.round(n * 0.3));
+    take(g.learn, Math.round(n * 0.2));
+    var due = g.known.filter(function (it) { return overdue(it, style) > 0; });
+    take(due, Math.round(n * 0.1));
+    g.known = g.known.filter(function (it) { return out.indexOf(it) < 0; });
+    take(g['new'], n);
+    take(g.hard, n); take(g.learn, n); take(g.known, n);
+    return shuffle(out);
   }
-  function record(it, ok) {
-    var s = stats[it.key] || (stats[it.key] = { n: 0, ok: 0, bad: 0, t: 0 });
+  function record(it, ok, style) {
+    var k = skey(it, style), s = stats[k] || (stats[k] = { n: 0, ok: 0, bad: 0, t: 0 });
+    var st = s.n ? streak(s) : 0;
     s.n++; if (ok) s.ok++; else s.bad++;
+    s.st = ok ? st + 1 : 0;
     s.t = Date.now();
     save('kelime-stats', stats);
   }
   var ALL = {};
   Object.keys(POOL).forEach(function (id) { POOL[id].forEach(function (it) { ALL[it.key] = it; }); });
   function wrongItems() {
-    return Object.keys(stats).filter(function (k) { return ALL[k] && stats[k].bad > stats[k].ok; }).map(function (k) { return ALL[k]; });
+    var seen = {}, out = [];
+    Object.keys(stats).forEach(function (k) {
+      var s = stats[k], base = k.replace(/^(type|listen|fill|match):/, '');
+      if (!ALL[base] || seen[base] || !(s.bad > s.ok || (s.st === 0 && s.bad > 0))) return;
+      seen[base] = 1; out.push(ALL[base]);
+    });
+    return out;
   }
-  function poolOf(id) { return id === 'wrong' ? wrongItems() : POOL[id]; }
-  function seenCount(id) { return POOL[id].filter(function (it) { return stats[it.key]; }).length; }
+  var LVID = {}; LEVELS.forEach(function (l) { LVID[l.id] = 1; });
+  function styleable(id) { return !!id && (!!LVID[id] || id.indexOf('tp-') === 0); }
+  function styleFor(id) { return styleable(id) ? S.style : 'mc'; }
+  function cloze3(it) {
+    if (!it.ex || /\//.test(it.en)) return '';
+    var re = new RegExp("(^|[^A-Za-z'])" + reEsc(it.en) + "(?![A-Za-z'])", 'gi');
+    return re.test(it.ex) ? it.ex.replace(re, function (m, p) { return p + '___'; }) : '';
+  }
+  function poolFor(id, style) {
+    var p = id === 'wrong' ? wrongItems() : POOL[id];
+    if (style === 'fill') p = p.filter(function (it) { return !!cloze3(it); });
+    return p;
+  }
+  function poolOf(id) { return poolFor(id, styleFor(id)); }
+  function bkey(id, style) { return style && style !== 'mc' ? id + '@' + style : id; }
+  function seenCount(id) { var st = styleFor(id); return poolFor(id, st).filter(function (it) { return stats[skey(it, st)]; }).length; }
 
   // ---------- soru kurma ----------
   function regular(b) {
@@ -600,8 +694,56 @@ h1, h2, p { margin: 0; }
     if (b.length <= 4 && /[^aeiou][aeiou][^aeiouwxy]$/.test(b)) return b + b.slice(-1) + 'ed';
     return b + 'ed';
   }
-  function buildQuestion(it) {
+  // Dinleme sorusunda aynı okunan kelimeler birlikte şık olmasın
+  var HOMO = {};
+  ['sea see', 'right write', 'their there', 'two too to', 'buy by bye', 'hour our', 'know no', 'knew new', 'meat meet', 'week weak',
+   'whole hole', 'piece peace', 'mail male', 'sale sail', 'pair pear', 'flour flower', 'eight ate', 'son sun', 'one won', 'red read',
+   'wear where', 'weather whether', 'plain plane', 'tail tale', 'steal steel', 'break brake', 'cell sell', 'wait weight', 'waste waist',
+   'rain reign', 'road rode', 'hear here', 'eye i', 'bear bare', 'dear deer', 'fair fare', 'hair hare', 'wood would', 'cent scent sent',
+   'berry bury', 'board bored', 'cereal serial', 'check cheque', 'die dye', 'flu flew', 'grate great', 'heal heel', 'knight night',
+   'knot not', 'made maid', 'pale pail', 'pause paws', 'poor pour', 'principal principle', 'wrap rap', 'root route', 'sight site cite',
+   'sole soul', 'stair stare', 'stationary stationery', 'suite sweet', 'threw through', 'tide tied', 'toe tow', 'vain vein', 'way weigh',
+   'witch which', 'allowed aloud', 'aisle isle', 'morning mourning', 'peak peek', 'patience patients', 'lead led', 'role roll', 'sight cite',
+   'whale wail', 'war wore', 'cue queue', 'bean been', 'blue blew', 'course coarse', 'muscle mussel', 'medal meddle', 'hall haul', 'loan lone'
+  ].forEach(function (g) { var w = g.split(' '); w.forEach(function (x) { HOMO[x] = w; }); });
+  function soundsSame(a, b) { var h = HOMO[String(a).toLowerCase()]; return !!h && h.indexOf(String(b).toLowerCase()) >= 0; }
+  function poolOfItem(it) { return it.kind === 'vocab' ? POOL[it.level] : POOL[it.pid]; }
+  function styledQuestion(it, style) {
+    var pool = poolOfItem(it), opts, answer;
+    if (style === 'type' || style === 'match') return { it: it, kind: it.kind, style: style, opts: [it.tr], correct: 0, chosen: null, typed: null };
+    if (style === 'listen') {
+      answer = it.tr;
+      opts = [answer].concat(pickDecoys(it, pool, 8, 'tr').filter(function (w) { return !soundsSame(w.en, it.en); }).slice(0, 3).map(function (w) { return w.tr; }));
+    } else {
+      answer = it.en;
+      opts = [answer].concat(pickDecoys(it, pool, 3, 'en').map(function (w) { return w.en; }));
+    }
+    opts = shuffle(opts);
+    return { it: it, kind: it.kind, style: style, opts: opts, correct: opts.indexOf(answer), chosen: null, sent: style === 'fill' ? cloze3(it) : '' };
+  }
+  function phrParts(en) { var w = en.replace(/\([^)]*\)/g, '').trim().split(/\s+/); return { v: w[0], p: w.slice(1).join(' ') }; }
+  function buildQuestion(it, style) {
     var opts, answer;
+    if ((it.kind === 'vocab' || it.kind === 'topic') && style && style !== 'mc') return styledQuestion(it, style);
+    if (it.kind === 'phr') {
+      answer = it.tr;
+      var pp = phrParts(it.en), got = [];
+      shuffle(POOL.phrasal).map(function (x) {
+        var q = phrParts(x.en);
+        return [(q.v === pp.v ? 3 : 0) + (q.p === pp.p ? 2 : 0) + Math.random() * 1.5, x];
+      }).sort(function (a, b) { return b[0] - a[0]; }).forEach(function (p) {
+        var x = p[1];
+        if (got.length >= 3 || x === it || tooClose(it, x)) return;
+        for (var i = 0; i < got.length; i++) if (tooClose(got[i], x)) return;
+        got.push(x);
+      });
+      opts = shuffle([answer].concat(got.map(function (x) { return x.tr; })));
+      return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(answer), chosen: null };
+    }
+    if (it.kind === 'prep' || it.kind === 'form') {
+      opts = shuffle([it.a].concat(it.d));
+      return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(it.a), chosen: null };
+    }
     if (it.kind === 'vocab') {
       answer = it.tr;
       opts = [answer].concat(pickDecoys(it, POOL[it.level], 3, 'tr').map(function (w) { return w.tr; }));
@@ -634,7 +776,7 @@ h1, h2, p { margin: 0; }
     } else if (it.kind === 'poly') {
       var fake = it.d[Math.floor(Math.random() * it.d.length)];
       opts = shuffle(shuffle(it.t).slice(0, 3).concat(fake));
-      return { it: it, kind: it.kind, opts: opts, correct: opts.indexOf(fake), chosen: null };
+      return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(fake), chosen: null };
     } else if (it.kind === 'ant') {
       answer = it.o;
       var seenO = {}; seenO[it.o] = 1; seenO[it.w] = 1;
@@ -651,13 +793,13 @@ h1, h2, p { margin: 0; }
       answer = dir === 'tr2en' ? it.en : it.tr;
       opts = [answer].concat(pickDecoys(it, POOL[it.pid], 3, dir === 'tr2en' ? 'en' : 'tr').map(function (w) { return dir === 'tr2en' ? w.en : w.tr; }));
       opts = shuffle(opts);
-      return { it: it, kind: it.kind, dir: dir, opts: opts, correct: opts.indexOf(answer), chosen: null };
+      return { it: it, kind: it.kind, style: 'mc', dir: dir, opts: opts, correct: opts.indexOf(answer), chosen: null };
     } else {
       answer = it.w;
       opts = [answer].concat(shuffle(it.g.i.filter(function (x) { return x.w !== it.w; })).slice(0, 3).map(function (x) { return x.w; }));
     }
     opts = shuffle(opts);
-    return { it: it, kind: it.kind, opts: opts, correct: opts.indexOf(answer), chosen: null };
+    return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(answer), chosen: null };
   }
 
   // ---------- ses ----------
@@ -770,6 +912,8 @@ h1, h2, p { margin: 0; }
     flags: load('kelime-flags', {}), fconfirm: false, fcopied: false,
     theme: (function () { var t = load('kelime-theme', 'auto'); return t === 'light' || t === 'dark' ? t : 'auto'; })(),
     count: load('kelime-count', 20),
+    style: (function () { var x = load('kelime-style', 'mc'); return STYLE_NAME[x] ? x : 'mc'; })(), testStyle: 'mc',
+    groups: [], g: 0, msel: { l: null, r: null }, mbusy: false,
     qs: [], i: 0, locked: false, confirm: false, tab: 'bad', testLevel: 'A1',
     sound: load('kelime-sound', true) !== false,
     dir: load('kelime-dir', 'tr2en') === 'en2tr' ? 'en2tr' : 'tr2en'
@@ -786,20 +930,40 @@ h1, h2, p { margin: 0; }
   var timer = null;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function startTest(items, mode) {
-    S.testLevel = mode;
-    S.qs = shuffle(items).map(buildQuestion);
-    S.i = 0; S.locked = false; S.confirm = false; S.screen = 'quiz';
+  function startTest(items, mode, style) {
+    style = styleable(mode) ? (style || 'mc') : 'mc';
+    S.testLevel = mode; S.testStyle = style;
+    S.i = 0; S.g = 0; S.locked = false; S.nexting = false; S.confirm = false; S.screen = 'quiz';
+    S.msel = { l: null, r: null }; S.mbusy = false;
+    if (style === 'match') {
+      // 5'li turlar; aynı anlama yakın kelimeler aynı tura düşmesin
+      var groups = [];
+      shuffle(items).forEach(function (it) {
+        for (var i = 0; i < groups.length; i++) {
+          var g = groups[i];
+          if (g.length < 5 && !g.some(function (x) { return tooClose(x, it); })) { g.push(it); return; }
+        }
+        groups.push([it]);
+      });
+      S.qs = []; S.groups = [];
+      groups.forEach(function (g) {
+        var idx = [];
+        g.forEach(function (it) { idx.push(S.qs.length); S.qs.push(buildQuestion(it, 'match')); });
+        S.groups.push({ q: idx, order: shuffle(idx) });
+      });
+    } else {
+      S.qs = shuffle(items).map(function (it) { return buildQuestion(it, style); });
+    }
     render();
   }
 
   // ---------- ana ekran ----------
   function row(id, code, name, note) {
-    var b = best[id];
+    var b = best[bkey(id, styleFor(id))];
     return '<button class="lv" role="radio" aria-checked="' + (S.level === id) + '" data-level="' + id + '">' +
       '<span class="code">' + code + '</span>' +
       '<span class="nm">' + name + (note ? '<small>' + note + '</small>' : '') + '</span>' +
-      '<span class="meta"><b>' + (b != null ? 'En iyi %' + b : 'Henüz yok') + '</b><i>' + seenCount(id) + '/' + POOL[id].length + ' görüldü</i></span></button>';
+      '<span class="meta"><b>' + (b != null ? 'En iyi %' + b : 'Henüz yok') + '</b><i>' + seenCount(id) + '/' + poolFor(id, styleFor(id)).length + ' görüldü</i></span></button>';
   }
   function chipsHTML() {
     return COUNTS.map(function (c) {
@@ -818,8 +982,16 @@ h1, h2, p { margin: 0; }
       '</div></section>';
   }
   function startLabel() {
-    if (S.level.length === 2) return S.level + ' sınavını başlat';
-    return (LABEL[S.level] || 'Testi') + ' testini başlat';
+    var x = styleFor(S.level), tail = x !== 'mc' ? ' · ' + STYLE_NAME[x] : '';
+    if (S.level.length === 2) return S.level + ' sınavını başlat' + tail;
+    return (LABEL[S.level] || 'Testi') + ' testini başlat' + tail;
+  }
+  function styleHTML() {
+    return '<section><h2 class="label">Soru şekli</h2><div class="styles" role="radiogroup" aria-label="Soru şekli">' +
+      STYLES.map(function (x) {
+        var off = x.id === 'listen' && !CAN_SPEAK;
+        return '<button class="cnt" role="radio" aria-checked="' + (S.style === x.id) + '" data-style="' + x.id + '"' + (off ? ' disabled' : '') + '>' + x.name + '</button>';
+      }).join('') + '</div><p class="hint2">Seviye ve konu testlerinde geçerli</p></section>';
   }
   function flagRow() {
     var n = flagKeys().length;
@@ -832,14 +1004,15 @@ h1, h2, p { margin: 0; }
       '<span class="meta"><b>' + (n ? n + ' kelime' : 'Henüz yok') + '</b></span></button>';
   }
   function wordOf(it) {
-    var w = it.kind === 'irreg' ? it.v.base : it.kind === 'syn' ? it.a : (it.kind === 'vocab' || it.kind === 'topic') ? it.en : it.w;
+    if (it.kind === 'prep' || it.kind === 'form') return null;
+    var w = it.kind === 'irreg' ? it.v.base : it.kind === 'syn' ? it.a : (it.kind === 'vocab' || it.kind === 'topic' || it.kind === 'phr') ? it.en : it.w;
     return String(w).toLowerCase();
   }
   function wordTotals() {
     var all = {}, seen = {};
     Object.keys(POOL).forEach(function (id) {
       POOL[id].forEach(function (it) {
-        var w = wordOf(it); all[w] = 1;
+        var w = wordOf(it); if (w === null) return; all[w] = 1;
         var s = stats[it.key]; if (s && s.n > 0) seen[w] = 1;
       });
     });
@@ -858,6 +1031,7 @@ h1, h2, p { margin: 0; }
       '<h1 class="title">Kelimeyi bil, seviyeni gör.</h1>' +
       '<p class="seen">Şimdiye kadar gördüğün kelime: <b>' + wt[0] + '</b> / ' + wt[1] + '</p></div>' +
       '<section><h2 class="label">Seviye sınavı</h2><div class="levels" role="radiogroup" aria-label="Seviye">' + lv + '</div></section>' +
+      styleHTML() +
       '<section><h2 class="label">Özel testler</h2><div class="levels" role="radiogroup" aria-label="Özel testler">' + wrongRow() + md + nav + flagRow() + '</div></section>' +
       '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
       themeHTML() +
@@ -877,22 +1051,75 @@ h1, h2, p { margin: 0; }
     app.innerHTML =
       '<div class="home">' +
       '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">Konu testleri</h1></div>' +
-      body + dr +
+      body + styleHTML() + (S.style === 'mc' ? dr : '') +
       '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
       startBtn(true) +
       '</div>';
   }
 
   // ---------- soru ekranı ----------
-  function blankHTML(s) { return esc(s).replace('___', '<span class="blank"></span>'); }
+  // Boşluktan önceki a/an cevabı ele vermesin: a(n)
+  function blankHTML(s) {
+    return esc(s).replace(/\b(an?)(\s+)___/gi, function (m, art, sp) { return (art.charAt(0) === 'A' ? 'A' : 'a') + '(n)' + sp + '___'; })
+      .replace('___', '<span class="blank"></span>');
+  }
   function cloze(ex, w) {
     var re = new RegExp("(^|[^A-Za-z'])" + reEsc(w) + "(?![A-Za-z'])", 'i');
     return re.test(ex) ? ex.replace(re, function (m, p) { return p + '_____'; }) : '';
   }
   function hl(s) { return esc(s).replace(/\*(.+?)\*/g, '<b class="hl">$1</b>'); }
+  function sizeCls(t) { return t.length > 14 ? ' sent' : t.length > 9 ? ' mid' : ''; }
+  function hintOf(en) {
+    var w = en.split(' / ')[0].replace(/\([^)]*\)/g, '').trim();
+    var parts = w.split(/\s+/);
+    return {
+      shape: parts.map(function (x) { return x.charAt(0) + x.slice(1).replace(/[A-Za-z]/g, '_'); }).join('   '),
+      n: parts.map(function (x) { return x.replace(/[^A-Za-z]/g, '').length; }).join(' + ')
+    };
+  }
+  function styledFace(q, live, tg) {
+    var it = q.it, tag = it.kind === 'vocab' ? it.level : it.tname, main;
+    if (q.style === 'type') {
+      var h = hintOf(it.en);
+      main = '<' + tg + ' class="word tr">' + esc(it.tr) + '</' + tg + '>' +
+        '<p class="hintw" lang="en" aria-label="İpucu">' + esc(h.shape) + '</p>' +
+        '<p class="sub2">İngilizcesini yaz · ' + h.n + ' harf</p>';
+      if (it.cog) main += '<p class="cog">Türkçesi benzer kelime: yazılışına dikkat et</p>';
+    } else if (q.style === 'listen') {
+      main = '<button class="bigspk"' + (live ? ' data-say="' + esc(it.en) + '" aria-label="Kelimeyi tekrar dinle"' : ' tabindex="-1"') + '>' + SPEAKER + '</button>' +
+        '<p class="sub2">' + (live ? 'Duyduğun kelimenin Türkçesi hangisi?' : 'Dinle ve seç') + '</p>';
+    } else {
+      main = '<' + tg + ' class="word sent" lang="en">' + blankHTML(q.sent || '') + '</' + tg + '>' +
+        '<p class="sub2">' + esc(it.exTr) + '</p>';
+    }
+    return { tag: tag, main: main };
+  }
+  function typeArea(q, live) {
+    if (!live) return '<section class="opts"><div class="tbox"></div></section>';
+    if (q.fb) return '<section class="opts">' + q.fb + '</section>';
+    return '<section class="opts"><form class="tform" id="tform" autocomplete="off">' +
+      '<input id="tin" class="tin" type="text" lang="en" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="İngilizcesi" placeholder="Buraya yaz">' +
+      '<button class="primary" type="submit">Kontrol et</button></form></section>';
+  }
   function faceHTML(q, live) {
     var it = q.it, tg = live ? 'h1' : 'div', tag, main, say = '';
-    if (q.kind === 'vocab') {
+    if ((q.kind === 'vocab' || q.kind === 'topic') && q.style && q.style !== 'mc') {
+      var f = styledFace(q, live, tg);
+      var head = '<main class="stage"><span class="tag">' + f.tag + '</span>' + f.main + '</main>';
+      if (q.style === 'type') return head + typeArea(q, live);
+      var o2 = q.opts.map(function (t, k) {
+        return '<button class="opt"' + (live ? ' data-opt="' + k + '"' : ' tabindex="-1"') + '><span class="k">' + 'ABCD'[k] + '</span><span' + (q.style === 'fill' ? ' lang="en"' : '') + '>' + esc(t) + '</span></button>';
+      }).join('');
+      return head + '<section class="opts"' + (live ? ' aria-label="Şıklar"' : '') + '>' + o2 + '</section>';
+    }
+    if (q.kind === 'phr') {
+      tag = 'Phrasal verb'; say = it.en.replace(/\([^)]*\)/g, '').trim();
+      main = '<' + tg + ' class="word' + sizeCls(it.en) + '" lang="en">' + esc(it.en) + '</' + tg + '>' + '<p class="sub2">Türkçesi hangisi?</p>';
+    } else if (q.kind === 'prep' || q.kind === 'form') {
+      tag = q.kind === 'prep' ? 'Edat' : 'Kelime türü';
+      main = '<' + tg + ' class="word sent" lang="en">' + blankHTML(it.s) + '</' + tg + '>' +
+        '<p class="sub2">' + esc(it.trS) + '</p>';
+    } else if (q.kind === 'vocab') {
       tag = it.level; say = it.en;
       main = '<' + tg + ' class="word"' + (live ? ' lang="en"' : '') + '>' + esc(it.en) + '</' + tg + '>';
     } else if (q.kind === 'irreg') {
@@ -943,6 +1170,7 @@ h1, h2, p { margin: 0; }
       '<section class="opts"' + (live ? ' aria-label="Şıklar"' : '') + '>' + o + '</section>';
   }
   function renderQuiz() {
+    if (S.testStyle === 'match') { renderMatch(); return; }
     var q = S.qs[S.i], n = S.qs.length;
     var sheet = S.confirm
       ? '<div class="sheet"><p>Testten çıkmak istiyor musun?</p>' +
@@ -960,7 +1188,7 @@ h1, h2, p { margin: 0; }
       flagBtn('live', q) + '<span class="qcount">' + (S.i + 1) + '/' + n + '</span></header>' +
       sheet +
       '<div class="deck">' + peek2 + peek + '<div class="card front">' + faceHTML(q, true) + '</div></div>' +
-      '<button class="pas" id="pas">Pas geç<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 6 6-6 6"/><path d="m13 6 6 6-6 6"/></svg></button>' +
+      '<button class="pas" id="pas"' + (q.fb ? ' hidden' : '') + '>Pas geç<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 6 6-6 6"/><path d="m13 6 6 6-6 6"/></svg></button>' +
       '</div>';
   }
 
@@ -986,7 +1214,9 @@ h1, h2, p { margin: 0; }
   var FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
   function flagData(q) {
     var it = q.it, d;
-    if (q.kind === 'vocab') d = { t: it.level, w: it.en, a: it.tr };
+    if (q.kind === 'phr') d = { t: 'Phrasal verb', w: it.en, a: it.tr };
+    else if (q.kind === 'prep' || q.kind === 'form') d = { t: q.kind === 'prep' ? 'Edat' : 'Kelime türü', w: it.s, a: it.a };
+    else if (q.kind === 'vocab') d = { t: it.level, w: it.en, a: it.tr };
     else if (q.kind === 'topic') d = { t: it.tname, w: it.en, a: it.tr };
     else if (q.kind === 'irreg') d = { t: 'Düzensiz fiil', w: it.v.base + ' · ' + it.v.v2 + ' · ' + it.v.v3, a: it.v.tr };
     else if (q.kind === 'syn') d = { t: 'Eş anlam', w: it.s, a: it.a };
@@ -1043,7 +1273,16 @@ h1, h2, p { margin: 0; }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { done(true); }, fb); else fb();
   }
   function entryHTML(q, kind) {
-    var it = q.it, yours = (kind === 'bad') ? q.opts[q.chosen] : null, top, sub, body = '';
+    var it = q.it, yours = (kind === 'bad') ? (q.typed != null ? q.typed : q.opts[q.chosen]) : null, top, sub, body = '';
+    if (q.kind === 'phr') {
+      top = it.en; sub = it.tr;
+      body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'prep' || q.kind === 'form') {
+      top = it.a; sub = it.note;
+      body = '<p class="e-en" lang="en">' + esc(it.s).replace('___', '<b>' + esc(it.a) + '</b>') + '</p><p class="e-trs">' + esc(it.trS) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else
     if (q.kind === 'vocab') {
       top = it.en; sub = it.tr;
       body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
@@ -1086,7 +1325,7 @@ h1, h2, p { margin: 0; }
         body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s>' + (y ? ' (anlamı: ' + esc(y.tr) + ')' : '') + '</div>';
       }
     }
-    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
+    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (q.kind === 'prep' || q.kind === 'form') ? it.s.replace('___', it.a) : q.kind === 'phr' ? it.en.replace(/\([^)]*\)/g, '').trim() : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
     return '<li class="entry k-' + kind + '"><div class="e-top"><span class="e-word" lang="en">' + esc(top) + '</span><span class="e-btns">' + spkBtn(say) + flagBtn('r' + S.qs.indexOf(q), q) + '</span></div>' +
       '<div class="e-tr">' + esc(sub) + '</div>' + body + '</li>';
   }
@@ -1104,7 +1343,7 @@ h1, h2, p { margin: 0; }
     var redo = (c.bad + c.skip) > 0 ? '<button class="primary" id="redo">Yanlış ve pasları tekrar sor (' + (c.bad + c.skip) + ')</button>' : '';
     app.innerHTML =
       '<div class="res">' +
-      '<p class="kicker">' + esc(LABEL[S.testLevel]) + ' · ' + n + ' soru</p>' +
+      '<p class="kicker">' + esc(LABEL[S.testLevel]) + (S.testStyle !== 'mc' ? ' · ' + STYLE_NAME[S.testStyle] : '') + ' · ' + n + ' soru</p>' +
       '<div class="score"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="trk" cx="60" cy="60" r="52" fill="none" stroke-width="12"/>' +
       '<circle class="val" cx="60" cy="60" r="52" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (CIRC * pct / 100) + ' ' + CIRC + '"/></svg>' +
       '<div class="pct">%' + pct + '</div></div>' +
@@ -1125,8 +1364,39 @@ h1, h2, p { margin: 0; }
     if (S.screen !== lastScreen || S.screen === 'quiz') window.scrollTo(0, 0);
     lastScreen = S.screen;
     keepAlive(S.screen === 'quiz');
+    syncHistory();
+    if (S.screen === 'quiz' && S.testStyle !== 'match') {
+      var q = S.qs[S.i];
+      if (q && q.style === 'listen' && q.chosen === null && spokenQ !== q) { spokenQ = q; setTimeout(function () { if (S.qs[S.i] === q) speak(q.it.en); }, 280); }
+      if (q && q.style === 'type' && !q.fb && !S.confirm) { var inp = document.getElementById('tin'); if (inp) try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); } }
+    }
   }
-  var lastScreen = null;
+  var lastScreen = null, spokenQ = null;
+  // ---------- telefonun geri tuşu ----------
+  // Ana ekran dışındaki her ekran için geçmişte tek bir kayıt tutulur; geri tuşu bu kaydı geri alır.
+  var skipPop = false;
+  function syncHistory() {
+    try { if (S.screen !== 'home' && !(history.state && history.state.wd)) history.pushState({ wd: 1 }, ''); } catch (e) {}
+  }
+  function leaveHistory() {
+    try { if (history.state && history.state.wd) { skipPop = true; history.back(); } } catch (e) {}
+  }
+  function goHome() {
+    clearTimeout(timer); S.fconfirm = false; S.fcopied = false; S.screen = 'home'; S.confirm = false; S.level = null;
+    S.mbusy = false; S.locked = false;
+    render();
+  }
+  window.addEventListener('popstate', function () {
+    if (skipPop) { skipPop = false; return; }
+    if (S.screen === 'home') return;
+    if (S.screen === 'quiz') {
+      S.confirm = !S.confirm;
+      try { history.pushState({ wd: 1 }, ''); } catch (e) {}
+      if (S.testStyle === 'match') renderMatch(); else renderQuiz();
+      return;
+    }
+    goHome();
+  });
 
   // ---------- akış ----------
   function finish() {
@@ -1134,15 +1404,20 @@ h1, h2, p { margin: 0; }
     var c = counts();
     if (c.done === S.qs.length) {
       var pct = Math.round(c.ok / S.qs.length * 100);
-      if (S.testLevel !== 'wrong' && (best[S.testLevel] == null || pct > best[S.testLevel])) { best[S.testLevel] = pct; save('kelime-best', best); }
+      var bk = bkey(S.testLevel, S.testStyle);
+      if (S.testLevel !== 'wrong' && (best[bk] == null || pct > best[bk])) { best[bk] = pct; save('kelime-best', best); }
     }
     S.tab = c.bad > 0 ? 'bad' : (c.skip > 0 ? 'skip' : 'ok');
     S.screen = 'result';
     render();
   }
   function next() {
+    if (S.nexting) return;
+    S.nexting = true;
+    clearTimeout(timer);
     swish();
     var go = function () {
+      S.nexting = false;
       S.i++; S.locked = false;
       if (S.i >= S.qs.length) finish(); else render();
     };
@@ -1160,7 +1435,7 @@ h1, h2, p { margin: 0; }
     S.locked = true;
     var q = S.qs[S.i];
     q.chosen = k;
-    record(q.it, k === q.correct);
+    record(q.it, k === q.correct, q.style);
     app.querySelectorAll('.card.front .opt').forEach(function (b, idx) {
       if (idx === q.correct) b.classList.add('right');
       else if (idx === k) b.classList.add('wrong');
@@ -1168,12 +1443,118 @@ h1, h2, p { margin: 0; }
     });
     timer = setTimeout(next, k === q.correct ? 500 : 650);
   }
+  function normEn(x) { return String(x).toLowerCase().replace(/\([^)]*\)/g, '').replace(/[’']/g, '').replace(/-/g, ' ').replace(/[^a-z ]/g, '').replace(/\s+/g, ' ').trim(); }
+  function sameMeaning(a, b) {
+    if (a.tr === b.tr) return true;
+    var p = phrOf(a), r = phrOf(b);
+    for (var i = 0; i < p.length; i++) if (r.indexOf(p[i]) >= 0) return true;
+    return false;
+  }
+  function checkTyped(val) {
+    var q = S.qs[S.i];
+    if (S.locked || S.confirm || !q || q.style !== 'type') return;
+    var v = normEn(val), vs = v.replace(/ /g, '');
+    if (!v) { var inp = document.getElementById('tin'); if (inp) inp.focus(); return; }
+    S.locked = true;
+    var it = q.it, alts = it.en.split(' / ').map(normEn), res = 'bad', other = '';
+    alts.forEach(function (a) { if (a === v || a.replace(/ /g, '') === vs) res = 'ok'; });
+    if (res === 'bad') poolOfItem(it).forEach(function (w) { if (res === 'bad' && w !== it && normEn(w.en) === v && sameMeaning(it, w)) { res = 'alt'; other = w.en; } });
+    if (res === 'bad') alts.forEach(function (a) { var x = a.replace(/ /g, ''); if (res === 'bad' && x.length >= 5 && lev(x, vs) <= 1) res = 'near'; });
+    var ok = res !== 'bad', right = '<b lang="en">' + esc(it.en) + '</b>';
+    q.typed = String(val).trim(); q.chosen = ok ? 0 : 1;
+    record(it, ok, 'type');
+    if (res === 'ok') q.fb = '<div class="tfb ok"><b>Doğru!</b> ' + right + '</div>';
+    else if (res === 'near') q.fb = '<div class="tfb ok"><b>Doğru sayıldı</b><span>Küçük bir yazım hatası var. Doğrusu: ' + right + '</span></div>';
+    else if (res === 'alt') q.fb = '<div class="tfb ok"><b>Bu da doğru</b><span>Beklenen kelime: ' + right + '</span></div>';
+    else q.fb = '<div class="tfb bad"><span>Senin cevabın: <s lang="en">' + esc(q.typed) + '</s></span><span>Doğrusu: ' + right + '</span><button class="primary" id="tnext">Devam</button></div>';
+    renderQuiz();
+    if (S.sound) speak(it.en.split(' / ')[0]);
+    if (ok) timer = setTimeout(next, res === 'ok' ? 900 : 1800);
+    else { var tn = document.getElementById('tnext'); if (tn) tn.focus(); }
+  }
+  // ---------- eşleştirme ----------
+  function renderMatch() {
+    var n = S.qs.length, G = S.groups[S.g];
+    var sheet = S.confirm
+      ? '<div class="sheet"><p>Testten çıkmak istiyor musun?</p>' +
+        '<button class="primary" id="finish">Bitir, sonucu gör</button>' +
+        '<button class="ghost" id="tohome">Ana ekrana dön</button>' +
+        '<button class="ghost" id="resume">Devam et</button></div>'
+      : '';
+    var w = S.mwrong || {};
+    var btn = function (side, qi, text, en) {
+      var q = S.qs[qi], cls = 'mbtn' + (q.mDone ? ' right' : '') + (S.msel[side] === qi ? ' sel' : '') + (w[side] === qi ? ' wrong' : '');
+      return '<button class="' + cls + '" data-m' + side + '="' + qi + '"' + (q.mDone ? ' disabled' : '') + (en ? ' lang="en"' : '') + '>' + esc(text) + '</button>';
+    };
+    app.innerHTML =
+      '<div class="quiz">' +
+      '<header class="qhead"><button class="exit" id="exit">Çık</button>' +
+      '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + S.i + '"><div style="width:' + (S.i / n * 100) + '%"></div></div>' +
+      '<span class="qcount">Tur ' + (S.g + 1) + '/' + S.groups.length + '</span></header>' + sheet +
+      '<div class="deck"><div class="card front mcard">' +
+      '<main class="stage mstage"><span class="tag">Eşleştir</span><p class="sub2">Her İngilizce kelimeyi Türkçesiyle eşleştir</p></main>' +
+      '<div class="mgrid"><div class="mcol">' + G.q.map(function (qi) { return btn('l', qi, S.qs[qi].it.en, true); }).join('') + '</div>' +
+      '<div class="mcol">' + G.order.map(function (qi) { return btn('r', qi, S.qs[qi].it.tr, false); }).join('') + '</div></div>' +
+      '</div></div>' +
+      '<button class="pas" id="pas">Turu geç<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 6 6-6 6"/><path d="m13 6 6 6-6 6"/></svg></button>' +
+      '</div>';
+  }
+  function nextGroup() {
+    S.mbusy = false; S.msel = { l: null, r: null }; S.mwrong = null;
+    S.g++;
+    if (S.g >= S.groups.length) { S.i = S.qs.length; finish(); return; }
+    S.i = S.groups.slice(0, S.g).reduce(function (a, g) { return a + g.q.length; }, 0);
+    swish();
+    render();
+  }
+  function matchTap(side, qi) {
+    if (S.confirm || S.mbusy || S.testStyle !== 'match') return;
+    var q = S.qs[qi];
+    if (!q || q.mDone) return;
+    S.msel[side] = S.msel[side] === qi ? null : qi;
+    var l = S.msel.l, r = S.msel.r;
+    if (l === null || r === null) { renderMatch(); return; }
+    var ql = S.qs[l];
+    if (l === r) {
+      ql.mDone = true;
+      if (ql.chosen === null) ql.chosen = 0;
+      record(ql.it, ql.chosen === 0, 'match');
+      S.msel = { l: null, r: null };
+      var G = S.groups[S.g];
+      if (G.q.every(function (x) { return S.qs[x].mDone; })) { S.mbusy = true; renderMatch(); timer = setTimeout(nextGroup, 450); }
+      else renderMatch();
+    } else {
+      if (ql.chosen === null) { ql.chosen = 1; ql.opts = [ql.it.tr, S.qs[r].it.tr]; }
+      S.mbusy = true; S.mwrong = { l: l, r: r };
+      renderMatch();
+      timer = setTimeout(function () { S.mwrong = null; S.msel = { l: null, r: null }; S.mbusy = false; if (S.screen === 'quiz') renderMatch(); }, 500);
+    }
+  }
   function pass() {
     if (S.locked || S.confirm) return;
+    if (S.testStyle === 'match') {
+      if (S.mbusy) return;
+      S.mbusy = true;
+      S.groups[S.g].q.forEach(function (qi) {
+        var q = S.qs[qi];
+        if (q.mDone) return;
+        if (q.chosen === null) q.chosen = -1;
+        q.mDone = true; record(q.it, false, 'match');
+      });
+      renderMatch();
+      timer = setTimeout(nextGroup, 400);
+      return;
+    }
     S.locked = true;
     var q = S.qs[S.i];
     q.chosen = -1;
-    record(q.it, false);
+    record(q.it, false, q.style);
+    if (q.style === 'type') {
+      q.fb = '<div class="tfb skip"><span>Doğrusu: <b lang="en">' + esc(q.it.en) + '</b></span></div>';
+      renderQuiz();
+      timer = setTimeout(next, 1500);
+      return;
+    }
     var pb = document.getElementById('pas');
     if (pb) pb.classList.add('picked');
     app.querySelectorAll('.card.front .opt').forEach(function (b) { b.classList.add('dim'); });
@@ -1193,6 +1574,9 @@ h1, h2, p { margin: 0; }
       if (S.screen === 'topics' && (!S.level || S.level.indexOf('tp-') !== 0)) S.level = null;
       render(); return;
     }
+    if (t.dataset.style) { S.style = t.dataset.style; save('kelime-style', S.style); render(); return; }
+    if (t.dataset.ml) { matchTap('l', +t.dataset.ml); return; }
+    if (t.dataset.mr) { matchTap('r', +t.dataset.mr); return; }
     if (t.dataset.dir) { S.dir = t.dataset.dir; save('kelime-dir', S.dir); render(); return; }
     if (t.dataset.count) { S.count = +t.dataset.count; save('kelime-count', S.count); render(); return; }
     if (t.dataset.flag) {
@@ -1209,31 +1593,40 @@ h1, h2, p { margin: 0; }
         if (S.sound) { unlockAudio(); setTimeout(swish, 150); }
         break;
       case 'start':
-        var sp = S.level ? poolOf(S.level) : null;
-        if (sp && sp.length) startTest(pickItems(sp, S.count), S.level);
+        var st0 = styleFor(S.level), sp = S.level ? poolFor(S.level, st0) : null;
+        if (sp && sp.length) startTest(pickItems(sp, S.count, st0), S.level, st0);
         break;
+      case 'tnext': next(); break;
       case 'pas': pass(); break;
       case 'fcopy': copyText(flagText(), function (ok) { S.fcopied = ok; renderFlags(); if (!ok) { var b = document.getElementById('fcopy'); if (b) b.textContent = 'Kopyalanamadı'; } }); break;
       case 'fclear':
         if (!S.fconfirm) { S.fconfirm = true; renderFlags(); }
         else { S.flags = {}; save('kelime-flags', S.flags); S.fconfirm = false; S.fcopied = false; renderFlags(); }
         break;
-      case 'exit': if (!S.locked) { S.confirm = true; render(); } break;
+      case 'exit': S.confirm = true; render(); break;
       case 'resume': S.confirm = false; render(); break;
       case 'finish': S.confirm = false; finish(); break;
-      case 'tohome': clearTimeout(timer); S.fconfirm = false; S.fcopied = false; S.screen = 'home'; S.confirm = false; S.level = null; render(); break;
+      case 'tohome': leaveHistory(); goHome(); break;
       case 'again':
-        var pl = poolOf(S.testLevel);
-        if (pl.length) startTest(pickItems(pl, S.qs.length), S.testLevel); else { S.screen = 'home'; render(); }
+        var pl = poolFor(S.testLevel, S.testStyle);
+        if (pl.length) startTest(pickItems(pl, S.qs.length, S.testStyle), S.testLevel, S.testStyle); else goHome();
         break;
       case 'redo':
         var again = S.qs.filter(function (q) { var k = kindOf(q); return k === 'bad' || k === 'skip'; }).map(function (q) { return q.it; });
-        startTest(again, S.testLevel);
+        startTest(again, S.testLevel, S.testStyle);
         break;
     }
   });
+  app.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var inp = document.getElementById('tin');
+    if (inp) checkTyped(inp.value);
+  });
   document.addEventListener('keydown', function (e) {
     if (S.screen !== 'quiz' || S.confirm || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    var cq = S.qs[S.i];
+    if (S.testStyle === 'match' || (cq && cq.style === 'type')) { if (e.key === 'Enter' && e.target.tagName !== 'BUTTON' && document.getElementById('tnext')) next(); return; }
     var k = e.key.toLowerCase();
     var map = { '1': 0, '2': 1, '3': 2, '4': 3, a: 0, b: 1, c: 2, d: 3 };
     if (k in map) answer(map[k]);
