@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Kelime Sınavı",
-  "short_name": "Kelimeler",
+  "name": "Word Deck",
+  "short_name": "Word Deck",
   "lang": "tr",
   "start_url": "./",
   "scope": "./",

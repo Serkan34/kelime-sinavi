@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kelime Sınavı</title>
+<title>Word Deck</title>
 <meta name="theme-color" content="#3347ff">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Kelimeler">
+<meta name="apple-mobile-web-app-title" content="Word Deck">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -853,7 +853,7 @@ h1, h2, p { margin: 0; }
     var nav = '<button class="lv nav" data-go="topics"><span class="code">Aa</span><span class="nm">Konu testleri<small>' + TOPICS.length + ' konu · ' + total + ' kelime</small></span><span class="meta"><b>›</b></span></button>';
     app.innerHTML =
       '<div class="home">' +
-      '<div><div class="toprow"><p class="kicker">İngilizce kelime sınavı</p>' +
+      '<div><div class="toprow"><p class="kicker">Word Deck</p>' +
       '<button class="snd" id="snd" aria-pressed="' + S.sound + '">' + (S.sound ? SPEAKER + 'Ses açık' : SPEAKER_OFF + 'Ses kapalı') + '</button></div>' +
       '<h1 class="title">Kelimeyi bil, seviyeni gör.</h1>' +
       '<p class="seen">Şimdiye kadar gördüğün kelime: <b>' + wt[0] + '</b> / ' + wt[1] + '</p></div>' +
@@ -1012,7 +1012,7 @@ h1, h2, p { margin: 0; }
   function flagKeys() { return Object.keys(S.flags); }
   function flagText() {
     var ks = flagKeys();
-    return 'Kelime Sınavı hata listesi (' + ks.length + ')\n' + ks.map(function (k, i) {
+    return 'Word Deck hata listesi (' + ks.length + ')\n' + ks.map(function (k, i) {
       var d = S.flags[k];
       return (i + 1) + ') [' + d.t + '] ' + d.w + ' → ' + d.a + (d.x ? ' | örnek: ' + d.x : '');
     }).join('\n');
