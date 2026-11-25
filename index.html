@@ -433,6 +433,7 @@ div.goal { cursor: default; }
     { id: 'C1', name: 'İleri' }
   ];
   var MODES = [
+    { id: 'mix', code: 'Mix', name: 'Karışık', note: 'Her konudan, her soru şekliyle' },
     { id: 'irreg', code: 'V2', name: 'Düzensiz fiiller', note: 'Geçmiş zaman biçimleri' },
     { id: 'syn', code: '≈', name: 'Anlamı yakın kelimeler', note: 'Cümleye uyan kelimeyi seç' },
     { id: 'spell', code: 'th', name: 'Yazılışı benzer kelimeler', note: 'Doğru yazılışı bul' },
@@ -716,6 +717,12 @@ div.goal { cursor: default; }
     while ((days[dayKey(b)] || 0) >= goal) { n++; b++; }
     return n;
   }
+  // Karışık test: bütün havuzlar (tekrarsız)
+  POOL.mix = [];
+  (function () {
+    var seen = {};
+    Object.keys(POOL).forEach(function (id) { if (id === 'mix') return; POOL[id].forEach(function (it) { if (!seen[it.key]) { seen[it.key] = 1; POOL.mix.push(it); } }); });
+  })();
   var ALL = {};
   Object.keys(POOL).forEach(function (id) { POOL[id].forEach(function (it) { ALL[it.key] = it; }); });
   function itemInfo() {
@@ -740,6 +747,25 @@ div.goal { cursor: default; }
     return out;
   }
   var LVID = {}; LEVELS.forEach(function (l) { LVID[l.id] = 1; });
+  function pickMix(n) {
+    var lv = LEVELS.map(function (l) { return l.id; }), tp = TOPICS.map(function (t) { return 'tp-' + t.id; }),
+      md = MODES.map(function (m) { return m.id; }).filter(function (x) { return x !== 'mix'; }), want = {};
+    for (var i = 0; i < n; i++) {
+      var r = Math.random(), arr = r < 0.4 ? lv : r < 0.65 ? tp : md;
+      var id = arr[Math.floor(Math.random() * arr.length)];
+      want[id] = (want[id] || 0) + 1;
+    }
+    var out = [], got = {};
+    Object.keys(want).forEach(function (id) { pickItems(POOL[id], want[id], 'mc').forEach(function (it) { if (!got[it.key]) { got[it.key] = 1; out.push(it); } }); });
+    return shuffle(out).slice(0, n);
+  }
+  function mixStyle(it) {
+    if (it.kind !== 'vocab' && it.kind !== 'topic') return 'mc';
+    var o = ['mc', 'mc', 'type'];
+    if (CAN_SPEAK) o.push('listen');
+    if (cloze3(it)) o.push('fill');
+    return o[Math.floor(Math.random() * o.length)];
+  }
   function styleable(id) { return !!id && (!!LVID[id] || id.indexOf('tp-') === 0); }
   function styleFor(id) { return styleable(id) ? S.style : 'mc'; }
   function cloze3(it) {
@@ -1020,6 +1046,8 @@ div.goal { cursor: default; }
         g.forEach(function (it) { idx.push(S.qs.length); S.qs.push(buildQuestion(it, 'match')); });
         S.groups.push({ q: idx, order: shuffle(idx) });
       });
+    } else if (mode === 'mix') {
+      S.qs = shuffle(items).map(function (it) { return buildQuestion(it, mixStyle(it)); });
     } else {
       S.qs = shuffle(items).map(function (it) { return buildQuestion(it, style); });
     }
@@ -1358,7 +1386,7 @@ div.goal { cursor: default; }
     // konular ve özel testler: doğruluk
     var groups = [];
     TOPICS.forEach(function (t) { groups.push({ id: 'tp-' + t.id, name: t.name }); });
-    MODES.forEach(function (m) { groups.push({ id: m.id, name: m.name }); });
+    MODES.forEach(function (m) { if (m.id !== 'mix') groups.push({ id: m.id, name: m.name }); });
     groups.forEach(function (g) { var ok = 0, bad = 0; POOL[g.id].forEach(function (it) { var x = info[it.key]; if (x) { ok += x.ok; bad += x.bad; } }); g.n = ok + bad; g.acc = g.n ? ok / g.n : 0; });
     var act = groups.filter(function (g) { return g.n >= 10; });
     var list = function (arr, none) { return arr.length ? '<ul class="acclist">' + arr.map(function (g) { return '<li><span>' + esc(g.name) + '</span><b>%' + Math.round(g.acc * 100) + '</b></li>'; }).join('') + '</ul>' : '<p class="hint2">' + (act.length ? none : 'Henüz yeterli soru çözülmedi. Bir konuda en az 10 soru çözünce burada görünür.') + '</p>'; };
@@ -1789,7 +1817,8 @@ div.goal { cursor: default; }
         break;
       case 'start':
         var st0 = styleFor(S.level), sp = S.level ? poolFor(S.level, st0) : null;
-        if (sp && sp.length) startTest(pickItems(sp, S.count, st0), S.level, st0);
+        if (S.level === 'mix') startTest(pickMix(S.count), 'mix', 'mc');
+        else if (sp && sp.length) startTest(pickItems(sp, S.count, st0), S.level, st0);
         break;
       case 'tnext': next(); break;
       case 'pas': pass(); break;
@@ -1804,7 +1833,8 @@ div.goal { cursor: default; }
       case 'tohome': leaveHistory(); goHome(); break;
       case 'again':
         var pl = poolFor(S.testLevel, S.testStyle);
-        if (pl.length) startTest(pickItems(pl, S.qs.length, S.testStyle), S.testLevel, S.testStyle); else goHome();
+        if (S.testLevel === 'mix') startTest(pickMix(S.qs.length), 'mix', 'mc');
+        else if (pl.length) startTest(pickItems(pl, S.qs.length, S.testStyle), S.testLevel, S.testStyle); else goHome();
         break;
       case 'redo':
         var again = S.qs.filter(function (q) { var k = kindOf(q); return k === 'bad' || k === 'skip'; }).map(function (q) { return q.it; });
