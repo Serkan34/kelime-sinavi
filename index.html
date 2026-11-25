@@ -306,6 +306,45 @@ h1, h2, p { margin: 0; }
 .blank { display: inline-block; min-width: 3.2em; border-bottom: 3px solid var(--accent); transform: translateY(2px); }
 .e-note { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 8px 10px; }
 .e-note b { color: var(--ink); }
+/* v37: günlük hedef, ilerleme, sözlük */
+.goal { display: grid; gap: 8px; width: 100%; text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 14px 16px; cursor: pointer; }
+div.goal { cursor: default; }
+.g-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 15px; }
+.g-top span { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.g-bar { display: block; height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.g-bar > span { display: block; height: 100%; border-radius: 99px; background: var(--accent); transition: width .3s; }
+.g-bar > span.done { background: var(--ok); }
+.g-sub { font-size: 13px; color: var(--muted); }
+.goaldone { margin: 0; padding: 10px 14px; border-radius: 12px; background: var(--ok-bg); color: var(--ok); font-weight: 700; text-align: center; }
+.wk { position: relative; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; height: 150px; margin-top: 10px; }
+.wkcol { display: flex; flex-direction: column; align-items: center; height: 150px; }
+.wkv { height: 16px; font-size: 12px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.wkbar { height: 116px; width: 100%; max-width: 30px; display: flex; align-items: flex-end; }
+.wkbar > span { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; }
+.wkbar > span.met { background: var(--ok); }
+.wkl { height: 18px; line-height: 18px; font-size: 12px; color: var(--muted); }
+.wkgoal { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--muted); opacity: .6; pointer-events: none; }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.tile { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px 8px; display: grid; gap: 2px; text-align: center; }
+.tile b { font-size: 28px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.tile span { font-size: 13px; color: var(--muted); }
+.tile.known { border-top: 6px solid var(--ok); } .tile.learn { border-top: 6px solid var(--accent); } .tile.hard { border-top: 6px solid var(--bad); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin: 8px 0 4px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.sg.known { background: var(--ok); } .sg.learn { background: var(--accent); } .sg.hard { background: var(--bad); }
+.lvs { display: grid; gap: 10px; margin-top: 8px; }
+.lvrow { display: grid; grid-template-columns: 30px 1fr 44px; align-items: center; gap: 10px; }
+.lvid { font-weight: 800; }
+.stack { display: flex; gap: 2px; height: 14px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.stack .sg { height: 100%; }
+.lvacc { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
+.acclist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.acclist li { display: flex; justify-content: space-between; gap: 10px; background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 10px 14px; }
+.acclist b { font-variant-numeric: tabular-nums; }
+#dq { margin-top: 4px; }
+.dlist { margin-top: 12px; }
+.dsrc { margin: 0; font-size: 12px; color: var(--muted); }
+.dst.known { color: var(--ok); font-weight: 700; } .dst.hard { color: var(--bad); font-weight: 700; } .dst.learn { color: var(--accent); font-weight: 700; }
 /* v35: soru şekilleri, yazarak cevap, dinleme, eşleştirme */
 .styles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
 .styles .cnt { width: auto; height: auto; min-height: 44px; padding: 10px 4px; font-size: 14px; }
@@ -404,7 +443,8 @@ h1, h2, p { margin: 0; }
     { id: 'idiom', code: 'Dy', name: 'Deyimler', note: 'Kalıplaşmış ifadeler' },
     { id: 'phrasal', code: 'Up', name: 'Phrasal verbs', note: 'give up, look after…' },
     { id: 'prep', code: 'at', name: 'Edatlar', note: 'in, on, at ve kalıplar' },
-    { id: 'form', code: 'Tür', name: 'Kelime türleri', note: 'happy → happiness' }
+    { id: 'form', code: 'Tür', name: 'Kelime türleri', note: 'happy → happiness' },
+    { id: 'coll', code: 'do', name: 'Kalıp kelimeler', note: 'make, do, take; heavy rain…' }
   ];
   var STYLES = [
     { id: 'mc', name: 'Şıklı' },
@@ -603,7 +643,8 @@ h1, h2, p { margin: 0; }
     var p = s.split('|');
     return { kind: 'phr', key: 'phr|' + p[0], pid: 'phrasal', en: p[0], w: p[0], tr: p[1], ex: p[2], exTr: p[3] };
   });
-  ['prep', 'form'].forEach(function (id) {
+  var SENT = { prep: 'Edat', form: 'Kelime türü', coll: 'Kalıp' };
+  ['prep', 'form', 'coll'].forEach(function (id) {
     POOL[id] = lines(EXTRA[id] || '').map(function (s) {
       var p = s.split('|');
       return { kind: id, key: id + '|' + p[0], s: p[0], a: p[1], d: p[2].split(','), trS: p[3], note: p[4] };
@@ -658,9 +699,37 @@ h1, h2, p { margin: 0; }
     s.st = ok ? st + 1 : 0;
     s.t = Date.now();
     save('kelime-stats', stats);
+    var dk = dayKey(0); days[dk] = (days[dk] || 0) + 1; save('kelime-days', days);
+  }
+  // ---------- günlük hedef ve seri ----------
+  var days = load('kelime-days', {});
+  var GOALS = [10, 20, 30, 50, 100];
+  var goal = load('kelime-goal', 20);
+  if (GOALS.indexOf(goal) < 0) goal = 20;
+  function dayKey(back) {
+    var d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - back);
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  function todayN() { return days[dayKey(0)] || 0; }
+  function streakDays() {
+    var n = 0, b = (days[dayKey(0)] || 0) >= goal ? 0 : 1;
+    while ((days[dayKey(b)] || 0) >= goal) { n++; b++; }
+    return n;
   }
   var ALL = {};
   Object.keys(POOL).forEach(function (id) { POOL[id].forEach(function (it) { ALL[it.key] = it; }); });
+  function itemInfo() {
+    var m = {};
+    Object.keys(stats).forEach(function (k) {
+      var base = k.replace(/^(type|listen|fill|match):/, ''), s = stats[k];
+      if (!ALL[base]) return;
+      var x = m[base] || (m[base] = { ok: 0, bad: 0, t: 0, st: 0 });
+      x.ok += s.ok; x.bad += s.bad;
+      if (s.t >= x.t) { x.t = s.t; x.st = streak(s); }
+    });
+    return m;
+  }
+  function statusOf(info, it) { var x = info[it.key]; if (!x) return 'new'; return x.st >= 2 ? 'known' : x.st === 0 ? 'hard' : 'learn'; }
   function wrongItems() {
     var seen = {}, out = [];
     Object.keys(stats).forEach(function (k) {
@@ -740,7 +809,7 @@ h1, h2, p { margin: 0; }
       opts = shuffle([answer].concat(got.map(function (x) { return x.tr; })));
       return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(answer), chosen: null };
     }
-    if (it.kind === 'prep' || it.kind === 'form') {
+    if (SENT[it.kind]) {
       opts = shuffle([it.a].concat(it.d));
       return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(it.a), chosen: null };
     }
@@ -932,7 +1001,7 @@ h1, h2, p { margin: 0; }
 
   function startTest(items, mode, style) {
     style = styleable(mode) ? (style || 'mc') : 'mc';
-    S.testLevel = mode; S.testStyle = style;
+    S.testLevel = mode; S.testStyle = style; S.goalBefore = todayN();
     S.i = 0; S.g = 0; S.locked = false; S.nexting = false; S.confirm = false; S.screen = 'quiz';
     S.msel = { l: null, r: null }; S.mbusy = false;
     if (style === 'match') {
@@ -993,6 +1062,16 @@ h1, h2, p { margin: 0; }
         return '<button class="cnt" role="radio" aria-checked="' + (S.style === x.id) + '" data-style="' + x.id + '"' + (off ? ' disabled' : '') + '>' + x.name + '</button>';
       }).join('') + '</div><p class="hint2">Seviye ve konu testlerinde geçerli</p></section>';
   }
+  function toolRow(go, code, name, note) {
+    return '<button class="lv nav" data-go="' + go + '"><span class="code">' + code + '</span><span class="nm">' + name + '<small>' + note + '</small></span><span class="meta"><b>›</b></span></button>';
+  }
+  function goalCard(link) {
+    var n = todayN(), pct = Math.min(100, Math.round(n / goal * 100)), sd = streakDays(), done = n >= goal;
+    var inner = '<span class="g-top"><b>Bugünkü hedef</b><span>' + (done ? '✓ Tamamlandı' : n + ' / ' + goal + ' soru') + '</span></span>' +
+      '<span class="g-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + goal + '" aria-valuenow="' + Math.min(n, goal) + '" aria-label="Bugünkü hedef"><span style="width:' + pct + '%"' + (done ? ' class="done"' : '') + '></span></span>' +
+      '<span class="g-sub">' + (sd ? sd + ' günlük seri' : 'Hedefini tamamla, seri başlasın') + (done && n > goal ? ' · bugün ' + n + ' soru' : '') + '</span>';
+    return link ? '<button class="goal" data-go="stats">' + inner + '</button>' : '<div class="goal">' + inner + '</div>';
+  }
   function flagRow() {
     var n = flagKeys().length;
     return '<button class="lv nav" data-go="flags"><span class="code">⚑</span><span class="nm">Hata listesi<small>Hatalı bulduğun kartlar</small></span><span class="meta"><b>' + (n ? n + ' kart' : 'Henüz yok') + '</b></span></button>';
@@ -1004,7 +1083,7 @@ h1, h2, p { margin: 0; }
       '<span class="meta"><b>' + (n ? n + ' kelime' : 'Henüz yok') + '</b></span></button>';
   }
   function wordOf(it) {
-    if (it.kind === 'prep' || it.kind === 'form') return null;
+    if (SENT[it.kind]) return null;
     var w = it.kind === 'irreg' ? it.v.base : it.kind === 'syn' ? it.a : (it.kind === 'vocab' || it.kind === 'topic' || it.kind === 'phr') ? it.en : it.w;
     return String(w).toLowerCase();
   }
@@ -1030,9 +1109,11 @@ h1, h2, p { margin: 0; }
       '<button class="snd" id="snd" aria-pressed="' + S.sound + '">' + (S.sound ? SPEAKER + 'Ses açık' : SPEAKER_OFF + 'Ses kapalı') + '</button></div>' +
       '<h1 class="title">Kelimeyi bil, seviyeni gör.</h1>' +
       '<p class="seen">Şimdiye kadar gördüğün kelime: <b>' + wt[0] + '</b> / ' + wt[1] + '</p></div>' +
+      goalCard(true) +
       '<section><h2 class="label">Seviye sınavı</h2><div class="levels" role="radiogroup" aria-label="Seviye">' + lv + '</div></section>' +
       styleHTML() +
-      '<section><h2 class="label">Özel testler</h2><div class="levels" role="radiogroup" aria-label="Özel testler">' + wrongRow() + md + nav + flagRow() + '</div></section>' +
+      '<section><h2 class="label">Özel testler</h2><div class="levels" role="radiogroup" aria-label="Özel testler">' + wrongRow() + md + nav + '</div></section>' +
+      '<section><h2 class="label">Araçlar</h2><div class="levels">' + toolRow('stats', '%', 'İlerleme', 'Güçlü ve zayıf yanların, günlük seri') + toolRow('dict', 'Az', 'Sözlük', 'Bütün kelimelerde ara') + flagRow() + '</div></section>' +
       '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
       themeHTML() +
       startBtn(false) +
@@ -1115,8 +1196,8 @@ h1, h2, p { margin: 0; }
     if (q.kind === 'phr') {
       tag = 'Phrasal verb'; say = it.en.replace(/\([^)]*\)/g, '').trim();
       main = '<' + tg + ' class="word' + sizeCls(it.en) + '" lang="en">' + esc(it.en) + '</' + tg + '>' + '<p class="sub2">Türkçesi hangisi?</p>';
-    } else if (q.kind === 'prep' || q.kind === 'form') {
-      tag = q.kind === 'prep' ? 'Edat' : 'Kelime türü';
+    } else if (SENT[q.kind]) {
+      tag = SENT[q.kind];
       main = '<' + tg + ' class="word sent" lang="en">' + blankHTML(it.s) + '</' + tg + '>' +
         '<p class="sub2">' + esc(it.trS) + '</p>';
     } else if (q.kind === 'vocab') {
@@ -1215,7 +1296,7 @@ h1, h2, p { margin: 0; }
   function flagData(q) {
     var it = q.it, d;
     if (q.kind === 'phr') d = { t: 'Phrasal verb', w: it.en, a: it.tr };
-    else if (q.kind === 'prep' || q.kind === 'form') d = { t: q.kind === 'prep' ? 'Edat' : 'Kelime türü', w: it.s, a: it.a };
+    else if (SENT[q.kind]) d = { t: SENT[q.kind], w: it.s, a: it.a };
     else if (q.kind === 'vocab') d = { t: it.level, w: it.en, a: it.tr };
     else if (q.kind === 'topic') d = { t: it.tname, w: it.en, a: it.tr };
     else if (q.kind === 'irreg') d = { t: 'Düzensiz fiil', w: it.v.base + ' · ' + it.v.v2 + ' · ' + it.v.v3, a: it.v.tr };
@@ -1246,6 +1327,115 @@ h1, h2, p { margin: 0; }
       var d = S.flags[k];
       return (i + 1) + ') [' + d.t + '] ' + d.w + ' → ' + d.a + (d.x ? ' | örnek: ' + d.x : '');
     }).join('\n');
+  }
+  var WD = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+  function renderStats() {
+    var info = itemInfo(), seenW = {}, cnt = { known: 0, learn: 0, hard: 0 };
+    Object.keys(POOL).forEach(function (id) {
+      POOL[id].forEach(function (it) {
+        var w = wordOf(it); if (w === null || seenW[w]) return;
+        var st = statusOf(info, it); if (st === 'new') return;
+        seenW[w] = 1; cnt[st]++;
+      });
+    });
+    // son 7 gün
+    var wk = [], mx = goal;
+    for (var b = 6; b >= 0; b--) { var k = dayKey(b), v = days[k] || 0, d = new Date(); d.setDate(d.getDate() - b); wk.push({ v: v, l: b === 0 ? 'Bugün' : WD[d.getDay()] }); mx = Math.max(mx, v); }
+    var bars = wk.map(function (x) {
+      var h = x.v ? Math.max(4, Math.round(x.v / mx * 100)) : 0;
+      return '<div class="wkcol" title="' + x.l + ': ' + x.v + ' soru" aria-label="' + x.l + ': ' + x.v + ' soru">' +
+        '<span class="wkv">' + (x.v || '') + '</span><span class="wkbar"><span class="' + (x.v >= goal ? 'met' : '') + '" style="height:' + h + '%"></span></span><span class="wkl">' + x.l + '</span></div>';
+    }).join('');
+    var gl = Math.round(18 + 116 * goal / mx);
+    // seviyeler
+    var lv = LEVELS.map(function (l) {
+      var c = { known: 0, learn: 0, hard: 0 }, ok = 0, bad = 0, P = POOL[l.id];
+      P.forEach(function (it) { var st = statusOf(info, it); if (st !== 'new') c[st]++; var x = info[it.key]; if (x) { ok += x.ok; bad += x.bad; } });
+      var seg = function (k) { return c[k] ? '<span class="sg ' + k + '" style="width:' + (c[k] / P.length * 100) + '%" title="' + c[k] + '"></span>' : ''; };
+      return '<div class="lvrow"><span class="lvid">' + l.id + '</span><span class="stack" aria-label="' + l.id + ': ' + c.known + ' öğrenildi, ' + c.learn + ' öğreniliyor, ' + c.hard + ' zorlanılan, toplam ' + P.length + '">' + seg('known') + seg('learn') + seg('hard') + '</span>' +
+        '<span class="lvacc">' + (ok + bad ? '%' + Math.round(ok / (ok + bad) * 100) : '–') + '</span></div>';
+    }).join('');
+    // konular ve özel testler: doğruluk
+    var groups = [];
+    TOPICS.forEach(function (t) { groups.push({ id: 'tp-' + t.id, name: t.name }); });
+    MODES.forEach(function (m) { groups.push({ id: m.id, name: m.name }); });
+    groups.forEach(function (g) { var ok = 0, bad = 0; POOL[g.id].forEach(function (it) { var x = info[it.key]; if (x) { ok += x.ok; bad += x.bad; } }); g.n = ok + bad; g.acc = g.n ? ok / g.n : 0; });
+    var act = groups.filter(function (g) { return g.n >= 10; });
+    var list = function (arr, none) { return arr.length ? '<ul class="acclist">' + arr.map(function (g) { return '<li><span>' + esc(g.name) + '</span><b>%' + Math.round(g.acc * 100) + '</b></li>'; }).join('') + '</ul>' : '<p class="hint2">' + (act.length ? none : 'Henüz yeterli soru çözülmedi. Bir konuda en az 10 soru çözünce burada görünür.') + '</p>'; };
+    var strong = act.filter(function (g) { return g.acc >= 0.7; }).sort(function (a, b) { return b.acc - a.acc || b.n - a.n; }).slice(0, 3);
+    var weak = act.filter(function (g) { return g.acc < 0.7; }).sort(function (a, b) { return a.acc - b.acc || b.n - a.n; }).slice(0, 3);
+    app.innerHTML =
+      '<div class="home">' +
+      '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">İlerleme</h1></div>' +
+      goalCard(false) +
+      '<section><h2 class="label">Günlük hedef</h2><div class="counts" role="radiogroup" aria-label="Günlük hedef">' +
+        GOALS.map(function (g) { return '<button class="cnt" role="radio" aria-checked="' + (goal === g) + '" data-goal="' + g + '">' + g + '</button>'; }).join('') + '</div></section>' +
+      '<section><h2 class="label">Son 7 gün</h2><div class="wk" role="img" aria-label="Son 7 günde çözülen soru sayıları">' + bars +
+        '<span class="wkgoal" style="bottom:' + gl + 'px" aria-hidden="true"></span></div>' +
+        '<p class="hint2">Kesik çizgi günlük hedefin. Hedefi tamamladığın günler yeşil.</p></section>' +
+      '<section><h2 class="label">Kelimeler</h2><div class="tiles">' +
+        '<div class="tile known"><b>' + cnt.known + '</b><span>Öğrendiğin</span></div>' +
+        '<div class="tile learn"><b>' + cnt.learn + '</b><span>Öğreniyorsun</span></div>' +
+        '<div class="tile hard"><b>' + cnt.hard + '</b><span>Zorlandığın</span></div></div>' +
+        '<p class="hint2">Öğrendiğin: üst üste en az 2 kez bildiğin kelimeler. Zorlandığın: son cevabın yanlış olanlar.</p></section>' +
+      '<section><h2 class="label">Seviyeler</h2><div class="legend"><span><i class="sg known"></i>Öğrenildi</span><span><i class="sg learn"></i>Öğreniliyor</span><span><i class="sg hard"></i>Zorlanılan</span></div>' +
+        '<div class="lvs">' + lv + '</div><p class="hint2">Çubuk: seviyedeki bütün kelimeler içinde payı. Sağdaki sayı: doğru cevap oranı.</p></section>' +
+      '<section><h2 class="label">En güçlü olduğun</h2>' + list(strong, 'Doğru oranı %70 üstünde olan konu henüz yok.') + '</section>' +
+      '<section><h2 class="label">En çok zorlandığın</h2>' + list(weak, 'Şimdilik zorlandığın bir konu yok. Doğru oranı %70 altına düşen konular burada çıkar.') + '</section>' +
+      '</div>';
+  }
+  // ---------- sözlük ----------
+  var DICT = null;
+  function dictIndex() {
+    if (DICT) return DICT;
+    var seen = {}; DICT = [];
+    var add = function (it, en, tr, src, ex, exTr) {
+      var k = en.toLowerCase() + '|' + tr; if (seen[k]) return; seen[k] = 1;
+      DICT.push({ it: it, en: en, tr: tr, src: src, ex: ex || '', exTr: exTr || '', ne: norm2(en), nt: norm2(tr) });
+    };
+    LEVELS.forEach(function (l) { POOL[l.id].forEach(function (it) { add(it, it.en, it.tr, l.id, it.ex, it.exTr); }); });
+    TOPICS.forEach(function (t) { POOL['tp-' + t.id].forEach(function (it) { add(it, it.en, it.tr, t.name, it.ex, it.exTr); }); });
+    POOL.phrasal.forEach(function (it) { add(it, it.en, it.tr, 'Phrasal verb', it.ex, it.exTr); });
+    POOL.idiom.concat(POOL.simile).forEach(function (it) { add(it, it.en, it.tr, it.pid === 'simile' ? 'Benzetme' : 'Deyim', it.ex, it.exTr); });
+    VERBS.forEach(function (v) { add(null, v.base, v.tr, 'Düzensiz fiil: ' + v.v2 + ', ' + v.v3, '', ''); });
+    return DICT;
+  }
+  function norm2(x) {
+    return String(x).replace(/[İIıŞşÇçĞğÖöÜüÂâÎîÛû]/g, function (c) { return TRM[c]; }).toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+  function dictSearch(q) {
+    var n = norm2(q); if (n.length < 2) return [];
+    var info = itemInfo(), out = [];
+    dictIndex().forEach(function (d) {
+      var r = -1;
+      if (d.ne === n) r = 0; else if (d.nt === n || d.nt.split(/[,;] ?/).indexOf(n) >= 0) r = 1;
+      else if (d.ne.indexOf(n) === 0) r = 2; else if (d.nt.indexOf(n) === 0) r = 3;
+      else if (d.ne.indexOf(n) > 0) r = 4; else if (d.nt.indexOf(n) > 0) r = 5;
+      if (r >= 0) out.push([r, d.en.length, d]);
+    });
+    out.sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+    return out.slice(0, 40).map(function (x) { var d = x[2]; d.st = d.it ? statusOf(info, d.it) : 'new'; return d; });
+  }
+  var STLBL = { known: 'Öğrendin', learn: 'Öğreniyorsun', hard: 'Zorlanıyorsun' };
+  function dictResults() {
+    var q = S.dq || '';
+    if (norm2(q).length < 2) return '<p class="hint2">İngilizce ya da Türkçe en az 2 harf yaz. ' + dictIndex().length + ' kayıt içinde arar.</p>';
+    var r = dictSearch(q);
+    if (!r.length) return '<p class="hint2">Sonuç bulunamadı.</p>';
+    return '<ul class="list dlist">' + r.map(function (d) {
+      var say = d.en.replace(/\([^)]*\)/g, '').split(' / ')[0].trim();
+      return '<li class="entry dentry"><div class="e-top"><span class="e-word" lang="en">' + esc(d.en) + '</span><span class="e-btns">' + spkBtn(say) + '</span></div>' +
+        '<div class="e-tr">' + esc(d.tr) + '</div>' +
+        (d.ex ? '<p class="e-en" lang="en">' + esc(d.ex) + '</p><p class="e-trs">' + esc(d.exTr) + '</p>' : '') +
+        '<p class="dsrc">' + esc(d.src) + (STLBL[d.st] ? ' · <span class="dst ' + d.st + '">' + STLBL[d.st] + '</span>' : '') + '</p></li>';
+    }).join('') + '</ul>';
+  }
+  function renderDict() {
+    app.innerHTML =
+      '<div class="home">' +
+      '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">Sözlük</h1></div>' +
+      '<input id="dq" class="tin" type="search" lang="en" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" placeholder="Kelime ara: apple, elma…" aria-label="Sözlükte ara" value="' + esc(S.dq || '') + '">' +
+      '<div id="dres" aria-live="polite">' + dictResults() + '</div></div>';
   }
   function renderFlags() {
     var ks = flagKeys();
@@ -1278,7 +1468,7 @@ h1, h2, p { margin: 0; }
       top = it.en; sub = it.tr;
       body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
       if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
-    } else if (q.kind === 'prep' || q.kind === 'form') {
+    } else if (SENT[q.kind]) {
       top = it.a; sub = it.note;
       body = '<p class="e-en" lang="en">' + esc(it.s).replace('___', '<b>' + esc(it.a) + '</b>') + '</p><p class="e-trs">' + esc(it.trS) + '</p>';
       if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
@@ -1325,7 +1515,7 @@ h1, h2, p { margin: 0; }
         body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s>' + (y ? ' (anlamı: ' + esc(y.tr) + ')' : '') + '</div>';
       }
     }
-    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (q.kind === 'prep' || q.kind === 'form') ? it.s.replace('___', it.a) : q.kind === 'phr' ? it.en.replace(/\([^)]*\)/g, '').trim() : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
+    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (SENT[q.kind]) ? it.s.replace('___', it.a) : q.kind === 'phr' ? it.en.replace(/\([^)]*\)/g, '').trim() : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
     return '<li class="entry k-' + kind + '"><div class="e-top"><span class="e-word" lang="en">' + esc(top) + '</span><span class="e-btns">' + spkBtn(say) + flagBtn('r' + S.qs.indexOf(q), q) + '</span></div>' +
       '<div class="e-tr">' + esc(sub) + '</div>' + body + '</li>';
   }
@@ -1349,6 +1539,7 @@ h1, h2, p { margin: 0; }
       '<div class="pct">%' + pct + '</div></div>' +
       '<div><h1>' + title + '</h1><p class="meta">Tamamlanan ' + c.done + ' / ' + n + ' soru</p></div></div>' +
       '<div class="stats">' + stat('ok', 'Doğru') + stat('bad', 'Yanlış') + stat('skip', 'Pas') + '</div>' +
+      (S.goalBefore < goal && todayN() >= goal ? '<p class="goaldone">Bugünkü hedefini tamamladın! ' + (streakDays() > 1 ? streakDays() + ' günlük seri.' : '') + '</p>' : '') +
       '<p class="hint">Kartlara dokunarak ayrıntıları ve örnek cümleleri gör.</p>' +
       '<ul class="list">' + list + '</ul>' +
       '<div class="actions">' + redo + '<button class="ghost" id="again">Aynı testte yeni sorular</button><button class="ghost" id="tohome">Ana ekran</button></div>' +
@@ -1359,12 +1550,15 @@ h1, h2, p { margin: 0; }
     if (S.screen === 'home') renderHome();
     else if (S.screen === 'topics') renderTopics();
     else if (S.screen === 'flags') renderFlags();
+    else if (S.screen === 'stats') renderStats();
+    else if (S.screen === 'dict') renderDict();
     else if (S.screen === 'quiz') renderQuiz();
     else renderResult();
     if (S.screen !== lastScreen || S.screen === 'quiz') window.scrollTo(0, 0);
     lastScreen = S.screen;
     keepAlive(S.screen === 'quiz');
     syncHistory();
+    if (S.screen === 'dict') { var dq = document.getElementById('dq'); if (dq && dq !== document.activeElement) try { dq.focus({ preventScroll: true }); } catch (e) {} }
     if (S.screen === 'quiz' && S.testStyle !== 'match') {
       var q = S.qs[S.i];
       if (q && q.style === 'listen' && q.chosen === null && spokenQ !== q) { spokenQ = q; setTimeout(function () { if (S.qs[S.i] === q) speak(q.it.en); }, 280); }
@@ -1574,6 +1768,7 @@ h1, h2, p { margin: 0; }
       if (S.screen === 'topics' && (!S.level || S.level.indexOf('tp-') !== 0)) S.level = null;
       render(); return;
     }
+    if (t.dataset.goal) { goal = +t.dataset.goal; save('kelime-goal', goal); renderStats(); return; }
     if (t.dataset.style) { S.style = t.dataset.style; save('kelime-style', S.style); render(); return; }
     if (t.dataset.ml) { matchTap('l', +t.dataset.ml); return; }
     if (t.dataset.mr) { matchTap('r', +t.dataset.mr); return; }
@@ -1616,6 +1811,13 @@ h1, h2, p { margin: 0; }
         startTest(again, S.testLevel, S.testStyle);
         break;
     }
+  });
+  var dqTimer = null;
+  app.addEventListener('input', function (e) {
+    if (!e.target || e.target.id !== 'dq') return;
+    S.dq = e.target.value;
+    clearTimeout(dqTimer);
+    dqTimer = setTimeout(function () { var r = document.getElementById('dres'); if (r) r.innerHTML = dictResults(); }, 120);
   });
   app.addEventListener('submit', function (e) {
     e.preventDefault();
