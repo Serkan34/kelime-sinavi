@@ -1810,6 +1810,45 @@ grind|öğütmek|Grind the spices into a fine powder.|Baharatları ince bir toz 
 pungent|keskin kokulu|The pungent smell of garlic filled the room.|Sarımsağın keskin kokusu odayı doldurdu.
 bitter|acı, buruk|The seeds leave a bitter taste.|Tohumlar buruk bir tat bırakır.
 ` },
+  { id: 'sifali', group: 'Yiyecek malzemeleri', name: 'Şifalı bitkiler ve bitki çayları', code: 'Şif', note: 'Bitki adları, bitki çayı terimleri', items: `
+herbal tea|bitki çayı|We drink herbal tea on cold winter evenings.|Soğuk kış akşamlarında bitki çayı içeriz.
+herbalist|aktar|The herbalist sells dried flowers, leaves and roots.|Aktar kurutulmuş çiçek, yaprak ve kök satıyor.
+chamomile|papatya (çay papatyası)|She made a cup of chamomile before bed.|Yatmadan önce bir fincan papatya demledi.
+linden|ıhlamur|The linden trees in our street smell wonderful in June.|Sokağımızdaki ıhlamur ağaçları haziranda harika kokar.
+rosehip|kuşburnu|We picked rosehips from the bushes on the hill.|Tepedeki çalılardan kuşburnu topladık.
+nettle|ısırgan otu|Be careful, the nettle will sting your hand.|Dikkat et, ısırgan otu elini dalar.
+lemon balm|melisa, oğul otu|Lemon balm smells a little like lemon.|Melisa biraz limon gibi kokar.
+lavender|lavanta|The fields were purple with lavender.|Tarlalar lavantayla mor olmuştu.
+St John's wort|sarı kantaron|My grandmother grows St John's wort in her garden.|Büyükannem bahçesinde sarı kantaron yetiştirir.
+valerian|kediotu|Valerian has a very strong smell.|Kediotunun çok keskin bir kokusu var.
+mallow|ebegümeci|Mallow grows wild by the side of the road.|Ebegümeci yol kenarında kendiliğinden biter.
+liquorice root|meyan kökü|Liquorice root has a sweet taste.|Meyan kökünün tatlı bir tadı vardır.
+dandelion|karahindiba|The children blew on the dandelion clocks.|Çocuklar karahindibaların tohumlarını üflediler.
+elderflower|mürver çiçeği|They made a cold drink from elderflowers.|Mürver çiçeğinden soğuk bir içecek yaptılar.
+echinacea|ekinezya|Echinacea has large purple flowers.|Ekinezyanın büyük mor çiçekleri vardır.
+hibiscus|hibiskus|Hibiscus tea is deep red.|Hibiskus çayı koyu kırmızıdır.
+mountain tea|dağ çayı|We bought mountain tea at the village market.|Köy pazarından dağ çayı aldık.
+yarrow|civanperçemi|Yarrow has tiny white flowers.|Civanperçeminin minicik beyaz çiçekleri var.
+calendula|aynısefa|Calendula flowers are bright orange.|Aynısefa çiçekleri parlak turuncudur.
+horsetail|atkuyruğu (bitki)|Horsetail grows in wet places.|Atkuyruğu ıslak yerlerde yetişir.
+olive leaf|zeytin yaprağı|She dried olive leaves on the balcony.|Zeytin yapraklarını balkonda kuruttu.
+milk thistle|deve dikeni|Milk thistle has sharp, spiny leaves.|Deve dikeninin sivri, dikenli yaprakları vardır.
+burdock|dulavrat otu|Burdock seeds stick to your clothes.|Dulavrat otunun tohumları giysilere yapışır.
+plantain|sinir otu|Plantain grows between the stones of the path.|Sinir otu patikanın taşları arasında biter.
+mullein|sığır kuyruğu (bitki)|Mullein grows very tall in summer.|Sığır kuyruğu yazın çok uzar.
+lady's mantle|aslan pençesi (bitki)|Drops of water shine on lady's mantle leaves.|Aslan pençesi yapraklarında su damlaları parlıyor.
+red clover|kırmızı yonca|The cows were eating red clover in the meadow.|İnekler çayırda kırmızı yonca yiyordu.
+aloe vera|sarısabır, aloe vera|An aloe vera plant stands on the kitchen windowsill.|Mutfak pencere pervazında bir aloe vera duruyor.
+ginseng|ginseng (kök)|Ginseng is a root from East Asia.|Ginseng Doğu Asya'dan gelen bir köktür.
+ginkgo|ginkgo (ağaç)|The leaves of the ginkgo turn yellow in autumn.|Ginkgonun yaprakları sonbaharda sararır.
+herb garden|ot bahçesi|We planted mint and thyme in our herb garden.|Ot bahçemize nane ve kekik ektik.
+wild herbs|yabani otlar|In spring they collect wild herbs in the mountains.|İlkbaharda dağlarda yabani ot toplarlar.
+sprig|ince dal (otun)|Put a sprig of lavender in the drawer.|Çekmeceye bir dal lavanta koy.
+dried|kurutulmuş|The shop sells dried chamomile in paper bags.|Dükkân kâğıt torbalarda kurutulmuş papatya satıyor.
+steep|demlemek (bitki çayını)|Steep the tea for five minutes.|Çayı beş dakika demle.
+tea strainer|çay süzgeci|Pour the tea through a tea strainer.|Çayı çay süzgecinden dök.
+essential oil|uçucu yağ|Lavender essential oil has a strong smell.|Lavanta uçucu yağının güçlü bir kokusu var.
+` },
   { id: 'meyve', group: 'Yiyecek malzemeleri', name: 'Meyveler', code: 'Mey', note: 'Meyve adları ve meyve terimleri', items: `
 apple|elma|She eats an apple every morning.|Her sabah bir elma yer.
 pear|armut|The pear was soft and sweet.|Armut yumuşak ve tatlıydı.

@@ -2,7 +2,7 @@ KELİME SINAVI - NASIL YAYINLANIR (GitHub Pages)
 
 1) github.com'da yeni bir depo (repository) aç. Adı: kelime-sinavi. Public olsun.
 2) "uploading an existing file" bağlantısına bas. Bu klasörün İÇİNDEKİ dosyaların hepsini sürükle
-   (index.html, data.js, topics.js, orig.js, extra.js, sound.js, sw.js, manifest.webmanifest ve 3 tane png; toplam 12 dosya). Klasörü değil, içindekileri. Commit changes de.
+   (index.html, data.js, topics.js, orig.js, extra.js, stories.js, sound.js, sw.js, manifest.webmanifest ve 3 tane png; toplam 13 dosya). Klasörü değil, içindekileri. Commit changes de.
 3) Settings > Pages > Branch: main, klasör: / (root) > Save.
 4) 1-2 dakika sonra adresin hazır: https://KULLANICI-ADIN.github.io/kelime-sinavi/
 5) Android telefonda Chrome ile o adresi aç. Sağ üst üç nokta > "Uygulamayı yükle".

@@ -1,6 +1,6 @@
 // Word Deck: internetsiz çalışma. Sayfayı güncellersen VERSION'ı bir artır.
-const VERSION = 'kelime-v40';
-const FILES = ['./', './index.html', './data.js', './topics.js', './orig.js', './extra.js', './sound.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
+const VERSION = 'kelime-v43';
+const FILES = ['./', './index.html', './data.js', './topics.js', './orig.js', './extra.js', './stories.js', './sound.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
   // Tarayıcının kendi ara belleğini atla, sunucudaki en yeni dosyaları al

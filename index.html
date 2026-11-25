@@ -306,6 +306,36 @@ h1, h2, p { margin: 0; }
 .blank { display: inline-block; min-width: 3.2em; border-bottom: 3px solid var(--accent); transform: translateY(2px); }
 .e-note { font-size: 14px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 8px 10px; }
 .e-note b { color: var(--ink); }
+/* v41: okuma */
+.story .stitle { font-size: clamp(30px, 8vw, 40px); }
+.story .kicker { margin: 8px 0 0; }
+.story .about { margin-top: 8px; }
+.trall { width: auto; height: auto; padding: 8px 12px; font-size: 13px; }
+.paras { display: grid; gap: 18px; }
+.para p[lang] { margin: 0; font-size: 19px; line-height: 1.65; color: var(--ink); }
+.w { cursor: pointer; border-radius: 4px; padding: 0 1px; margin: 0 -1px; -webkit-tap-highlight-color: transparent; }
+.w.on { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--accent); }
+.ptools { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.pbtn { font: inherit; font-size: 13px; font-weight: 600; color: var(--accent); background: none; border: 1.5px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 99px; padding: 6px 12px; min-height: 36px; cursor: pointer; }
+.pbtn[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.ptools .spk { width: 36px; height: 36px; }
+.ptr { margin: 8px 0 0; padding: 10px 14px; border-left: 4px solid var(--line); color: var(--muted); font-size: 16px; line-height: 1.55; }
+.storyend { display: grid; gap: 10px; padding: 16px; border-radius: 16px; background: var(--surface); border: 2px solid var(--line); text-align: center; }
+.storyend b { font-size: 20px; }
+.storyend .hint2 { margin: 0; }
+.chnav { display: flex; justify-content: space-between; gap: 10px; }
+.chnav button { width: auto; flex: 1; }
+.chnav span { flex: 1; }
+.wpop { position: fixed; left: 12px; right: 12px; bottom: 12px; max-width: 520px; margin: 0 auto; z-index: 30; background: var(--surface); border: 2px solid var(--accent); border-radius: 16px; padding: 12px 14px; box-shadow: 0 14px 40px -12px rgba(10, 16, 60, .45); display: grid; gap: 4px; }
+.wpop[hidden] { display: none; }
+.wp-top { display: flex; align-items: center; gap: 8px; }
+.wp-top b { font-size: 20px; }
+.wp-l { color: var(--muted); font-size: 15px; }
+.wp-top .e-btns { margin-left: auto; display: flex; gap: 4px; }
+.wp-x { width: 40px; height: 40px; border: 0; background: none; font-size: 18px; color: var(--muted); cursor: pointer; }
+.wp-tr { font-size: 18px; font-weight: 700; color: var(--accent); }
+.story { padding-bottom: 110px; }
+.storyend .primary, .storyend .ghost, .chnav .primary, .chnav .ghost { position: static; width: 100%; margin: 0; }
 /* v37: günlük hedef, ilerleme, sözlük */
 .goal { display: grid; gap: 8px; width: 100%; text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 14px 16px; cursor: pointer; }
 div.goal { cursor: default; }
@@ -417,9 +447,10 @@ div.goal { cursor: default; }
 <script>(function(){try{var t=JSON.parse(localStorage.getItem("kelime-theme"));if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="sound.js?v=bb59fe1068"></script>
 <script src="data.js?v=56f47820b0"></script>
-<script src="topics.js?v=3338682b24"></script>
+<script src="topics.js?v=4a702a570b"></script>
 <script src="orig.js?v=2ad298141c"></script>
-<script src="extra.js?v=4e35d555b7"></script>
+<script src="extra.js?v=1b08cdbd05"></script>
+<script src="stories.js?v=4fb28855c4"></script>
 <script>
 (function () {
   'use strict';
@@ -644,7 +675,28 @@ div.goal { cursor: default; }
     var p = s.split('|');
     return { kind: 'phr', key: 'phr|' + p[0], pid: 'phrasal', en: p[0], w: p[0], tr: p[1], ex: p[2], exTr: p[3] };
   });
-  var SENT = { prep: 'Edat', form: 'Kelime türü', coll: 'Kalıp' };
+  var SENT = { prep: 'Edat', form: 'Kelime türü', coll: 'Kalıp', gram: 'Gramer' };
+  var GRAMS = [
+    { id: 'g-tense', src: 'tense', code: 'Zmn', name: 'Zamanlar', note: 'goes, is going, went, has gone, will' },
+    { id: 'g-art', src: 'art', code: 'the', name: 'Artikeller', note: 'a, an, the ya da hiçbiri' },
+    { id: 'g-comp', src: 'comp', code: '-er', name: 'Karşılaştırma', note: 'bigger, the biggest, as … as' },
+    { id: 'g-modal', src: 'modal', code: 'can', name: 'Modal fiiller', note: 'can, must, should, have to, might' },
+    { id: 'g-qneg', src: 'qneg', code: 'Do?', name: 'Soru ve olumsuz', note: 'do, does, did; soru ekleri' },
+    { id: 'g-count', src: 'count', code: 'any', name: 'Sayılabilen ve sayılamayan', note: 'much, many, some, any, a few' }
+  ];
+  GRAMS.forEach(function (g) {
+    LABEL[g.id] = g.name;
+    POOL[g.id] = lines(((EXTRA.gram || {})[g.src]) || '').map(function (s) {
+      var p = s.split('|');
+      return { kind: 'gram', key: g.id + '|' + p[0], gname: g.name, s: p[0], a: p[1], d: p[2].split(','), trS: p[3], note: p[4] };
+    });
+  });
+  // Boşlukları cevapla doldur (birden çok boşluk "A / B"; "–" boş demek)
+  function fillBlank(s, a, html) {
+    var parts = String(a).split(' / '), i = 0;
+    var out = (html ? esc(s) : s).replace(/___/g, function () { var x = parts[i++] || ''; return x === '–' ? '' : html ? '<b>' + esc(x) + '</b>' : x; });
+    return out.replace(/\s{2,}/g, ' ').replace(/^\s+/, '').replace(/^([a-z])/, function (m) { return /^___/.test(s) ? m.toUpperCase() : m; });
+  }
   ['prep', 'form', 'coll'].forEach(function (id) {
     POOL[id] = lines(EXTRA[id] || '').map(function (s) {
       var p = s.split('|');
@@ -717,6 +769,25 @@ div.goal { cursor: default; }
     while ((days[dayKey(b)] || 0) >= goal) { n++; b++; }
     return n;
   }
+  // ---------- okuma: Türk destanları ----------
+  var STORIES = window.KELIME_STORIES || [];
+  STORIES.forEach(function (st) {
+    var text = [];
+    st.chapters.forEach(function (ch) { ch[2].forEach(function (p) { text.push(p[0]); }); });
+    var sents = text.join(' ').match(/[^.!?]+[.!?]+["”]?/g) || [];
+    st.gloss = {};
+    POOL['sw-' + st.id] = st.words.map(function (w) {
+      st.gloss[w[0].toLowerCase()] = w[1];
+      var re = new RegExp('\\b' + reEsc(w[0]).replace(/e$/, 'e?') + '[a-z]*', 'i'), ex = '';
+      for (var i = 0; i < sents.length; i++) if (re.test(sents[i])) { ex = sents[i].trim(); break; }
+      return { kind: 'topic', key: 'story|' + st.id + '|' + w[0], tname: st.tr, en: w[0], tr: w[1], ex: ex, exTr: '', pid: 'sw-' + st.id, cog: cognate(w[0], w[1]) };
+    });
+    POOL['sq-' + st.id] = st.quiz.map(function (q, i) {
+      return { kind: 'sq', key: 'sq|' + st.id + '|' + i, st: st, q: q[0], a: q[1], d: q[2], why: q[3] };
+    });
+    LABEL['sw-' + st.id] = st.tr + ' · kelimeler';
+    LABEL['sq-' + st.id] = st.tr + ' · anlama';
+  });
   // Karışık test: bütün havuzlar (tekrarsız)
   POOL.mix = [];
   (function () {
@@ -749,7 +820,7 @@ div.goal { cursor: default; }
   var LVID = {}; LEVELS.forEach(function (l) { LVID[l.id] = 1; });
   function pickMix(n) {
     var lv = LEVELS.map(function (l) { return l.id; }), tp = TOPICS.map(function (t) { return 'tp-' + t.id; }),
-      md = MODES.map(function (m) { return m.id; }).filter(function (x) { return x !== 'mix'; }), want = {};
+      md = MODES.map(function (m) { return m.id; }).filter(function (x) { return x !== 'mix'; }).concat(GRAMS.map(function (g) { return g.id; })), want = {};
     for (var i = 0; i < n; i++) {
       var r = Math.random(), arr = r < 0.4 ? lv : r < 0.65 ? tp : md;
       var id = arr[Math.floor(Math.random() * arr.length)];
@@ -766,7 +837,7 @@ div.goal { cursor: default; }
     if (cloze3(it)) o.push('fill');
     return o[Math.floor(Math.random() * o.length)];
   }
-  function styleable(id) { return !!id && (!!LVID[id] || id.indexOf('tp-') === 0); }
+  function styleable(id) { return !!id && (!!LVID[id] || id.indexOf('tp-') === 0 || id.indexOf('sw-') === 0); }
   function styleFor(id) { return styleable(id) ? S.style : 'mc'; }
   function cloze3(it) {
     if (!it.ex || /\//.test(it.en)) return '';
@@ -835,7 +906,7 @@ div.goal { cursor: default; }
       opts = shuffle([answer].concat(got.map(function (x) { return x.tr; })));
       return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(answer), chosen: null };
     }
-    if (SENT[it.kind]) {
+    if (SENT[it.kind] || it.kind === 'sq') {
       opts = shuffle([it.a].concat(it.d));
       return { it: it, kind: it.kind, style: 'mc', opts: opts, correct: opts.indexOf(it.a), chosen: null };
     }
@@ -1005,6 +1076,7 @@ div.goal { cursor: default; }
     screen: 'home',
     level: null,
     flags: load('kelime-flags', {}), fconfirm: false, fcopied: false,
+    story: null, ch: 0, trOpen: {}, trAll: load('kelime-trall', false) === true,
     theme: (function () { var t = load('kelime-theme', 'auto'); return t === 'light' || t === 'dark' ? t : 'auto'; })(),
     count: load('kelime-count', 20),
     style: (function () { var x = load('kelime-style', 'mc'); return STYLE_NAME[x] ? x : 'mc'; })(), testStyle: 'mc',
@@ -1068,8 +1140,9 @@ div.goal { cursor: default; }
     }).join('');
   }
   function startBtn(onTopics) {
-    var ok = S.level && (onTopics ? S.level.indexOf('tp-') === 0 : S.level.indexOf('tp-') !== 0);
-    if (!ok) return '<button class="primary" id="start" disabled>' + (onTopics ? 'Bir konu seç' : 'Bir test seç') + '</button>';
+    var pre = typeof onTopics === 'string' ? onTopics : onTopics ? 'tp-' : null;
+    var ok = S.level && (pre ? S.level.indexOf(pre) === 0 : (S.level.indexOf('tp-') !== 0 && S.level.indexOf('g-') !== 0));
+    if (!ok) return '<button class="primary" id="start" disabled>' + (pre === 'tp-' ? 'Bir konu seç' : 'Bir test seç') + '</button>';
     return '<button class="primary" id="start">' + startLabel() + ' · ' + S.count + ' soru</button>';
   }
   function themeHTML() {
@@ -1111,7 +1184,7 @@ div.goal { cursor: default; }
       '<span class="meta"><b>' + (n ? n + ' kelime' : 'Henüz yok') + '</b></span></button>';
   }
   function wordOf(it) {
-    if (SENT[it.kind]) return null;
+    if (SENT[it.kind] || it.kind === 'sq') return null;
     var w = it.kind === 'irreg' ? it.v.base : it.kind === 'syn' ? it.a : (it.kind === 'vocab' || it.kind === 'topic' || it.kind === 'phr') ? it.en : it.w;
     return String(w).toLowerCase();
   }
@@ -1130,6 +1203,8 @@ div.goal { cursor: default; }
     var lv = LEVELS.map(function (l) { return row(l.id, l.id, l.name, ''); }).join('');
     var md = MODES.map(function (m) { return row(m.id, m.code, m.name, m.note); }).join('');
     var total = TOPICS.reduce(function (s, t) { return s + POOL['tp-' + t.id].length; }, 0);
+    var gtotal = GRAMS.reduce(function (s, g) { return s + POOL[g.id].length; }, 0);
+    var gnav = '<button class="lv nav" data-go="grammar"><span class="code">Grm</span><span class="nm">Gramer testleri<small>' + GRAMS.length + ' test · ' + gtotal + ' soru</small></span><span class="meta"><b>›</b></span></button>';
     var nav = '<button class="lv nav" data-go="topics"><span class="code">Aa</span><span class="nm">Konu testleri<small>' + TOPICS.length + ' konu · ' + total + ' kelime</small></span><span class="meta"><b>›</b></span></button>';
     app.innerHTML =
       '<div class="home">' +
@@ -1140,11 +1215,23 @@ div.goal { cursor: default; }
       goalCard(true) +
       '<section><h2 class="label">Seviye sınavı</h2><div class="levels" role="radiogroup" aria-label="Seviye">' + lv + '</div></section>' +
       styleHTML() +
-      '<section><h2 class="label">Özel testler</h2><div class="levels" role="radiogroup" aria-label="Özel testler">' + wrongRow() + md + nav + '</div></section>' +
+      (STORIES.length ? '<section><h2 class="label">Okuma</h2><div class="levels">' + toolRow('read', 'Oku', 'Türk destanları', STORIES.length + ' destan · bölüm bölüm, B1') + '</div></section>' : '') +
+      '<section><h2 class="label">Özel testler</h2><div class="levels" role="radiogroup" aria-label="Özel testler">' + wrongRow() + md + gnav + nav + '</div></section>' +
       '<section><h2 class="label">Araçlar</h2><div class="levels">' + toolRow('stats', '%', 'İlerleme', 'Güçlü ve zayıf yanların, günlük seri') + toolRow('dict', 'Az', 'Sözlük', 'Bütün kelimelerde ara') + flagRow() + '</div></section>' +
       '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
       themeHTML() +
       startBtn(false) +
+      '</div>';
+  }
+  function renderGrammar() {
+    var rows = GRAMS.map(function (g) { return row(g.id, g.code, g.name, g.note); }).join('');
+    app.innerHTML =
+      '<div class="home">' +
+      '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">Gramer testleri</h1>' +
+      '<p class="seen">Her sorunun altında Türkçesi, cevaptan sonra da kısa kuralı var.</p></div>' +
+      '<section><div class="levels" role="radiogroup" aria-label="Gramer testleri">' + rows + '</div></section>' +
+      '<section><h2 class="label">Soru sayısı</h2><div class="counts" role="radiogroup" aria-label="Soru sayısı">' + chipsHTML() + '</div></section>' +
+      startBtn('g-') +
       '</div>';
   }
   function renderTopics() {
@@ -1170,7 +1257,7 @@ div.goal { cursor: default; }
   // Boşluktan önceki a/an cevabı ele vermesin: a(n)
   function blankHTML(s) {
     return esc(s).replace(/\b(an?)(\s+)___/gi, function (m, art, sp) { return (art.charAt(0) === 'A' ? 'A' : 'a') + '(n)' + sp + '___'; })
-      .replace('___', '<span class="blank"></span>');
+      .replace(/___/g, '<span class="blank"></span>');
   }
   function cloze(ex, w) {
     var re = new RegExp("(^|[^A-Za-z'])" + reEsc(w) + "(?![A-Za-z'])", 'i');
@@ -1224,8 +1311,11 @@ div.goal { cursor: default; }
     if (q.kind === 'phr') {
       tag = 'Phrasal verb'; say = it.en.replace(/\([^)]*\)/g, '').trim();
       main = '<' + tg + ' class="word' + sizeCls(it.en) + '" lang="en">' + esc(it.en) + '</' + tg + '>' + '<p class="sub2">Türkçesi hangisi?</p>';
+    } else if (q.kind === 'sq') {
+      tag = it.st.tr;
+      main = '<' + tg + ' class="word sent" lang="en">' + esc(it.q) + '</' + tg + '>' + '<p class="sub2">Hikâyeye göre doğru cevap hangisi?</p>';
     } else if (SENT[q.kind]) {
-      tag = SENT[q.kind];
+      tag = it.gname || SENT[q.kind];
       main = '<' + tg + ' class="word sent" lang="en">' + blankHTML(it.s) + '</' + tg + '>' +
         '<p class="sub2">' + esc(it.trS) + '</p>';
     } else if (q.kind === 'vocab') {
@@ -1272,7 +1362,7 @@ div.goal { cursor: default; }
     }
     if ((q.kind === 'vocab' || q.kind === 'topic') && it.cog) main += '<p class="cog">Türkçesi benzer kelime: yazılışına dikkat et</p>';
     var o = q.opts.map(function (t, k) {
-      return '<button class="opt"' + (live ? ' data-opt="' + k + '"' : ' tabindex="-1"') + '><span class="k">' + 'ABCD'[k] + '</span><span>' + esc(t) + '</span></button>';
+      return '<button class="opt"' + (live ? ' data-opt="' + k + '"' : ' tabindex="-1"') + '><span class="k">' + 'ABCD'[k] + '</span><span>' + esc(t === '–' ? '– (artikel yok)' : t) + '</span></button>';
     }).join('');
     var spk = say ? '<button class="spk"' + (live ? ' data-say="' + esc(say) + '" aria-label="Telaffuzu dinle"' : ' tabindex="-1"') + '>' + SPEAKER + '</button>' : '';
     return '<main class="stage"><span class="tag">' + tag + '</span>' + main + spk + '</main>' +
@@ -1323,8 +1413,9 @@ div.goal { cursor: default; }
   var FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
   function flagData(q) {
     var it = q.it, d;
-    if (q.kind === 'phr') d = { t: 'Phrasal verb', w: it.en, a: it.tr };
-    else if (SENT[q.kind]) d = { t: SENT[q.kind], w: it.s, a: it.a };
+    if (q.kind === 'sq') d = { t: 'Okuma: ' + it.st.tr, w: it.q, a: it.a };
+    else if (q.kind === 'phr') d = { t: 'Phrasal verb', w: it.en, a: it.tr };
+    else if (SENT[q.kind]) d = { t: it.gname || SENT[q.kind], w: it.s, a: it.a };
     else if (q.kind === 'vocab') d = { t: it.level, w: it.en, a: it.tr };
     else if (q.kind === 'topic') d = { t: it.tname, w: it.en, a: it.tr };
     else if (q.kind === 'irreg') d = { t: 'Düzensiz fiil', w: it.v.base + ' · ' + it.v.v2 + ' · ' + it.v.v3, a: it.v.tr };
@@ -1387,6 +1478,7 @@ div.goal { cursor: default; }
     var groups = [];
     TOPICS.forEach(function (t) { groups.push({ id: 'tp-' + t.id, name: t.name }); });
     MODES.forEach(function (m) { if (m.id !== 'mix') groups.push({ id: m.id, name: m.name }); });
+    GRAMS.forEach(function (g) { groups.push({ id: g.id, name: g.name }); });
     groups.forEach(function (g) { var ok = 0, bad = 0; POOL[g.id].forEach(function (it) { var x = info[it.key]; if (x) { ok += x.ok; bad += x.bad; } }); g.n = ok + bad; g.acc = g.n ? ok / g.n : 0; });
     var act = groups.filter(function (g) { return g.n >= 10; });
     var list = function (arr, none) { return arr.length ? '<ul class="acclist">' + arr.map(function (g) { return '<li><span>' + esc(g.name) + '</span><b>%' + Math.round(g.acc * 100) + '</b></li>'; }).join('') + '</ul>' : '<p class="hint2">' + (act.length ? none : 'Henüz yeterli soru çözülmedi. Bir konuda en az 10 soru çözünce burada görünür.') + '</p>'; };
@@ -1424,6 +1516,7 @@ div.goal { cursor: default; }
     LEVELS.forEach(function (l) { POOL[l.id].forEach(function (it) { add(it, it.en, it.tr, l.id, it.ex, it.exTr); }); });
     TOPICS.forEach(function (t) { POOL['tp-' + t.id].forEach(function (it) { add(it, it.en, it.tr, t.name, it.ex, it.exTr); }); });
     POOL.phrasal.forEach(function (it) { add(it, it.en, it.tr, 'Phrasal verb', it.ex, it.exTr); });
+    STORIES.forEach(function (st) { POOL['sw-' + st.id].forEach(function (it) { add(it, it.en, it.tr, 'Okuma: ' + st.tr, it.ex, ''); }); });
     POOL.idiom.concat(POOL.simile).forEach(function (it) { add(it, it.en, it.tr, it.pid === 'simile' ? 'Benzetme' : 'Deyim', it.ex, it.exTr); });
     VERBS.forEach(function (v) { add(null, v.base, v.tr, 'Düzensiz fiil: ' + v.v2 + ', ' + v.v3, '', ''); });
     return DICT;
@@ -1465,6 +1558,118 @@ div.goal { cursor: default; }
       '<input id="dq" class="tin" type="search" lang="en" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" placeholder="Kelime ara: apple, elma…" aria-label="Sözlükte ara" value="' + esc(S.dq || '') + '">' +
       '<div id="dres" aria-live="polite">' + dictResults() + '</div></div>';
   }
+  var readP = load('kelime-read', {});
+  function storyById(id) { for (var i = 0; i < STORIES.length; i++) if (STORIES[i].id === id) return STORIES[i]; return null; }
+  function renderRead() {
+    var rows = STORIES.map(function (st, i) {
+      var r = readP[st.id] || {}, n = st.chapters.length;
+      var meta = r.done ? '✓ Okundu' : r.ch ? (r.ch + 1) + '/' + n + '. bölüm' : 'Başlanmadı';
+      return '<button class="lv nav" data-story="' + st.id + '"><span class="code">' + ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i] + '</span>' +
+        '<span class="nm">' + esc(st.tr) + '<small lang="en">' + esc(st.title) + ' · ' + n + ' bölüm · ' + st.level + '</small></span>' +
+        '<span class="meta"><i>' + meta + '</i></span></button>';
+    }).join('');
+    app.innerHTML =
+      '<div class="home">' +
+      '<div><div class="toprow"><button class="exit" id="tohome">‹ Geri</button></div><h1 class="title">Türk destanları</h1>' +
+      '<p class="seen">Destanlar İngilizce, bölüm bölüm. Bilmediğin kelimeye dokun, anlamı çıksın. Her paragrafın Türkçesini açabilirsin.</p></div>' +
+      '<section><div class="levels">' + rows + '</div></section></div>';
+  }
+  var WRE = /[A-Za-z\u00C0-\u024F]+(?:['’-][A-Za-z\u00C0-\u024F]+)*/g;
+  function wrapWords(t) {
+    var out = '', last = 0, m;
+    WRE.lastIndex = 0;
+    while ((m = WRE.exec(t))) { out += esc(t.slice(last, m.index)) + '<span class="w">' + esc(m[0]) + '</span>'; last = m.index + m[0].length; }
+    return out + esc(t.slice(last));
+  }
+  function renderStory() {
+    var st = storyById(S.story); if (!st) { S.screen = 'read'; renderRead(); return; }
+    var n = st.chapters.length, c = Math.max(0, Math.min(n - 1, S.ch || 0)), ch = st.chapters[c];
+    var paras = ch[2].map(function (p, i) {
+      var open = S.trAll || S.trOpen[i];
+      return '<div class="para"><p lang="en">' + wrapWords(p[0]) + '</p>' +
+        '<div class="ptools"><button class="pbtn" data-ptr="' + i + '" aria-pressed="' + !!open + '">' + (open ? 'Türkçesini gizle' : 'Türkçesi') + '</button>' +
+        '<button class="spk" data-say="' + esc(p[0]) + '" aria-label="Paragrafı sesli oku">' + SPEAKER + '</button></div>' +
+        (open ? '<p class="ptr">' + esc(p[1]) + '</p>' : '') + '</div>';
+    }).join('');
+    var last = c === n - 1;
+    var end = last ? '<div class="storyend"><b>Destan bitti!</b><p class="hint2">Ne kadar anladığını ve hikâyedeki kelimeleri dene.</p>' +
+      '<button class="primary" data-sq="' + st.id + '">Anlama testi · ' + st.quiz.length + ' soru</button>' +
+      '<button class="ghost" data-sw="' + st.id + '">Kelime testi · ' + Math.min(20, st.words.length) + ' soru</button></div>' : '';
+    app.innerHTML =
+      '<div class="home story">' +
+      '<div><div class="toprow"><button class="exit" data-go="read">‹ Destanlar</button>' +
+      '<button class="cnt trall" id="trall" aria-pressed="' + !!S.trAll + '">' + (S.trAll ? 'Türkçe açık' : 'Türkçe kapalı') + '</button></div>' +
+      '<p class="kicker">' + esc(st.tr) + ' · Bölüm ' + (c + 1) + '/' + n + '</p>' +
+      '<h1 class="title stitle" lang="en">' + esc(ch[0]) + '</h1><p class="sub2">' + esc(ch[1]) + '</p>' +
+      (c === 0 ? '<p class="hint2 about">' + esc(st.about) + '</p>' : '') + '</div>' +
+      '<div class="paras">' + paras + '</div>' + end +
+      '<div class="chnav">' + (c > 0 ? '<button class="ghost" id="chprev">‹ Önceki bölüm</button>' : '<span></span>') +
+      (!last ? '<button class="primary" id="chnext">Sonraki bölüm ›</button>' : '') + '</div>' +
+      '<div class="wpop" id="wpop" hidden></div></div>';
+  }
+  function saveRead(st, c) {
+    var r = readP[st.id] || (readP[st.id] = {});
+    r.ch = c; if (c === st.chapters.length - 1) r.done = true;
+    save('kelime-read', readP);
+  }
+  // Kelimeye dokununca anlamı
+  var DMAP = null, IRRMAP = null;
+  function lemmas(t) {
+    var w = t.toLowerCase().replace(/’/g, "'").replace(/'s$/, ''), c = [w];
+    if (!IRRMAP) { IRRMAP = {}; VERBS.forEach(function (v) { v.v2.split('/').concat(v.v3.split('/')).forEach(function (x) { IRRMAP[x.trim()] = v.base; }); }); }
+    if (IRRMAP[w]) c.push(IRRMAP[w]);
+    var add = function (x) { if (x && x.length > 1 && c.indexOf(x) < 0) c.push(x); };
+    if (/ies$/.test(w)) add(w.slice(0, -3) + 'y');
+    if (/es$/.test(w)) add(w.slice(0, -2));
+    if (/s$/.test(w)) add(w.slice(0, -1));
+    if (/ied$/.test(w)) add(w.slice(0, -3) + 'y');
+    if (/ed$/.test(w)) { add(w.slice(0, -2)); add(w.slice(0, -1)); if (/(.)\1ed$/.test(w)) add(w.slice(0, -3)); }
+    if (/ing$/.test(w)) { add(w.slice(0, -3)); add(w.slice(0, -3) + 'e'); if (/(.)\1ing$/.test(w)) add(w.slice(0, -4)); }
+    if (/ier$|iest$/.test(w)) add(w.replace(/i(er|est)$/, 'y'));
+    if (/er$/.test(w)) add(w.slice(0, -2));
+    if (/est$/.test(w)) add(w.slice(0, -3));
+    if (/ly$/.test(w)) add(w.slice(0, -2));
+    if (w === 'geese') add('goose');
+    return c;
+  }
+  function lookupWord(t, st) {
+    if (!DMAP) { DMAP = {}; dictIndex().forEach(function (d) { (DMAP[d.ne] = DMAP[d.ne] || []).push(d); }); }
+    var ls = lemmas(t), w = ls[0], out = [];
+    var push = function (en, tr, src) { if (out.length < 3 && !out.some(function (o) { return o.tr === tr; })) out.push({ en: en, tr: tr, src: src }); };
+    // 0) özel adlar
+    if (st && st.names && st.names[t]) { out.push({ en: t, tr: st.names[t], src: 'Özel ad' }); return out; }
+    // 1) bu destanın kelime listesi
+    for (var i = 0; i < ls.length; i++) if (st && st.gloss[ls[i]]) { push(ls[i], st.gloss[ls[i]], 'Bu destanın kelimesi'); return out; }
+    // 2) düzensiz fiilin geçmiş hâli (rose → rise)
+    var base = IRRMAP[w];
+    if (base) {
+      (DMAP[base] || []).forEach(function (d) { push(d.en, d.tr, d.src); });
+      if (!out.length) VERBS.forEach(function (v) { if (v.base === base) push(base, v.tr, 'Düzensiz fiil'); });
+      (DMAP[w] || []).slice(0, 1).forEach(function (d) { push(d.en, d.tr, d.src); });
+      if (out.length) return out;
+    }
+    // 3) en yakın kök
+    for (var j = 0; j < ls.length; j++) {
+      (DMAP[ls[j]] || []).forEach(function (d) { push(d.en, d.tr, d.src); });
+      if (out.length) break;
+    }
+    return out;
+  }
+  function showWord(span) {
+    var pop = document.getElementById('wpop'); if (!pop) return;
+    app.querySelectorAll('.w.on').forEach(function (x) { x.classList.remove('on'); });
+    span.classList.add('on');
+    var t = span.textContent, r = lookupWord(t, storyById(S.story));
+    var say = r.length && r[0].src !== 'Özel ad' ? r[0].en : t;
+    pop.innerHTML = '<div class="wp-top"><b lang="en">' + esc(t) + '</b>' + (r.length && r[0].en.toLowerCase() !== t.toLowerCase() ? '<span class="wp-l" lang="en">→ ' + esc(r[0].en) + '</span>' : '') +
+      '<span class="e-btns">' + spkBtn(say) + '<button class="wp-x" id="wpx" aria-label="Kapat">✕</button></span></div>' +
+      (r.length ? r.map(function (x) { return '<div class="wp-tr">' + esc(x.tr) + '</div><p class="dsrc">' + esc(x.src) + '</p>'; }).join('') : '<p class="hint2">Bu kelime uygulamanın sözlüğünde yok.</p>');
+    pop.hidden = false; popY = window.scrollY;
+    if (S.sound) speak(say);
+  }
+  var popY = 0;
+  window.addEventListener('scroll', function () { var pop = document.getElementById('wpop'); if (pop && !pop.hidden && Math.abs(window.scrollY - popY) > 60) hideWord(); }, { passive: true });
+  function hideWord() { var pop = document.getElementById('wpop'); if (pop) pop.hidden = true; app.querySelectorAll('.w.on').forEach(function (x) { x.classList.remove('on'); }); }
   function renderFlags() {
     var ks = flagKeys();
     var list = ks.length ? ks.map(function (k) {
@@ -1492,13 +1697,18 @@ div.goal { cursor: default; }
   }
   function entryHTML(q, kind) {
     var it = q.it, yours = (kind === 'bad') ? (q.typed != null ? q.typed : q.opts[q.chosen]) : null, top, sub, body = '';
-    if (q.kind === 'phr') {
+    if (yours === '–') yours = '– (artikel yok)';
+    if (q.kind === 'sq') {
+      top = it.a; sub = it.q;
+      body = '<p class="e-note">' + esc(it.why) + '</p>';
+      if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
+    } else if (q.kind === 'phr') {
       top = it.en; sub = it.tr;
       body = '<p class="e-en" lang="en">' + esc(it.ex) + '</p><p class="e-trs">' + esc(it.exTr) + '</p>';
       if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
     } else if (SENT[q.kind]) {
-      top = it.a; sub = it.note;
-      body = '<p class="e-en" lang="en">' + esc(it.s).replace('___', '<b>' + esc(it.a) + '</b>') + '</p><p class="e-trs">' + esc(it.trS) + '</p>';
+      top = it.a === '–' ? 'Artikel yok' : it.a; sub = it.note;
+      body = '<p class="e-en" lang="en">' + fillBlank(it.s, it.a, true) + '</p><p class="e-trs">' + esc(it.trS) + '</p>';
       if (yours) body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s></div>';
     } else
     if (q.kind === 'vocab') {
@@ -1543,7 +1753,7 @@ div.goal { cursor: default; }
         body += '<div class="e-yours">Senin cevabın: <s>' + esc(yours) + '</s>' + (y ? ' (anlamı: ' + esc(y.tr) + ')' : '') + '</div>';
       }
     }
-    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (SENT[q.kind]) ? it.s.replace('___', it.a) : q.kind === 'phr' ? it.en.replace(/\([^)]*\)/g, '').trim() : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
+    var say = q.kind === 'irreg' ? it.v.base : (q.kind === 'syn' ? it.a : (SENT[q.kind]) ? fillBlank(it.s, it.a, false) : q.kind === 'sq' ? it.a : q.kind === 'phr' ? it.en.replace(/\([^)]*\)/g, '').trim() : (q.kind === 'spell' || q.kind === 'orig' || q.kind === 'poly' || q.kind === 'ant' ? it.w : it.en));
     return '<li class="entry k-' + kind + '"><div class="e-top"><span class="e-word" lang="en">' + esc(top) + '</span><span class="e-btns">' + spkBtn(say) + flagBtn('r' + S.qs.indexOf(q), q) + '</span></div>' +
       '<div class="e-tr">' + esc(sub) + '</div>' + body + '</li>';
   }
@@ -1577,9 +1787,12 @@ div.goal { cursor: default; }
   function render() {
     if (S.screen === 'home') renderHome();
     else if (S.screen === 'topics') renderTopics();
+    else if (S.screen === 'grammar') renderGrammar();
     else if (S.screen === 'flags') renderFlags();
     else if (S.screen === 'stats') renderStats();
     else if (S.screen === 'dict') renderDict();
+    else if (S.screen === 'read') renderRead();
+    else if (S.screen === 'story') renderStory();
     else if (S.screen === 'quiz') renderQuiz();
     else renderResult();
     if (S.screen !== lastScreen || S.screen === 'quiz') window.scrollTo(0, 0);
@@ -1611,6 +1824,7 @@ div.goal { cursor: default; }
   window.addEventListener('popstate', function () {
     if (skipPop) { skipPop = false; return; }
     if (S.screen === 'home') return;
+    if (S.screen === 'story') { S.screen = 'read'; render(); return; }
     if (S.screen === 'quiz') {
       S.confirm = !S.confirm;
       try { history.pushState({ wd: 1 }, ''); } catch (e) {}
@@ -1785,8 +1999,10 @@ div.goal { cursor: default; }
 
   // ---------- olaylar ----------
   app.addEventListener('click', function (e) {
+    var wsp = e.target.closest && e.target.closest('.w');
+    if (wsp && S.screen === 'story') { showWord(wsp); return; }
     var t = e.target.closest('button');
-    if (!t) return;
+    if (!t) { if (S.screen === 'story') hideWord(); return; }
     if (S.sound) unlockAudio();
     if (t.dataset.say) { speak(t.dataset.say); return; }
     if (t.dataset.level) { S.level = t.dataset.level; render(); return; }
@@ -1794,8 +2010,18 @@ div.goal { cursor: default; }
     if (t.dataset.go) {
       S.screen = t.dataset.go;
       if (S.screen === 'topics' && (!S.level || S.level.indexOf('tp-') !== 0)) S.level = null;
+      if (S.screen === 'grammar' && (!S.level || S.level.indexOf('g-') !== 0)) S.level = null;
       render(); return;
     }
+    if (t.dataset.story) { S.story = t.dataset.story; var rp = readP[S.story] || {}; S.ch = rp.done ? 0 : (rp.ch || 0); S.trOpen = {}; saveRead(storyById(S.story), S.ch); S.screen = 'story'; render(); return; }
+    if (t.dataset.ptr) {
+      var pi = +t.dataset.ptr;
+      if (S.trAll) { S.trAll = false; save('kelime-trall', false); S.trOpen = {}; app.querySelectorAll('[data-ptr]').forEach(function (b) { S.trOpen[+b.dataset.ptr] = true; }); S.trOpen[pi] = false; }
+      else S.trOpen[pi] = !S.trOpen[pi];
+      renderStory(); return;
+    }
+    if (t.dataset.sq) { startTest(POOL['sq-' + t.dataset.sq].slice(), 'sq-' + t.dataset.sq, 'mc'); return; }
+    if (t.dataset.sw) { var swp = POOL['sw-' + t.dataset.sw]; startTest(pickItems(swp, Math.min(20, swp.length), 'mc'), 'sw-' + t.dataset.sw, 'mc'); return; }
     if (t.dataset.goal) { goal = +t.dataset.goal; save('kelime-goal', goal); renderStats(); return; }
     if (t.dataset.style) { S.style = t.dataset.style; save('kelime-style', S.style); render(); return; }
     if (t.dataset.ml) { matchTap('l', +t.dataset.ml); return; }
@@ -1821,6 +2047,13 @@ div.goal { cursor: default; }
         else if (sp && sp.length) startTest(pickItems(sp, S.count, st0), S.level, st0);
         break;
       case 'tnext': next(); break;
+      case 'trall': S.trAll = !S.trAll; S.trOpen = {}; save('kelime-trall', S.trAll); renderStory(); break;
+      case 'wpx': hideWord(); break;
+      case 'chnext': case 'chprev':
+        var stc = storyById(S.story);
+        S.ch = Math.max(0, Math.min(stc.chapters.length - 1, (S.ch || 0) + (t.id === 'chnext' ? 1 : -1)));
+        S.trOpen = {}; saveRead(stc, S.ch); renderStory(); window.scrollTo(0, 0);
+        break;
       case 'pas': pass(); break;
       case 'fcopy': copyText(flagText(), function (ok) { S.fcopied = ok; renderFlags(); if (!ok) { var b = document.getElementById('fcopy'); if (b) b.textContent = 'Kopyalanamadı'; } }); break;
       case 'fclear':
