@@ -7,4 +7,4 @@ KELİME SINAVI - NASIL YAYINLANIR (GitHub Pages)
 4) 1-2 dakika sonra adresin hazır: https://KULLANICI-ADIN.github.io/kelime-sinavi/
 5) Android telefonda Chrome ile o adresi aç. Sağ üst üç nokta > "Uygulamayı yükle".
 
-Sayfayı ileride güncellersen sw.js içindeki VERSION'ı bir artır (kelime-v35 gibi).
+Sayfayı ileride güncellersen sw.js içindeki VERSION'ı bir artır (kelime-v39 gibi).
