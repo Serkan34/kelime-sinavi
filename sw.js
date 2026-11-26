@@ -1,5 +1,5 @@
 // Word Deck: internetsiz çalışma. Sayfayı güncellersen VERSION'ı bir artır.
-const VERSION = 'kelime-v43';
+const VERSION = 'kelime-v48';
 const FILES = ['./', './index.html', './data.js', './topics.js', './orig.js', './extra.js', './stories.js', './sound.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {

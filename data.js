@@ -58,7 +58,7 @@ egg|yumurta|I have an egg for breakfast.|Kahvaltıda bir yumurta yerim.
 cheese|peynir|She likes cheese and olives.|Peyniri ve zeytini sever.
 rice|pirinç|We have rice with chicken.|Tavukla pirinç yeriz.
 meat|et|He doesn't eat meat.|O et yemez.
-fruit|meyve|Fruit is good for you.|Meyve sana iyi gelir.
+fruit|meyve|I eat fruit every day.|Her gün meyve yerim.
 vegetable|sebze|My son hates every vegetable.|Oğlum her sebzeden nefret eder.
 tea|çay|Would you like some tea?|Biraz çay ister misin?
 coffee|kahve|He drinks coffee every morning.|Her sabah kahve içer.
@@ -112,7 +112,7 @@ soup|çorba|The soup is very hot.|Çorba çok sıcak.
 cake|pasta|She made a cake for my birthday.|Doğum günüm için bir pasta yaptı.
 juice|meyve suyu|Can I have some juice, please?|Biraz meyve suyu alabilir miyim?
 butter|tereyağı|I put butter on my bread.|Ekmeğime tereyağı sürerim.
-honey|bal|Honey is sweet and good for you.|Bal tatlıdır ve sağlığa iyi gelir.
+honey|bal|Honey is sweet and golden.|Bal tatlı ve altın rengidir.
 lunch|öğle yemeği|We have lunch at one o'clock.|Öğle yemeğini saat birde yeriz.
 dinner|akşam yemeği|Dinner is ready.|Akşam yemeği hazır.
 breakfast|kahvaltı|I never skip breakfast.|Kahvaltıyı asla atlamam.
@@ -358,7 +358,7 @@ bedroom|yatak odası|The bedroom is upstairs.|Yatak odası üst katta.
 neighbour|komşu|Our neighbour is a doctor.|Komşumuz bir doktor.
 dentist|diş hekimi|I have an appointment with the dentist.|Diş hekimiyle randevum var.
 hospital|hastane|He is in the hospital.|Hastanede.
-medicine|ilaç|Take this medicine twice a day.|Bu ilacı günde iki kez al.
+medicine|ilaç|The medicine is in the bathroom cupboard.|İlaç banyo dolabında.
 headache|baş ağrısı|I have a terrible headache.|Çok kötü bir baş ağrım var.
 farmer|çiftçi|The farmer works in the field.|Çiftçi tarlada çalışıyor.
 engineer|mühendis|My uncle is an engineer.|Amcam bir mühendis.
@@ -502,7 +502,7 @@ healthy|sağlıklı|Fruit is healthy food.|Meyve sağlıklı bir yiyecektir.
 snack|atıştırmalık|I eat a snack after school.|Okuldan sonra bir atıştırmalık yerim.
 cough|öksürük|I have a bad cough.|Kötü bir öksürüğüm var.
 pain|ağrı, acı|I have a pain in my back.|Sırtımda bir ağrı var.
-tablet|hap|Take one tablet after lunch.|Öğle yemeğinden sonra bir hap al.
+tablet|hap|She keeps her tablets in a small box.|Haplarını küçük bir kutuda saklıyor.
 temperature|vücut ısısı, sıcaklık|The nurse checked my temperature.|Hemşire ateşime baktı.
 suitcase|bavul|My suitcase is very heavy.|Bavulum çok ağır.
 tourist|turist|Many tourists visit this city.|Birçok turist bu şehri ziyaret ediyor.
@@ -1652,7 +1652,7 @@ adept|mahir|She is adept at solving problems.|Sorunları çözmekte mahirdir.
 adversary|hasım|The two adversaries met in the final.|İki hasım finalde karşılaştı.
 adversity|zorluk|She showed great courage in adversity.|Zorluk karşısında büyük cesaret gösterdi.
 affluent|varlıklı|They live in an affluent neighbourhood.|Varlıklı bir mahallede yaşıyorlar.
-alleviate|dindirmek|This medicine will alleviate the pain.|Bu ilaç ağrıyı hafifletecek.
+alleviate|dindirmek|Nothing could alleviate her sadness.|Hiçbir şey onun hüznünü hafifletemedi.
 allocate|tahsis etmek|The city allocated money for a new park.|Şehir yeni bir park için bütçe tahsis etti.
 aloof|mesafeli|He remained aloof from the group.|Gruba karşı mesafeli kaldı.
 altruistic|özverili|Her altruistic work saved many lives.|Özverili çalışması birçok hayat kurtardı.
@@ -2187,9 +2187,9 @@ undercut|undercut|undercut|daha ucuza satmak
 = produce|Ürün ya da sonuç üretmek: fabrika, tarım, film.
 = generate|Elektrik, enerji, gelir gibi şeyleri bir sistemle üretmek.
 ? She decided to ___ a cake for the party.|make|Parti için bir kek yapmaya karar verdi.
-? The designer wants to ___ a brand-new style.|create|Tasarımcı yepyeni bir stil yaratmak istiyor.
-? This factory can ___ five hundred cars a day.|produce|Bu fabrika günde beş yüz araba üretebilir.
-? The company hopes to ___ more income from online sales.|generate|Şirket çevrimiçi satışlardan daha fazla gelir elde etmeyi umuyor.
+? The designer wants to ___ a brand-new style.|create|Tasarımcı yepyeni bir stil yaratmak istiyor.|x=make
+? This factory can ___ five hundred cars a day.|produce|Bu fabrika günde beş yüz araba üretebilir.|x=make
+? The company hopes to ___ more income from online sales.|generate|Şirket çevrimiçi satışlardan daha fazla gelir elde etmeyi umuyor.|x=make
 
 @ say, tell, speak, talk
 = say|Söylenen sözü aktarır: say hello, say that.
@@ -2209,7 +2209,7 @@ undercut|undercut|undercut|daha ucuza satmak
 ? I can't ___ without my glasses.|see|Gözlüğüm olmadan göremiyorum.
 ? Please ___ at this picture carefully.|look|Lütfen bu resme dikkatlice bak.
 ? Do you want to ___ a film tonight?|watch|Bu akşam bir film izlemek ister misin?
-? I didn't ___ that he had changed his hair.|notice|Saçını değiştirdiğini fark etmedim.
+? I didn't ___ that he had changed his hair.|notice|Saçını değiştirdiğini fark etmedim.|x=see
 
 @ hope, expect, wish, want
 = hope|Olmasını umduğun bir şey, olabilir de olmayabilir de.
@@ -2217,7 +2217,7 @@ undercut|undercut|undercut|daha ucuza satmak
 = wish|Gerçek olmayan ya da zor bir şeyi dilemek: I wish I could.
 = want|İstemek, canı çekmek.
 ? I ___ it doesn't rain tomorrow.|hope|Yarın yağmur yağmamasını umuyorum.
-? We ___ the guests to arrive at six.|expect|Misafirlerin altıda gelmesini bekliyoruz.
+? We ___ the guests to arrive at six.|expect|Misafirlerin altıda gelmesini bekliyoruz.|x=want
 ? I ___ I had more free time.|wish|Keşke daha fazla boş zamanım olsa.
 ? I ___ a glass of cold water.|want|Bir bardak soğuk su istiyorum.
 
@@ -2239,7 +2239,7 @@ undercut|undercut|undercut|daha ucuza satmak
 ? Don't forget to ___ your umbrella when you come to my house.|bring|Bize gelirken şemsiyeni getirmeyi unutma.
 ? I have to ___ this parcel to the post office.|take|Bu kolayı postaneye götürmem gerekiyor.
 ? He can ___ two heavy bags at once.|carry|Aynı anda iki ağır çanta taşıyabilir.
-? Can you ___ my coat from the car?|fetch|Arabadan montumu getirebilir misin?
+? Can you ___ my coat from the car?|fetch|Arabadan montumu getirebilir misin?|x=bring
 
 @ job, work, task, career
 = job|Ücretli iş, işyeri ya da pozisyon; sayılabilir.
@@ -2248,7 +2248,7 @@ undercut|undercut|undercut|daha ucuza satmak
 = career|Uzun vadeli meslek yolu.
 ? He found a good ___ in a bank.|job|Bir bankada iyi bir iş buldu.
 ? I have a lot of ___ to do today.|work|Bugün yapacak çok işim var.
-? Cleaning the whole house was a difficult ___.|task|Bütün evi temizlemek zor bir görevdi.
+? Cleaning the whole house was a difficult ___.|task|Bütün evi temizlemek zor bir görevdi.|x=job
 ? She wants a ___ in medicine.|career|Tıp alanında bir kariyer yapmak istiyor.
 
 @ trip, journey, travel, voyage
@@ -2257,7 +2257,7 @@ undercut|undercut|undercut|daha ucuza satmak
 = travel|Genel olarak seyahat etmek ya da seyahat; sayılamaz.
 = voyage|Uzun deniz ya da uzay yolculuğu.
 ? We went on a day ___ to the island.|trip|Adaya günübirlik bir geziye çıktık.
-? The ___ from Istanbul to Rize takes twelve hours by bus.|journey|İstanbul'dan Rize'ye otobüsle yolculuk on iki saat sürer.
+? The ___ from Istanbul to Rize takes twelve hours by bus.|journey|İstanbul'dan Rize'ye otobüsle yolculuk on iki saat sürer.|x=trip
 ? Do you enjoy ___ by train?|travel|Trenle seyahat etmeyi sever misin?
 ? The ship's ___ across the Atlantic lasted three weeks.|voyage|Geminin Atlantik'i aşan yolculuğu üç hafta sürdü.
 
@@ -2309,7 +2309,7 @@ undercut|undercut|undercut|daha ucuza satmak
 ? I want to ___ how to cook.|learn|Yemek yapmayı öğrenmek istiyorum.
 ? She will ___ us French next year.|teach|Gelecek yıl bize Fransızca öğretecek.
 ? He has to ___ hard for the exam.|study|Sınav için çok çalışması gerekiyor.
-? They ___ dogs to help blind people.|train|Görme engellilere yardım etmeleri için köpekleri eğitiyorlar.
+? They ___ dogs to help blind people.|train|Görme engellilere yardım etmeleri için köpekleri eğitiyorlar.|x=teach
 
 @ win, beat, earn, gain
 = win|Yarışı, maçı ya da ödülü kazanmak.
@@ -2326,7 +2326,7 @@ undercut|undercut|undercut|daha ucuza satmak
 = cost|Bir şeyin maliyeti ya da bedeli.
 = fee|Hizmet ücreti: okul, üyelik.
 = fare|Ulaşım ücreti: otobüs, bilet.
-? The ___ of the book is fifty lira.|price|Kitabın fiyatı elli lira.
+? The ___ of the book is fifty lira.|price|Kitabın fiyatı elli lira.|x=cost
 ? What is the ___ of living in Istanbul?|cost|İstanbul'da yaşamanın maliyeti nedir?
 ? The ___ for the language course is five hundred lira.|fee|Dil kursunun ücreti beş yüz lira.
 ? The bus ___ is only fifteen lira.|fare|Otobüs ücreti sadece on beş lira.
@@ -2348,8 +2348,8 @@ undercut|undercut|undercut|daha ucuza satmak
 = still|Kımıldamayan.
 ? It is a very ___ street, there is almost no traffic.|quiet|Çok sakin bir sokak, neredeyse hiç trafik yok.
 ? The whole room fell ___ when he spoke.|silent|O konuşunca bütün oda sessizliğe gömüldü.
-? The sea was ___ and the sky was clear.|calm|Deniz durgundu ve gökyüzü açıktı.
-? Please stay ___ while I take the photo.|still|Fotoğrafı çekerken lütfen kımıldamadan dur.
+? The sea was ___ and the sky was clear.|calm|Deniz durgundu ve gökyüzü açıktı.|x=still,quiet
+? Please stay ___ while I take the photo.|still|Fotoğrafı çekerken lütfen kımıldamadan dur.|x=quiet,calm
 
 @ look, glance, stare, glare
 = look|Bilerek bir yöne bakmak, genel kullanım.
@@ -2359,7 +2359,7 @@ undercut|undercut|undercut|daha ucuza satmak
 ? Please ___ at the board and read the sentence.|look|Lütfen tahtaya bak ve cümleyi oku.
 ? He only had time to ___ at the headlines before the bus came.|glance|Otobüs gelmeden önce yalnızca manşetlere göz atmaya vakti oldu.
 ? It is rude to ___ at people for a long time.|stare|İnsanlara uzun süre dik dik bakmak kabalıktır.
-? She will ___ at him angrily if he is late again.|glare|Yine geç kalırsa ona öfkeyle bakacak.
+? She will ___ at him angrily if he is late again.|glare|Yine geç kalırsa ona öfkeyle bakacak.|x=look,stare
 
 @ shout, whisper, murmur, scream
 = shout|Yüksek sesle seslenmek, bağırmak.
@@ -2369,14 +2369,14 @@ undercut|undercut|undercut|daha ucuza satmak
 ? You have to ___ if you want him to hear you across the stadium.|shout|Stadyumun öbür ucunda seni duyması için bağırman gerekir.
 ? Some people ___ with fear when they see a spider.|scream|Bazı insanlar örümcek görünce korkudan çığlık atar.
 ? Please ___ so that the baby doesn't wake up.|whisper|Lütfen bebek uyanmasın diye fısıltıyla konuş.
-? He started to ___ the words of the song to himself.|murmur|Şarkının sözlerini kendi kendine mırıldanmaya başladı.
+? He started to ___ the words of the song to himself.|murmur|Şarkının sözlerini kendi kendine mırıldanmaya başladı.|x=whisper
 
 @ break, crack, smash, tear
 = break|Genel olarak kırmak ya da kırılmak.
 = crack|Çatlamak, tam parçalanmadan çatlak oluşmak.
 = smash|Şiddetle parçalamak, param parça etmek.
 = tear|Kâğıt ya da kumaşı yırtmak.
-? If you drop it, the glass will ___.|break|Düşürürsen bardak kırılır.
+? If you drop it, the glass will ___.|break|Düşürürsen bardak kırılır.|x=smash,crack
 ? The ice began to ___ under his feet.|crack|Buz ayaklarının altında çatlamaya başladı.
 ? Angry fans started to ___ the shop windows.|smash|Öfkeli taraftarlar dükkân vitrinlerini param parça etmeye başladı.
 ? Be careful not to ___ the old paper.|tear|Eski kâğıdı yırtmamaya dikkat et.
@@ -2387,9 +2387,9 @@ undercut|undercut|undercut|daha ucuza satmak
 = march|Askerler gibi düzenli adımlarla yürümek.
 = wander|Amaçsızca, belli bir yere gitmeden dolaşmak.
 ? It takes ten minutes to ___ to school.|walk|Okula yürümek on dakika sürüyor.
-? We like to ___ along the beach after dinner.|stroll|Akşam yemeğinden sonra sahilde gezinmeyi severiz.
+? We like to ___ along the beach after dinner.|stroll|Akşam yemeğinden sonra sahilde gezinmeyi severiz.|x=walk,wander
 ? Soldiers ___ through the city on national holidays.|march|Askerler milli bayramlarda şehirde geçit yapar.
-? Don't ___ off alone in the forest, you will get lost.|wander|Ormanda tek başına amaçsızca dolaşma, kaybolursun.
+? Don't ___ off alone in the forest, you will get lost.|wander|Ormanda tek başına amaçsızca dolaşma, kaybolursun.|x=walk
 
 @ cook, boil, fry, bake
 = cook|Yemek hazırlamak, genel pişirme.
@@ -2408,7 +2408,7 @@ undercut|undercut|undercut|daha ucuza satmak
 = brush|Fırçayla temizlemek ya da taramak.
 ? We have to ___ the whole house before the guests come.|clean|Misafirler gelmeden bütün evi temizlememiz gerekiyor.
 ? You must ___ your hands with soap and water.|wash|Ellerini su ve sabunla yıkamalısın.
-? I need to ___ the table with a damp cloth.|wipe|Masayı nemli bir bezle silmem gerekiyor.
+? I need to ___ the table with a damp cloth.|wipe|Masayı nemli bir bezle silmem gerekiyor.|x=clean
 ? Please ___ your teeth before bed.|brush|Lütfen yatmadan önce dişlerini fırçala.
 
 @ town, city, village, capital
@@ -2428,17 +2428,17 @@ undercut|undercut|undercut|daha ucuza satmak
 = highway|Şehirleri birbirine bağlayan hızlı otoyol.
 ? A narrow ___ led through the forest to the lake.|path|Dar bir patika ormandan geçip göle çıkıyordu.
 ? We drove four hundred kilometres on the ___ at high speed.|highway|Otoyolda yüksek hızla dört yüz kilometre yol aldık.
-? There are many cafes and shops on this ___.|street|Bu caddede çok sayıda kafe ve dükkân var.
-? The ___ to the village is very bumpy.|road|Köye giden yol çok bozuk.
+? There are many cafes and shops on this ___.|street|Bu caddede çok sayıda kafe ve dükkân var.|x=road
+? The ___ to the village is very bumpy.|road|Köye giden yol çok bozuk.|x=path,street
 
 @ pretty, handsome, cute, gorgeous
 = pretty|Hoş görünen, çoğunlukla kız, kadın ya da şeyler için.
 = handsome|Yakışıklı, genelde erkekler için.
 = cute|Sevimli: bebek, hayvan.
 = gorgeous|Göz kamaştırıcı, harika görünen.
-? She is a ___ girl with long brown hair.|pretty|Uzun kahverengi saçlı hoş bir kız.
+? She is a ___ girl with long brown hair.|pretty|Uzun kahverengi saçlı hoş bir kız.|x=cute,gorgeous
 ? The actor is tall, dark and ___.|handsome|Oyuncu uzun boylu, esmer ve yakışıklı.
-? What a ___ baby! Look at those little hands.|cute|Ne sevimli bir bebek! Şu küçük ellere bak.
+? What a ___ baby! Look at those little hands.|cute|Ne sevimli bir bebek! Şu küçük ellere bak.|x=pretty,gorgeous
 ? The sunset over the sea was absolutely ___.|gorgeous|Denizin üzerindeki gün batımı kesinlikle muhteşemdi.
 
 @ angry, furious, annoyed, upset
@@ -2446,9 +2446,9 @@ undercut|undercut|undercut|daha ucuza satmak
 = furious|Öfkeden deliye dönmüş.
 = annoyed|Hafifçe sinirlenmiş, rahatsız olmuş.
 = upset|Üzülmüş, canı sıkılmış.
-? Why are you so ___ at me? I haven't done anything wrong.|angry|Bana neden bu kadar kızgınsın? Yanlış bir şey yapmadım.
-? She was so ___ that she shouted at everyone and slammed the door.|furious|Öyle öfkeliydi ki herkese bağırdı ve kapıyı çarptı.
-? I was a bit ___ when he kept tapping the table.|annoyed|Masaya vurmaya devam edince biraz sinirlendim.
+? Why are you so ___ at me? I haven't done anything wrong.|angry|Bana neden bu kadar kızgınsın? Yanlış bir şey yapmadım.|x=annoyed,furious
+? She was so ___ that she shouted at everyone and slammed the door.|furious|Öyle öfkeliydi ki herkese bağırdı ve kapıyı çarptı.|x=angry,annoyed
+? I was a bit ___ when he kept tapping the table.|annoyed|Masaya vurmaya devam edince biraz sinirlendim.|x=angry,upset
 ? He was ___ because his dog had died.|upset|Köpeği öldüğü için üzgündü.
 
 @ meet, join, gather, attend
@@ -2457,7 +2457,7 @@ undercut|undercut|undercut|daha ucuza satmak
 = gather|İnsanların bir araya toplanması.
 = attend|Bir toplantıya, derse ya da etkinliğe katılmak.
 ? I'm glad to ___ you. I'm Ali.|meet|Tanıştığıma memnun oldum. Ben Ali.
-? Over five hundred people will ___ the conference next week.|attend|Gelecek hafta beş yüzden fazla kişi konferansa katılacak.
+? Over five hundred people will ___ the conference next week.|attend|Gelecek hafta beş yüzden fazla kişi konferansa katılacak.|x=join
 ? Would you like to ___ our team?|join|Takımımıza katılmak ister misin?
 ? The children like to ___ around the fire to hear stories.|gather|Çocuklar hikâye dinlemek için ateşin etrafında toplanmayı sever.
 
@@ -2467,17 +2467,17 @@ undercut|undercut|undercut|daha ucuza satmak
 = chop|Küçük parçalara doğramak.
 = trim|Kenarlarını ya da uçlarını düzeltmek.
 ? Be careful when you ___ with that knife.|cut|O bıçakla keserken dikkatli ol.
-? I'll ___ the bread into thin pieces for the sandwiches.|slice|Sandviçler için ekmeği ince dilimler hâlinde keseceğim.
-? Please ___ the onions finely for the soup.|chop|Lütfen çorba için soğanları ince ince doğra.
-? The barber will ___ your hair a little at the sides.|trim|Berber saçını yanlardan biraz düzeltecek.
+? I'll ___ the bread into thin pieces for the sandwiches.|slice|Sandviçler için ekmeği ince dilimler hâlinde keseceğim.|x=cut
+? Please ___ the onions finely for the soup.|chop|Lütfen çorba için soğanları ince ince doğra.|x=cut,slice
+? The barber will ___ your hair a little at the sides.|trim|Berber saçını yanlardan biraz düzeltecek.|x=cut
 
 @ sound, noise, voice, tone
 = sound|Duyulan ses, genel anlamda.
 = noise|Rahatsız edici gürültü.
 = voice|İnsanın konuşma ya da şarkı sesi.
 = tone|Ses tonu, konuşma tarzı.
-? The ___ of the waves made me feel calm.|sound|Dalgaların sesi beni sakinleştirdi.
-? I couldn't sleep because of the ___ from the street.|noise|Sokaktaki gürültü yüzünden uyuyamadım.
+? The ___ of the waves made me feel calm.|sound|Dalgaların sesi beni sakinleştirdi.|x=noise
+? I couldn't sleep because of the ___ from the street.|noise|Sokaktaki gürültü yüzünden uyuyamadım.|x=sound
 ? She has a beautiful singing ___.|voice|Güzel bir şarkı sesi var.
 ? Don't talk to me in that angry ___.|tone|Benimle o öfkeli tonda konuşma.
 `,

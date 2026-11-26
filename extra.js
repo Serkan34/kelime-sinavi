@@ -329,9 +329,9 @@ syn: `
 = pick|Günlük, rahat seçme; çoğu kez hızlıca eline almak.
 = select|Daha resmî ya da sistemli seçme; bilgisayarda seçmek.
 = elect|Oylamayla birini göreve seçmek.
-? It was hard to ___ between two good job offers.|choose|İki iyi iş teklifi arasında seçim yapmak zordu.
-? Click here to ___ all the files on the screen.|select|Ekrandaki tüm dosyaları seçmek için buraya tıkla.
-? Please ___ a card from the pile, any card.|pick|Desteden bir kart çek, hangisi olursa.
+? It was hard to ___ between two good job offers.|choose|İki iyi iş teklifi arasında seçim yapmak zordu.|x=pick,select
+? Click here to ___ all the files on the screen.|select|Ekrandaki tüm dosyaları seçmek için buraya tıkla.|x=choose,pick
+? Please ___ a card from the pile, any card.|pick|Desteden bir kart çek, hangisi olursa.|x=choose,select
 ? The citizens will ___ a new president next spring.|elect|Vatandaşlar gelecek ilkbaharda yeni bir başkan seçecek.
 @ ask, request, demand, beg
 = ask|Genel: soru sormak ya da bir şey istemek.
@@ -340,7 +340,7 @@ syn: `
 = beg|Çaresizce, yalvararak istemek.
 ? Can I ___ you a quick question?|ask|Sana kısa bir soru sorabilir miyim?
 ? You may ___ a wake-up call at the hotel desk.|request|Otel resepsiyonundan uyandırma servisi talep edebilirsin.
-? The workers ___ higher pay and shorter hours.|demand|İşçiler daha yüksek ücret ve daha kısa mesai talep ediyor.
+? The workers ___ higher pay and shorter hours.|demand|İşçiler daha yüksek ücret ve daha kısa mesai talep ediyor.|x=request
 ? The hungry boy had to ___ for food on the street.|beg|Aç çocuk sokakta yemek dilenmek zorunda kaldı.
 @ smile, grin, laugh, giggle
 = smile|Sessizce, dudaklarla gülümsemek.
@@ -348,17 +348,17 @@ syn: `
 = laugh|Sesli gülmek.
 = giggle|Kısık sesle kıkırdamak; çoğu kez utangaç ya da çocukça.
 ? She gave a small, polite ___ and said hello.|smile|Küçük, kibar bir gülümseme verip merhaba dedi.
-? He had a wide ___ from ear to ear when he saw the cake.|grin|Pastayı görünce kulaktan kulağa geniş bir sırıtışı vardı.
+? He had a wide ___ from ear to ear when he saw the cake.|grin|Pastayı görünce kulaktan kulağa geniş bir sırıtışı vardı.|x=smile
 ? The whole audience began to ___ out loud at the joke.|laugh|Tüm seyirci espriye yüksek sesle gülmeye başladı.
-? The little girls started to ___ behind their hands.|giggle|Küçük kızlar ellerinin arkasında kıkırdamaya başladı.
+? The little girls started to ___ behind their hands.|giggle|Küçük kızlar ellerinin arkasında kıkırdamaya başladı.|x=laugh
 @ fix, repair, mend, restore
 = fix|Genel: bozuk şeyi ya da sorunu düzeltmek.
 = repair|Makine, araç, yapı gibi bozulan şeyi onarmak.
 = mend|Genelde kumaş ve küçük eşyaları yamayıp dikerek onarmak.
 = restore|Eski ya da hasar görmüş şeyi önceki haline getirmek.
 ? I need to ___ this problem before the meeting.|fix|Toplantıdan önce bu sorunu çözmem gerekiyor.
-? The workers will ___ the damaged bridge over the summer.|repair|İşçiler hasarlı köprüyü yaz boyunca onaracak.
-? She sat down to ___ the hole in her sock.|mend|Çorabındaki deliği dikmek için oturdu.
+? The workers will ___ the damaged bridge over the summer.|repair|İşçiler hasarlı köprüyü yaz boyunca onaracak.|x=fix
+? She sat down to ___ the hole in her sock.|mend|Çorabındaki deliği dikmek için oturdu.|x=fix,repair
 ? They plan to ___ the old castle to its former glory.|restore|Eski kaleyi eski görkemine kavuşturmayı planlıyorlar.
 @ guess, estimate, predict, suppose
 = guess|Bilgi olmadan tahmin etmek, atmak.
@@ -366,8 +366,8 @@ syn: `
 = predict|Gelecekte ne olacağını söylemek.
 = suppose|Doğru olduğunu varsaymak.
 ? I don't know the answer, so I'll just have to ___.|guess|Cevabı bilmiyorum, o yüzden tahmin etmem gerekecek.
-? Builders ___ the cost at about fifty thousand liras.|estimate|İnşaatçılar maliyeti yaklaşık elli bin lira olarak hesaplıyor.
-? Nobody can ___ what the weather will be like next year.|predict|Kimse gelecek yıl havanın nasıl olacağını öngöremez.
+? Builders ___ the cost at about fifty thousand liras.|estimate|İnşaatçılar maliyeti yaklaşık elli bin lira olarak hesaplıyor.|x=guess
+? Nobody can ___ what the weather will be like next year.|predict|Kimse gelecek yıl havanın nasıl olacağını öngöremez.|x=guess
 ? I ___ you are right, but I still have doubts.|suppose|Sanırım haklısın ama hâlâ şüphelerim var.
 @ grow, raise, rise, lift
 = grow|Büyümek ya da bitki yetişmek; kendiliğinden artmak.
@@ -395,13 +395,13 @@ syn: `
 ? I took your umbrella by ___, sorry.|mistake|Yanlışlıkla şemsiyeni aldım, özür dilerim.
 ? The computer showed an ___ message.|error|Bilgisayar bir hata mesajı gösterdi.
 ? It is not my ___ that the bus was late.|fault|Otobüsün geç kalması benim suçum değil.
-? The plan has one serious ___: it costs too much.|flaw|Planın ciddi bir kusuru var: çok pahalı.
+? The plan has one serious ___: it costs too much.|flaw|Planın ciddi bir kusuru var: çok pahalı.|x=fault,mistake
 @ rule, law, policy, regulation
 = rule|Bir oyun, okul ya da grubun kuralı.
 = law|Devletin çıkardığı, yasal bağlayıcılığı olan kanun.
 = policy|Bir kurum ya da şirketin izlediği ilke ve yol.
 = regulation|Bir kurumun koyduğu resmî düzenleme, yönetmelik.
-? Talking loudly is against the school ___.|rule|Yüksek sesle konuşmak okul kurallarına aykırı.
+? Talking loudly is against the school ___.|rule|Yüksek sesle konuşmak okul kurallarına aykırı.|x=policy,regulation
 ? Stealing is against the ___.|law|Hırsızlık yasalara aykırıdır.
 ? Our company ___ is to answer every email within a day.|policy|Şirket politikamız her e-postayı bir gün içinde yanıtlamak.
 ? A new fire safety ___ requires workers to wear helmets.|regulation|Yeni bir yangın güvenliği yönetmeliği işçilerin kask takmasını şart koşuyor.
@@ -411,7 +411,7 @@ syn: `
 = income|Bir kişinin ya da evin toplam geliri.
 = pension|Emeklilikte düzenli ödenen aylık.
 ? He earns a low hourly ___ at the factory.|wage|Fabrikada düşük bir saatlik ücret kazanıyor.
-? Her monthly ___ is paid on the first day of the month.|salary|Aylık maaşı ayın ilk günü ödeniyor.
+? Her monthly ___ is paid on the first day of the month.|salary|Aylık maaşı ayın ilk günü ödeniyor.|x=wage,pension
 ? Rent takes almost half of our total ___.|income|Kira toplam gelirimizin neredeyse yarısını alıyor.
 ? My grandfather lives on a small state ___.|pension|Dedem küçük bir devlet emekli aylığıyla geçiniyor.
 @ crowd, team, crew, gang
@@ -431,49 +431,49 @@ syn: `
 ? A hammer is a useful ___ for building.|tool|Çekiç, inşaat için faydalı bir alettir.
 ? The violin is a musical ___.|instrument|Keman bir müzik aletidir.
 ? The washing ___ is broken again.|machine|Çamaşır makinesi yine bozuldu.
-? This small ___ counts your steps and checks your sleep.|device|Bu küçük cihaz adımlarını sayar ve uykunu izler.
+? This small ___ counts your steps and checks your sleep.|device|Bu küçük cihaz adımlarını sayar ve uykunu izler.|x=machine,instrument
 @ destroy, ruin, damage, wreck
 = destroy|Tamamen yok etmek.
 = ruin|Bir şeyi bozup değerini kaybettirmek.
 = damage|Kısmen zarar vermek.
 = wreck|Gemiyi ya da aracı parçalayıp kullanılmaz hale getirmek.
 ? The storm managed to slightly ___ the roof.|damage|Fırtına çatıya hafifçe zarar vermeyi başardı.
-? The fire will completely ___ the whole building.|destroy|Yangın tüm binayı tamamen yok edecek.
-? Don't let a little rain ___ our picnic.|ruin|Biraz yağmur pikniğimizi berbat etmesin.
-? Heavy waves could ___ the small boat on the rocks.|wreck|Büyük dalgalar küçük tekneyi kayalara çarpıp parçalayabilir.
+? The fire will completely ___ the whole building.|destroy|Yangın tüm binayı tamamen yok edecek.|x=wreck,ruin
+? Don't let a little rain ___ our picnic.|ruin|Biraz yağmur pikniğimizi berbat etmesin.|x=wreck,destroy
+? Heavy waves could ___ the small boat on the rocks.|wreck|Büyük dalgalar küçük tekneyi kayalara çarpıp parçalayabilir.|x=destroy,damage
 @ discover, invent, explore, detect
 = discover|Var olan bir şeyi ilk kez bulmak.
 = invent|Daha önce olmayan bir şeyi icat etmek.
 = explore|Bilinmeyen bir yeri gezip incelemek.
 = detect|Gizli ya da zor görülen bir şeyi fark etmek.
-? Scientists hope to ___ a new planet.|discover|Bilim insanları yeni bir gezegen keşfetmeyi umuyor.
+? Scientists hope to ___ a new planet.|discover|Bilim insanları yeni bir gezegen keşfetmeyi umuyor.|x=detect
 ? Edison helped to ___ the light bulb.|invent|Edison ampulün icadına katkıda bulundu.
 ? They want to ___ the jungle by boat.|explore|Ormanı tekneyle keşfetmek istiyorlar.
-? Doctors can ___ the disease at an early stage.|detect|Doktorlar hastalığı erken evrede tespit edebilir.
+? Doctors can ___ the disease at an early stage.|detect|Doktorlar hastalığı erken evrede tespit edebilir.|x=discover
 @ tired, exhausted, sleepy, bored
 = tired|Genel yorgunluk.
 = exhausted|Tükenmiş, aşırı yorgun.
 = sleepy|Uykusu gelmiş.
 = bored|Sıkılmış, ilgisini kaybetmiş.
-? I'm a little ___ today because I worked late.|tired|Bugün biraz yorgunum çünkü geç saate kadar çalıştım.
+? I'm a little ___ today because I worked late.|tired|Bugün biraz yorgunum çünkü geç saate kadar çalıştım.|x=sleepy
 ? After running the marathon, he was completely ___.|exhausted|Maratonu koştuktan sonra tamamen tükenmişti.
-? I felt ___ after the big lunch and almost fell asleep at my desk.|sleepy|Büyük öğle yemeğinden sonra uykum geldi ve masamda neredeyse uyuyakalacaktım.
+? I felt ___ after the big lunch and almost fell asleep at my desk.|sleepy|Büyük öğle yemeğinden sonra uykum geldi ve masamda neredeyse uyuyakalacaktım.|x=tired
 ? The film was so slow that I felt ___.|bored|Film o kadar yavaştı ki sıkıldım.
 @ information, news, advice, gossip
 = information|Bilgi; sayılamayan isim.
 = news|Haber; sayılamayan isim.
 = advice|Öğüt, tavsiye.
 = gossip|Dedikodu.
-? Could you give me some ___ about the course?|information|Bana kurs hakkında biraz bilgi verebilir misin?
+? Could you give me some ___ about the course?|information|Bana kurs hakkında biraz bilgi verebilir misin?|x=advice,news
 ? I read the ___ on my phone this morning.|news|Bu sabah haberleri telefonumdan okudum.
 ? My teacher gave me good ___ about my career.|advice|Öğretmenim bana kariyerim hakkında iyi bir tavsiye verdi.
-? Everyone is sharing ___ about the neighbours.|gossip|Herkes komşular hakkında dedikodu yapıyor.
+? Everyone is sharing ___ about the neighbours.|gossip|Herkes komşular hakkında dedikodu yapıyor.|x=news,information
 @ problem, trouble, difficulty, mess
 = problem|Çözülmesi gereken sorun.
 = trouble|Başa gelen dert, başı belada olmak.
 = difficulty|Bir işi yaparken yaşanan güçlük.
 = mess|Dağınıklık, karmaşa.
-? I have a ___ with my laptop; it won't turn on.|problem|Dizüstü bilgisayarımla ilgili bir sorunum var; açılmıyor.
+? I have a ___ with my laptop; it won't turn on.|problem|Dizüstü bilgisayarımla ilgili bir sorunum var; açılmıyor.|x=trouble,difficulty
 ? He got into ___ with the police.|trouble|Polisle başı belaya girdi.
 ? She walked with great ___ after the accident.|difficulty|Kazadan sonra büyük güçlükle yürüdü.
 ? The kitchen is in a terrible ___ after the party.|mess|Partiden sonra mutfak korkunç bir dağınıklık içinde.
@@ -482,8 +482,8 @@ syn: `
 = leap|Uzağa ya da yükseğe atlamak; büyük sıçrayış.
 = hop|Tek ayak ya da küçük sıçramalarla zıplamak.
 = skip|Hoplayarak yürümek; ip atlamak.
-? Don't ___ from that high wall!|jump|O yüksek duvardan atlama!
-? The lion can ___ over the stream in one bound.|leap|Aslan dereyi tek sıçrayışta aşabilir.
+? Don't ___ from that high wall!|jump|O yüksek duvardan atlama!|x=leap
+? The lion can ___ over the stream in one bound.|leap|Aslan dereyi tek sıçrayışta aşabilir.|x=jump
 ? The rabbit will ___ across the grass on its back legs.|hop|Tavşan arka bacaklarıyla çimenlerin üzerinden zıplayacak.
 ? Children love to ___ rope in the playground.|skip|Çocuklar oyun parkında ip atlamayı sever.
 @ run, jog, sprint, dash
@@ -492,16 +492,16 @@ syn: `
 = sprint|Kısa mesafede tüm hızla koşmak.
 = dash|Acele edip hızla gitmek.
 ? The river will ___ through the town.|run|Nehir kasabanın içinden akacak.
-? He likes to ___ slowly and steadily in the park every morning.|jog|Her sabah parkta yavaş ve düzenli koşmayı sever.
-? She can ___ the hundred metres in under twelve seconds.|sprint|Yüz metreyi on iki saniyenin altında koşabilir.
-? I had to ___ to the station to catch the last train.|dash|Son trene yetişmek için istasyona koşturmak zorunda kaldım.
+? He likes to ___ slowly and steadily in the park every morning.|jog|Her sabah parkta yavaş ve düzenli koşmayı sever.|x=run
+? She can ___ the hundred metres in under twelve seconds.|sprint|Yüz metreyi on iki saniyenin altında koşabilir.|x=run,dash
+? I had to ___ to the station to catch the last train.|dash|Son trene yetişmek için istasyona koşturmak zorunda kaldım.|x=run,sprint
 @ pull, drag, tow, haul
 = pull|Kendine doğru çekmek.
 = drag|Ağır şeyi yerde sürüklemek.
 = tow|Aracı başka araçla çekmek.
 = haul|Ağır yükü uzağa taşımak.
 ? Don't ___ the door, push it.|pull|Kapıyı çekme, it.
-? He had to ___ the heavy bag along the floor.|drag|Ağır çantayı yerde sürüklemek zorunda kaldı.
+? He had to ___ the heavy bag along the floor.|drag|Ağır çantayı yerde sürüklemek zorunda kaldı.|x=pull
 ? The police will ___ your car if you park there.|tow|Oraya park edersen polis aracını çeker.
 ? Trucks ___ goods across the whole country.|haul|Kamyonlar malları tüm ülke boyunca taşır.
 @ show, display, exhibit, reveal
@@ -510,17 +510,17 @@ syn: `
 = exhibit|Müze ya da galeride resmî olarak sergilemek.
 = reveal|Gizli olanı ortaya çıkarmak.
 ? Can you ___ me how to use this machine?|show|Bana bu makinenin nasıl kullanıldığını gösterebilir misin?
-? The shop will ___ new shoes in its window.|display|Mağaza yeni ayakkabıları vitrininde sergileyecek.
-? The museum will ___ ancient coins next month.|exhibit|Müze gelecek ay antik paraları sergileyecek.
-? The test results may ___ his true character.|reveal|Test sonuçları onun gerçek karakterini ortaya çıkarabilir.
+? The shop will ___ new shoes in its window.|display|Mağaza yeni ayakkabıları vitrininde sergileyecek.|x=show,exhibit
+? The museum will ___ ancient coins next month.|exhibit|Müze gelecek ay antik paraları sergileyecek.|x=display,show
+? The test results may ___ his true character.|reveal|Test sonuçları onun gerçek karakterini ortaya çıkarabilir.|x=show
 @ check, examine, inspect, test
 = check|Hızlıca bakıp doğrulamak.
 = examine|Dikkatle ve ayrıntılı incelemek; doktor muayenesi.
 = inspect|Resmî ya da düzenli denetim yapmak.
 = test|Denemek, sınamak.
 ? Please ___ your email for the code.|check|Lütfen kod için e-postana bak.
-? The doctor will ___ your throat.|examine|Doktor boğazını muayene edecek.
-? Officials ___ the factory every year for safety.|inspect|Yetkililer güvenlik için fabrikayı her yıl denetler.
+? The doctor will ___ your throat.|examine|Doktor boğazını muayene edecek.|x=check
+? Officials ___ the factory every year for safety.|inspect|Yetkililer güvenlik için fabrikayı her yıl denetler.|x=check,examine
 ? Scientists will ___ the new medicine on volunteers.|test|Bilim insanları yeni ilacı gönüllüler üzerinde test edecek.
 @ hide, cover, conceal, bury
 = hide|Gözden uzak bir yere saklanmak ya da saklamak.
@@ -529,7 +529,7 @@ syn: `
 = bury|Toprağın altına gömmek.
 ? Children love to ___ behind the curtains.|hide|Çocuklar perdelerin arkasına saklanmayı sever.
 ? Please ___ the pot with a lid.|cover|Lütfen tencerenin üstünü kapakla kapat.
-? He tried to ___ the truth from his family.|conceal|Gerçeği ailesinden gizlemeye çalıştı.
+? He tried to ___ the truth from his family.|conceal|Gerçeği ailesinden gizlemeye çalıştı.|x=hide
 ? Dogs often ___ bones in the garden.|bury|Köpekler sık sık bahçeye kemik gömer.
 @ save, protect, guard, defend
 = save|Birini ya da bir şeyi tehlikeden kurtarmak.
@@ -538,8 +538,8 @@ syn: `
 = defend|Saldırıya karşı savunmak.
 ? The firefighter managed to ___ a child from the flames.|save|İtfaiyeci bir çocuğu alevlerden kurtarmayı başardı.
 ? Sunscreen will ___ your skin from the sun.|protect|Güneş kremi cildini güneşten korur.
-? Soldiers ___ the gate day and night.|guard|Askerler kapıyı gece gündüz korur.
-? The goalkeeper must ___ his goal.|defend|Kaleci kalesini savunmalı.
+? Soldiers ___ the gate day and night.|guard|Askerler kapıyı gece gündüz korur.|x=protect,defend
+? The goalkeeper must ___ his goal.|defend|Kaleci kalesini savunmalı.|x=protect,guard
 @ join, link, attach, fasten
 = join|İki şeyi birleştirmek ya da bir araya gelmek.
 = link|İki yeri ya da şeyi birbirine bağlamak.
@@ -547,7 +547,7 @@ syn: `
 = fasten|Kemer, kapı gibi şeyleri sıkıca bağlamak.
 ? Please ___ your seat belt before take-off.|fasten|Lütfen kalkıştan önce emniyet kemerini tak.
 ? Don't forget to ___ the file to your email.|attach|Dosyayı e-postana eklemeyi unutma.
-? A new bridge will ___ the two towns.|link|Yeni bir köprü iki kasabayı birbirine bağlayacak.
+? A new bridge will ___ the two towns.|link|Yeni bir köprü iki kasabayı birbirine bağlayacak.|x=join
 ? The two rivers ___ near the village.|join|İki nehir köyün yakınında birleşiyor.
 @ smart, intelligent, wise, cunning
 = smart|Zeki; İngilizcede ayrıca şık, özenli giyimli.
@@ -555,8 +555,8 @@ syn: `
 = wise|Deneyimle kazanılmış bilgelik.
 = cunning|Kurnaz; çoğu kez hile yapan.
 ? He wore a ___ suit to the interview.|smart|Mülakata şık bir takım elbise giydi.
-? Dolphins are highly ___ animals.|intelligent|Yunuslar son derece zeki hayvanlardır.
-? The ___ old woman gave us useful advice.|wise|Bilge yaşlı kadın bize faydalı tavsiyeler verdi.
+? Dolphins are highly ___ animals.|intelligent|Yunuslar son derece zeki hayvanlardır.|x=smart
+? The ___ old woman gave us useful advice.|wise|Bilge yaşlı kadın bize faydalı tavsiyeler verdi.|x=smart,intelligent
 ? The ___ fox tricked the farmer.|cunning|Kurnaz tilki çiftçiyi kandırdı.
 @ old, ancient, elderly, antique
 = old|Genel: yaşlı ya da eski.
@@ -565,16 +565,16 @@ syn: `
 = antique|Değerli eski eşya, antika.
 ? My car is very ___; it is twenty years old.|old|Arabam çok eski; yirmi yaşında.
 ? We visited ___ Egypt and saw the pyramids.|ancient|Antik Mısır'ı gezip piramitleri gördük.
-? An ___ gentleman gave up his seat.|elderly|Yaşlı bir beyefendi yerini bıraktı.
-? She bought an ___ clock from the eighteenth century.|antique|On sekizinci yüzyıldan bir antika saat aldı.
+? An ___ gentleman gave up his seat.|elderly|Yaşlı bir beyefendi yerini bıraktı.|x=old
+? She bought an ___ clock from the eighteenth century.|antique|On sekizinci yüzyıldan bir antika saat aldı.|x=old,ancient
 @ hit, punch, slap, kick
 = hit|Genel: vurmak ya da çarpmak.
 = punch|Yumrukla vurmak.
 = slap|Açık el ile tokat atmak.
 = kick|Ayakla tekmelemek ya da topa vurmak.
 ? The car will ___ the tree if it doesn't stop.|hit|Araba durmazsa ağaca çarpacak.
-? The boxer tried to ___ his opponent in the stomach.|punch|Boksör rakibine karnından yumruk atmaya çalıştı.
-? She wanted to ___ him across the face in anger.|slap|Öfkeyle ona tokat atmak istedi.
+? The boxer tried to ___ his opponent in the stomach.|punch|Boksör rakibine karnından yumruk atmaya çalıştı.|x=hit
+? She wanted to ___ him across the face in anger.|slap|Öfkeyle ona tokat atmak istedi.|x=hit
 ? He ran up to ___ the ball into the net.|kick|Topu ağlara göndermek için koşarak geldi.
 @ rain, drizzle, shower, downpour
 = rain|Yağmur yağmak; yağmur.
@@ -582,17 +582,17 @@ syn: `
 = shower|Kısa süren sağanak; aynı zamanda duş.
 = downpour|Çok şiddetli, ani sağanak.
 ? Take an umbrella, it might ___ later.|rain|Şemsiye al, daha sonra yağmur yağabilir.
-? It was only a light ___, so I didn't need my coat.|drizzle|Sadece hafif bir çiseydi, bu yüzden montuma ihtiyacım olmadı.
-? We got soaked in a sudden heavy ___.|downpour|Ani ve şiddetli bir sağanakta sırılsıklam olduk.
+? It was only a light ___, so I didn't need my coat.|drizzle|Sadece hafif bir çiseydi, bu yüzden montuma ihtiyacım olmadı.|x=rain,shower
+? We got soaked in a sudden heavy ___.|downpour|Ani ve şiddetli bir sağanakta sırılsıklam olduk.|x=rain,shower
 ? I took a quick ___ before dinner.|shower|Akşam yemeğinden önce hızlıca bir duş aldım.
 @ breeze, wind, gale, storm
 = breeze|Hafif, serinletici esinti.
 = wind|Rüzgâr.
 = gale|Çok sert, hasar verebilen fırtına rüzgârı.
 = storm|Gök gürültüsü ve yağmurla gelen fırtına.
-? A light ___ cooled us under the tree.|breeze|Hafif bir esinti ağacın altında bizi serinletti.
-? The ___ blew the roofs off several houses.|gale|Sert fırtına rüzgârı birkaç evin çatısını uçurdu.
-? It was a calm day with hardly any ___.|wind|Sakin bir gündü, neredeyse hiç rüzgâr yoktu.
+? A light ___ cooled us under the tree.|breeze|Hafif bir esinti ağacın altında bizi serinletti.|x=wind
+? The ___ blew the roofs off several houses.|gale|Sert fırtına rüzgârı birkaç evin çatısını uçurdu.|x=storm,wind
+? It was a calm day with hardly any ___.|wind|Sakin bir gündü, neredeyse hiç rüzgâr yoktu.|x=breeze
 ? Thunder and lightning announced the ___.|storm|Gök gürültüsü ve şimşek fırtınayı haber verdi.
 @ throw, toss, hurl, fling
 = throw|Genel: elle fırlatmak; parti vermek (throw a party) de buna girer.
@@ -602,23 +602,23 @@ syn: `
 ? We are going to ___ a surprise party for my sister next Friday.|throw|Önümüzdeki cuma kız kardeşim için sürpriz bir parti vereceğiz.
 ? The referee will ___ a coin to decide who kicks off.|toss|Hakem kimin başlayacağına karar vermek için yazı tura atacak.
 ? Some fans began to ___ insults at the referee.|hurl|Bazı taraftarlar hakeme hakaret yağdırmaya başladı.
-? She ran to him and wanted to ___ her arms around his neck.|fling|Ona koştu ve kollarını boynuna dolamak istedi.
+? She ran to him and wanted to ___ her arms around his neck.|fling|Ona koştu ve kollarını boynuna dolamak istedi.|x=throw
 @ shake, tremble, shiver, vibrate
 = shake|Genel: sallamak ya da sallanmak.
 = tremble|Korku ya da heyecandan titremek.
 = shiver|Soğuktan ya da ürpererek titremek.
 = vibrate|Makine ya da telefonun hızlıca titreşmesi.
-? Please ___ the bottle well before you pour the medicine.|shake|İlacı dökmeden önce şişeyi iyice çalkala.
+? Please ___ the bottle of juice well before you open it.|shake|Meyve suyu şişesini açmadan önce iyice çalkala.
 ? My phone is set to ___ instead of ringing in the cinema.|vibrate|Telefonum sinemada çalmak yerine titreşime ayarlı.
-? His voice began to ___ with fear as he spoke to the police.|tremble|Polisle konuşurken sesi korkudan titremeye başladı.
-? We stood in the snow and began to ___ with cold.|shiver|Karda durup soğuktan titremeye başladık.
+? His voice began to ___ with fear as he spoke to the police.|tremble|Polisle konuşurken sesi korkudan titremeye başladı.|x=shake
+? We stood in the snow and began to ___ with cold.|shiver|Karda durup soğuktan titremeye başladık.|x=shake,tremble
 @ cry, sob, whine, sniffle
 = cry|Genel: gözyaşı dökmek.
 = sob|Hıçkırarak, omuzları sarsılarak ağlamak.
 = whine|Mızmızlanmak, sızlanıp şikâyet etmek.
 = sniffle|Burnunu çeke çeke, nezle ya da hafif ağlamayla solumak.
 ? A newborn baby will ___ loudly when it is hungry.|cry|Yeni doğmuş bir bebek acıkınca yüksek sesle ağlar.
-? She hid her face in the pillow and began to ___ uncontrollably, her shoulders shaking.|sob|Yüzünü yastığa gömüp kontrolsüzce hıçkırmaya başladı, omuzları sarsılıyordu.
+? She hid her face in the pillow and began to ___ uncontrollably, her shoulders shaking.|sob|Yüzünü yastığa gömüp kontrolsüzce hıçkırmaya başladı, omuzları sarsılıyordu.|x=cry
 ? Stop trying to ___ about the homework and just do it.|whine|Ödevden mızmızlanmayı bırak ve yap şunu.
 ? He had a bad cold and kept starting to ___ all through the lesson.|sniffle|Kötü bir nezlesi vardı ve ders boyunca burnunu çekip durdu.
 @ eat, devour, nibble, swallow
@@ -627,7 +627,7 @@ syn: `
 = nibble|Küçük küçük, ucundan kemirmek.
 = swallow|Yutmak, boğazdan aşağı geçirmek.
 ? What time do you usually ___ breakfast?|eat|Kahvaltıyı genelde saat kaçta yaparsın?
-? The starving boy seemed to ___ the whole pizza in a minute.|devour|Aç çocuk bütün pizzayı bir dakikada silip süpürmüş gibiydi.
+? The starving boy seemed to ___ the whole pizza in a minute.|devour|Aç çocuk bütün pizzayı bir dakikada silip süpürmüş gibiydi.|x=eat
 ? The mouse started to ___ at a corner of the cheese.|nibble|Fare peynirin bir köşesini kemirmeye başladı.
 ? It is hard to ___ a big tablet without any water.|swallow|Büyük bir hapı hiç su olmadan yutmak zor.
 @ drink, sip, gulp, slurp
@@ -636,8 +636,8 @@ syn: `
 = gulp|Büyük yudumlarla, hızlıca içmek.
 = slurp|Ses çıkararak içmek ya da çekmek.
 ? You should ___ plenty of water in hot weather.|drink|Sıcak havada bol su içmelisin.
-? The soup is very hot, so ___ it slowly.|sip|Çorba çok sıcak, o yüzden yavaş yavaş yudumla.
-? After the long run he began to ___ the whole bottle of water without stopping.|gulp|Uzun koşudan sonra bütün su şişesini durmadan kafaya dikmeye başladı.
+? The soup is very hot, so ___ it slowly.|sip|Çorba çok sıcak, o yüzden yavaş yavaş yudumla.|x=drink
+? After the long run he began to ___ the whole bottle of water without stopping.|gulp|Uzun koşudan sonra bütün su şişesini durmadan kafaya dikmeye başladı.|x=drink
 ? It is rude to ___ your noodles loudly in a quiet restaurant.|slurp|Sessiz bir restoranda eriştenizi yüksek sesle çekmek kabalıktır.
 @ climb, crawl, creep, slide
 = climb|Tırmanmak, yukarı çıkmak.
@@ -653,9 +653,9 @@ syn: `
 = press|Bastırmak; ütülemek.
 = shove|Kabaca, sertçe itmek.
 = squeeze|Sıkıp suyunu çıkarmak ya da sıkıştırmak.
-? Please ___ the car for me; it will not start.|push|Arabayı benim için it lütfen, çalışmıyor.
+? Please ___ the car for me; it will not start.|push|Arabayı benim için it lütfen, çalışmıyor.|x=shove
 ? He had to ___ his shirt with a hot iron before the interview.|press|İş görüşmesinden önce gömleğini sıcak ütüyle ütülemesi gerekti.
-? The rude man began to ___ people roughly out of his way.|shove|Kaba adam insanları sertçe yolundan itmeye başladı.
+? The rude man began to ___ people roughly out of his way.|shove|Kaba adam insanları sertçe yolundan itmeye başladı.|x=push
 ? You need to ___ two lemons to get enough juice for the cake.|squeeze|Kek için yeterli suyu elde etmek üzere iki limon sıkman gerek.
 @ bend, fold, twist, curl
 = bend|Bükmek, eğmek.
@@ -673,7 +673,7 @@ syn: `
 = flash|Kısa ve parlak biçimde çakmak.
 ? The sun will ___ all day tomorrow, so take your sunglasses.|shine|Yarın bütün gün güneş açacak, o yüzden güneş gözlüğünü al.
 ? The embers continued to ___ red in the dark fireplace.|glow|Közler karanlık şöminede kızıl kızıl parlamaya devam etti.
-? Her new ring seemed to ___ in the light of the candles.|sparkle|Yeni yüzüğü mum ışığında pırıl pırıl parlıyor gibiydi.
+? Her new ring seemed to ___ in the light of the candles.|sparkle|Yeni yüzüğü mum ışığında pırıl pırıl parlıyor gibiydi.|x=shine,glow
 ? You will see the lightning ___ before you hear the thunder.|flash|Gök gürültüsünü duymadan önce şimşeğin çaktığını göreceksin.
 @ heal, cure, treat, recover
 = heal|Yaranın ya da kemiğin iyileşmesi.
@@ -681,7 +681,7 @@ syn: `
 = treat|Hastaya tıbbi bakım ve tedavi uygulamak.
 = recover|Hastalıktan ya da kötü durumdan sonra toparlanmak.
 ? The cut on my finger will ___ in about a week.|heal|Parmağımdaki kesik yaklaşık bir haftada iyileşecek.
-? No medicine can completely ___ the common cold.|cure|Hiçbir ilaç nezleyi tamamen geçiremez.
+? No medicine can completely ___ the common cold.|cure|Hiçbir ilaç nezleyi tamamen geçiremez.|x=treat
 ? Doctors ___ most patients with antibiotics first.|treat|Doktorlar hastaların çoğunu önce antibiyotikle tedavi eder.
 ? It takes time to ___ after a long illness.|recover|Uzun bir hastalıktan sonra toparlanmak zaman alır.
 @ gift, donation, tip, bribe
@@ -726,7 +726,7 @@ syn: `
 = stumble|Sendeleyerek, yalpalayarak yürümek.
 = drop|Elinden düşürmek.
 ? The ice is so smooth that people ___ and fall.|slip|Buz o kadar kaygan ki insanların ayağı kayıp düşüyor.
-? He did not see the cable on the floor and may ___ over it.|trip|Yerdeki kabloyu görmedi ve ona takılıp düşebilir.
+? He did not see the cable on the floor and may ___ over it.|trip|Yerdeki kabloyu görmedi ve ona takılıp düşebilir.|x=stumble
 ? The tired old man began to ___ along the dark road.|stumble|Yorgun yaşlı adam karanlık yolda sendeleyerek yürümeye başladı.
 ? Be careful not to ___ the glass.|drop|Bardağı düşürmemeye dikkat et.
 @ mix, stir, blend, whisk
@@ -734,16 +734,16 @@ syn: `
 = stir|Kaşıkla çevirerek karıştırmak.
 = blend|Blenderle ezip pürüzsüz hâle getirmek.
 = whisk|Çırpıcıyla köpürene kadar çırpmak.
-? First, ___ the flour, sugar and butter in a large bowl.|mix|Önce un, şeker ve tereyağını büyük bir kapta karıştırın.
-? Use a spoon to ___ the sugar into your tea.|stir|Şekeri çayına karıştırmak için bir kaşık kullan.
+? First, ___ the flour, sugar and butter in a large bowl.|mix|Önce un, şeker ve tereyağını büyük bir kapta karıştırın.|x=blend,stir
+? Use a spoon to ___ the sugar into your tea.|stir|Şekeri çayına karıştırmak için bir kaşık kullan.|x=mix
 ? She will ___ bananas and milk in the machine to make a smoothie.|blend|Smoothie yapmak için makinede muz ve sütü blenderdan geçirecek.
-? Use a fork to ___ the eggs until they are light and foamy.|whisk|Yumurtaları hafif ve köpüklü olana kadar çatalla çırp.
+? Use a fork to ___ the eggs until they are light and foamy.|whisk|Yumurtaları hafif ve köpüklü olana kadar çatalla çırp.|x=mix
 @ chair, seat, stool, bench
 = chair|Arkalıklı, tek kişilik sandalye.
 = seat|Oturulan yer, koltuk.
 = stool|Arkalığı olmayan yüksek tabure.
 = bench|Parkta uzun, çok kişilik oturak.
-? Please bring a ___ from the kitchen so that grandfather can sit at the table.|chair|Büyükbaba masada oturabilsin diye lütfen mutfaktan bir sandalye getir.
+? Please bring a ___ from the kitchen so that grandfather can sit at the table.|chair|Büyükbaba masada oturabilsin diye lütfen mutfaktan bir sandalye getir.|x=stool,seat
 ? I booked a window ___ on the plane.|seat|Uçakta cam kenarı bir koltuk ayırttım.
 ? He climbed onto a tall ___ at the bar.|stool|Barda yüksek bir taburenin üstüne çıktı.
 ? We sat on a ___ in the park and ate our sandwiches.|bench|Parkta bir banka oturup sandviçlerimizi yedik.
@@ -753,9 +753,9 @@ syn: `
 = backpack|Sırta takılan sırt çantası.
 = handbag|Kadınların kullandığı küçük el çantası.
 ? Put the apples in a paper ___, please.|bag|Elmaları lütfen kâğıt bir torbaya koy.
-? He packed enough clothes in a big ___ for a two-week trip abroad.|suitcase|Yurt dışında iki haftalık yolculuk için büyük bir valize yeterince giysi koydu.
+? He packed enough clothes in a big ___ for a two-week trip abroad.|suitcase|Yurt dışında iki haftalık yolculuk için büyük bir valize yeterince giysi koydu.|x=bag,backpack
 ? Students carry heavy books on their back in a ___.|backpack|Öğrenciler ağır kitapları sırtlarında bir sırt çantasıyla taşır.
-? She took her keys and phone out of her ___ and put them on the desk.|handbag|Anahtarlarını ve telefonunu el çantasından çıkarıp masaya koydu.
+? She took her keys and phone out of her ___ and put them on the desk.|handbag|Anahtarlarını ve telefonunu el çantasından çıkarıp masaya koydu.|x=bag,backpack
 @ meal, dish, course, snack
 = meal|Kahvaltı, öğle ya da akşam yemeği gibi öğün.
 = dish|Belli bir yemek ya da tabak.
@@ -773,7 +773,7 @@ syn: `
 ? The school ___ rang at three and the children ran out.|bell|Okul zili üçte çaldı ve çocuklar dışarı koştu.
 ? Set your ___ for seven o'clock so you do not oversleep.|alarm|Uyuyakalmamak için çalar saatini yediye kur.
 ? The ambulance's ___ could be heard from far away.|siren|Ambulansın sireni uzaktan duyulabiliyordu.
-? To enter the building, press the ___ and wait for the lock to open.|buzzer|Binaya girmek için kapı zilini basıp kilidin açılmasını bekle.
+? To enter the building, press the ___ and wait for the lock to open.|buzzer|Binaya girmek için kapı zilini basıp kilidin açılmasını bekle.|x=bell
 @ boat, ship, yacht, ferry
 = boat|Genel: küçük tekne.
 = ship|Büyük gemi.
@@ -781,15 +781,15 @@ syn: `
 = ferry|Yolcu ve araç taşıyan karşıdan karşıya vapur.
 ? They rowed a small wooden ___ across the lake.|boat|Küçük, tahta bir tekneyle gölün karşısına kürek çektiler.
 ? A huge cargo ___ with thousands of containers entered the port.|ship|Binlerce konteyner taşıyan kocaman bir kargo gemisi limana girdi.
-? The millionaire sailed his white ___ along the coast.|yacht|Milyoner, beyaz yatını kıyı boyunca yelkenle sürdü.
-? We crossed the strait by ___ and took our car with us.|ferry|Boğazı arabamızı da alarak feribotla geçtik.
+? The millionaire sailed his white ___ along the coast.|yacht|Milyoner, beyaz yatını kıyı boyunca yelkenle sürdü.|x=boat
+? We crossed the strait by ___ and took our car with us.|ferry|Boğazı arabamızı da alarak feribotla geçtik.|x=boat,ship
 @ rope, string, chain, wire
 = rope|Kalın, güçlü halat.
 = string|İnce sicim, ip.
 = chain|Metal halkalardan oluşan zincir.
 = wire|Metal tel, elektrik teli.
-? The climbers tied a strong ___ to the rock before going down.|rope|Dağcılar aşağı inmeden önce kayaya sağlam bir halat bağladı.
-? He tied a thin ___ around the parcel and cut it with scissors.|string|Paketin etrafına ince bir sicim bağlayıp makasla kesti.
+? The climbers tied a strong ___ to the rock before going down.|rope|Dağcılar aşağı inmeden önce kayaya sağlam bir halat bağladı.|x=chain
+? He tied a thin ___ around the parcel and cut it with scissors.|string|Paketin etrafına ince bir sicim bağlayıp makasla kesti.|x=wire
 ? The dog was tied to a tree with a heavy metal ___.|chain|Köpek ağır bir metal zincirle ağaca bağlanmıştı.
 ? Electricity flows through the copper ___.|wire|Elektrik bakır telin içinden akar.
 @ wall, fence, gate, hedge
@@ -807,7 +807,7 @@ syn: `
 = pool|Yüzme havuzu.
 = puddle|Yağmurdan sonra yerde biriken su.
 ? Boats sail on the huge ___ in the mountains.|lake|Tekneler dağlardaki kocaman gölde yelken açıyor.
-? Ducks and frogs live in the small garden ___.|pond|Ördekler ve kurbağalar küçük bahçe göletinde yaşıyor.
+? Ducks and frogs live in the small garden ___.|pond|Ördekler ve kurbağalar küçük bahçe göletinde yaşıyor.|x=pool
 ? We swam in the ___ at the hotel.|pool|Otelin havuzunda yüzdük.
 ? The children jumped in the muddy ___ after the rain.|puddle|Çocuklar yağmurdan sonra çamurlu su birikintisine atladı.
 @ hill, mountain, valley, cliff
@@ -835,7 +835,7 @@ syn: `
 = damage|Eşyaya, binaya ya da bir şeye verilen hasar.
 ? The storm caused serious ___ to the roof of the school.|damage|Fırtına okulun çatısında ciddi hasara yol açtı.
 ? The footballer will miss three months because of a knee ___.|injury|Futbolcu diz sakatlığı yüzünden üç ay oynayamayacak.
-? The nurse cleaned the deep ___ on his arm and covered it.|wound|Hemşire kolundaki derin yarayı temizleyip kapattı.
+? The nurse cleaned the deep ___ on his arm and covered it.|wound|Hemşire kolundaki derin yarayı temizleyip kapattı.|x=injury
 ? Don't worry, there is no ___ in asking a question.|harm|Merak etme, soru sormanın bir zararı yok.
 @ alone, lonely, single, only
 = alone|Yanında kimse olmadan, tek başına.
@@ -863,7 +863,7 @@ syn: `
 ? The plane landed safely on the ___ after the storm.|ground|Uçak fırtınadan sonra güvenle yere indi.
 ? Please don't put your wet bags on the kitchen ___.|floor|Lütfen ıslak çantalarını mutfağın zeminine koyma.
 ? The ___ goes round the Sun once a year.|earth|Dünya yılda bir kez Güneş'in çevresinde döner.
-? Add compost to the ___ to make it richer for your plants.|soil|Bitkilerin için daha verimli olsun diye toprağa kompost ekle.
+? Add compost to the ___ to make it richer for your plants.|soil|Bitkilerin için daha verimli olsun diye toprağa kompost ekle.|x=earth,ground
 @ cash, money, change, coin
 = cash|Nakit para (kart değil).
 = money|Genel olarak para.
@@ -906,8 +906,8 @@ syn: `
 = blank|Üzerine bir şey yazılmamış (kâğıt, alan).
 = hollow|İçi oyuk (ağaç gövdesi, top).
 ? The bottle is ___; we need to buy more milk.|empty|Şişe boş; daha fazla süt almamız lazım.
-? The job of manager has been ___ since Sarah retired.|vacant|Sarah emekli olduğundan beri müdürlük pozisyonu boş.
-? Write your name in the ___ space at the top of the page.|blank|Adını sayfanın üstündeki boş alana yaz.
+? The job of manager has been ___ since Sarah retired.|vacant|Sarah emekli olduğundan beri müdürlük pozisyonu boş.|x=empty
+? Write your name in the ___ space at the top of the page.|blank|Adını sayfanın üstündeki boş alana yaz.|x=empty
 ? Owls live in the ___ trunk of the old tree.|hollow|Baykuşlar yaşlı ağacın oyuk gövdesinde yaşıyor.
 @ boring, bored, tiring, tired
 = boring|Sıkıcı (bir şey sıkıcıdır).
@@ -1306,7 +1306,7 @@ I'll ___ my best to help you.|do|make,take,give|Sana yardım etmek için elimden
 She ___ a phone call to her mother.|made|did,took,gave|Annesini telefonla aradı.|make a phone call (telefon etmek)
 They ___ business with Germany.|do|make,take,give|Almanya ile ticaret yapıyorlar.|do business (ticaret yapmak)
 Let's ___ a break for ten minutes.|take|make,do,give|On dakika ara verelim.|take a break (ara vermek)
-You should ___ your medicine twice a day.|take|make,do,give|İlacını günde iki kez almalısın.|take medicine (ilaç almak)
+Did you ___ the train or the bus?|take|make,do,give|Trene mi bindin, otobüse mi?|take the train/bus (trene/otobüse binmek)
 It ___ two hours to get there.|takes|makes,does,gives|Oraya gitmek iki saat sürüyor.|it takes + süre (sürmek)
 Please ___ a seat.|take|make,do,give|Lütfen oturun.|take a seat (oturmak, yer almak)
 The exam will ___ place on Monday.|take|make,do,give|Sınav pazartesi günü yapılacak.|take place (gerçekleşmek)
@@ -1377,7 +1377,7 @@ I ___ a dream about you last night.|had|made,did,took|Dün gece seni rüyamda g�
 It ___ sense to leave early.|makes|does,takes,gives|Erken çıkmak mantıklı.|make sense (mantıklı olmak)
 They ___ friends on the first day of school.|made|did,took,got|Okulun ilk günü arkadaş oldular.|make friends (arkadaş edinmek)
 Stop ___ fun of him!|making|doing,taking,having|Onunla dalga geçmeyi bırak!|make fun of (dalga geçmek)
-This medicine will ___ you good.|do|make,take,give|Bu ilaç sana iyi gelecek.|do someone good (iyi gelmek)
+A holiday will ___ you good.|do|make,take,give|Bir tatil sana iyi gelir.|do someone good (iyi gelmek)
 The storm ___ a lot of damage.|did|made,took,gave|Fırtına büyük hasar verdi.|do damage (zarar vermek)
 I ___ a course in photography.|did|made,gave,had|Fotoğrafçılık kursuna gittim.|do a course (kurs görmek)
 Please ___ care on the icy roads.|take|make,do,have|Buzlu yollarda lütfen dikkatli olun.|take care (dikkatli olmak)

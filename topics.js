@@ -165,7 +165,7 @@ pulse|nabız|I can feel his pulse on his wrist.|Bileğinde nabzını hissedebili
 X-ray|röntgen|They took an X-ray of his chest.|Göğsünün röntgenini çektiler.
 patient|hasta|The patient is waiting outside.|Hasta dışarıda bekliyor.
 pharmacy|eczane|Buy the medicine from the pharmacy.|İlacı eczaneden al.
-dose|doz|Do not take more than one dose a day.|Günde bir dozdan fazla alma.
+dose|doz|The dose is written on the box.|Doz kutunun üzerinde yazıyor.
 side effect|yan etki|The drug has a few side effects.|İlacın birkaç yan etkisi var.
 fracture|kırık|The X-ray showed a fracture in his arm.|Röntgen kolunda bir kırık gösterdi.
 bruise|morarma|There was a big bruise on his leg.|Bacağında büyük bir morarma vardı.
@@ -187,15 +187,15 @@ wheelchair|tekerlekli sandalye|He uses a wheelchair after the accident.|Kazadan 
 physiotherapy|fizyoterapi|Physiotherapy helped me walk again.|Fizyoterapi tekrar yürümeme yardımcı oldu.
 cavity|diş çürüğü|The dentist found a cavity in my tooth.|Diş hekimi dişimde bir çürük buldu.
 filling|dolgu|I need a filling for this tooth.|Bu diş için bir dolguya ihtiyacım var.
-ointment|merhem|Apply the ointment twice a day.|Merhemi günde iki kez sür.
-painkiller|ağrı kesici|He took a painkiller for his headache.|Baş ağrısı için bir ağrı kesici aldı.
+ointment|merhem|The pharmacist gave me a tube of ointment.|Eczacı bana bir tüp merhem verdi.
+painkiller|ağrı kesici|Painkillers are sold in pharmacies.|Ağrı kesiciler eczanelerde satılır.
 syringe|şırınga|The nurse filled the syringe.|Hemşire şırıngayı doldurdu.
-thermometer|ateş ölçer|Put the thermometer under your arm.|Ateş ölçeri koltuk altına koy.
+thermometer|ateş ölçer|The nurse looked at the thermometer.|Hemşire ateş ölçere baktı.
 stethoscope|steteskop|The doctor listened with a stethoscope.|Doktor steteskopla dinledi.
 blood test|kan tahlili|You need to have a blood test in the morning.|Sabah kan tahlili yaptırman gerekiyor.
 specialist|uzman doktor|My doctor sent me to a specialist.|Doktorum beni bir uzman doktora gönderdi.
 referral|sevk|You need a referral to see the specialist.|Uzman doktoru görmek için sevk gerekiyor.
-immune system|bağışıklık sistemi|Sleep strengthens your immune system.|Uyku bağışıklık sistemini güçlendirir.
+immune system|bağışıklık sistemi|The immune system protects the body from germs.|Bağışıklık sistemi vücudu mikroplara karşı korur.
 inflammation|iltihap|The inflammation in his throat is gone.|Boğazındaki iltihap geçti.
 swelling|şişlik|There is a swelling on my foot.|Ayağımda bir şişlik var.
 cholesterol|kolesterol|He has high cholesterol.|Kolesterolü yüksek.
@@ -212,7 +212,7 @@ vitamin|vitamin|Oranges are rich in vitamin C.|Portakallar C vitamini açısınd
 dehydration|vücudun susuz kalması|Dehydration can cause headaches.|Vücudun susuz kalması baş ağrısına neden olabilir.
 blister|su toplaması|New shoes gave me a blister.|Yeni ayakkabılar ayağımda su topladı.
 scar|yara izi|He has a small scar on his chin.|Çenesinde küçük bir yara izi var.
-tablet|tablet|Take one tablet after meals.|Yemeklerden sonra bir tablet al.
+tablet|tablet|The tablet is small and white.|Tablet küçük ve beyaz.
 capsule|kapsül|The capsule is easy to swallow.|Kapsülü yutmak kolay.
 drip|serum|He was connected to a drip in the hospital.|Hastanede ona serum bağlandı.
 transplant|organ nakli|She is waiting for a kidney transplant.|Böbrek nakli için bekliyor.
@@ -245,7 +245,7 @@ chills|titreme|He had chills and a headache.|Titremesi ve baş ağrısı vardı.
 flu|grip|The flu spreads quickly in winter.|Grip kışın hızla yayılır.
 cold|soğuk algınlığı|I caught a cold last week.|Geçen hafta soğuk algınlığına yakalandım.
 diarrhoea|ishal|Diarrhoea can cause dehydration.|İshal vücudun susuz kalmasına yol açabilir.
-constipation|kabızlık|Fibre helps against constipation.|Lif kabızlığa karşı yardımcı olur.
+constipation|kabızlık|Constipation is a common problem.|Kabızlık yaygın bir sorundur.
 vomit|kusmak|The baby began to vomit.|Bebek kusmaya başladı.
 itching|kaşıntı|The itching got worse at night.|Kaşıntı geceleri arttı.
 cramp|kramp|He got a cramp in his leg while swimming.|Yüzerken bacağına kramp girdi.
@@ -274,7 +274,7 @@ vein|toplardamar|The nurse could not find a vein in his arm.|Hemşire kolunda bi
 artery|atardamar|Arteries carry blood away from the heart.|Atardamarlar kanı kalpten uzağa taşır.
 cartilage|kıkırdak|The nose and ears are made of cartilage.|Burun ve kulaklar kıkırdaktan oluşur.
 skull|kafatası|The skull protects the brain.|Kafatası beyni korur.
-eye drops|göz damlası|Use these eye drops twice a day.|Bu göz damlasını günde iki kez kullan.
+eye drops|göz damlası|The eye drops are in a small bottle.|Göz damlası küçük bir şişede.
 hay fever|saman nezlesi|Hay fever makes my eyes itch in spring.|Saman nezlesi baharda gözlerimi kaşındırıyor.
 ` },
   { id: 'acil', group: 'Sağlık ve bilim', name: 'Acil durum ve ilk yardım', code: 'Acl', note: 'Yalnızca terimler, ilk yardım bilgisi değildir', items: `
@@ -1838,7 +1838,7 @@ plantain|sinir otu|Plantain grows between the stones of the path.|Sinir otu pati
 mullein|sığır kuyruğu (bitki)|Mullein grows very tall in summer.|Sığır kuyruğu yazın çok uzar.
 lady's mantle|aslan pençesi (bitki)|Drops of water shine on lady's mantle leaves.|Aslan pençesi yapraklarında su damlaları parlıyor.
 red clover|kırmızı yonca|The cows were eating red clover in the meadow.|İnekler çayırda kırmızı yonca yiyordu.
-aloe vera|sarısabır, aloe vera|An aloe vera plant stands on the kitchen windowsill.|Mutfak pencere pervazında bir aloe vera duruyor.
+aloe vera|aloe vera (sarısabır)|An aloe vera plant stands on the kitchen windowsill.|Mutfak pencere pervazında bir aloe vera duruyor.
 ginseng|ginseng (kök)|Ginseng is a root from East Asia.|Ginseng Doğu Asya'dan gelen bir köktür.
 ginkgo|ginkgo (ağaç)|The leaves of the ginkgo turn yellow in autumn.|Ginkgonun yaprakları sonbaharda sararır.
 herb garden|ot bahçesi|We planted mint and thyme in our herb garden.|Ot bahçemize nane ve kekik ektik.
@@ -1945,7 +1945,7 @@ fennel|rezene|Fennel tastes a little like anise.|Rezene biraz anasona benzer bir
 watercress|su teresi|Watercress grows beside clean streams.|Su teresi temiz derelerin kenarında yetişir.
 vine leaf|asma yaprağı|Wrap the rice in a vine leaf.|Pilavı bir asma yaprağına sar.
 salad|salata|We made a big salad for lunch.|Öğle yemeği için büyük bir salata yaptık.
-greens|yeşillikler|Eat your greens, they are good for you.|Yeşilliklerini ye, sana iyi gelir.
+greens|yeşillikler|Eat your greens before dessert.|Tatlıdan önce yeşilliklerini ye.
 stalk|sap|Cut the stalk off the broccoli.|Brokolinin sapını kes.
 mashed potato|patates püresi|She served the meat with mashed potato.|Eti patates püresi ile servis etti.
 chips|patates kızartması|He ordered fish and chips.|Balık ve patates kızartması sipariş etti.
@@ -1977,7 +1977,7 @@ flaxseed|keten tohumu|Flaxseed can be added to bread.|Keten tohumu ekmeğe katı
 roasted chickpeas|leblebi|He bought a bag of roasted chickpeas.|Bir poşet leblebi aldı.
 dried apricot|kuru kayısı|Dried apricots are sweet and chewy.|Kuru kayısılar tatlı ve sünger gibidir.
 dried fig|kuru incir|She ate a dried fig with walnuts.|Cevizle birlikte bir kuru incir yedi.
-prune|kuru erik|Prunes are good for digestion.|Kuru erik sindirim için iyidir.
+prune|kuru erik|Prunes are sweet and a little sticky.|Kuru erik tatlı ve biraz yapışkandır.
 mixed nuts|karışık kuruyemiş|We served mixed nuts to the guests.|Misafirlere karışık kuruyemiş ikram ettik.
 nut butter|kuruyemiş ezmesi|Spread some nut butter on the bread.|Ekmeğe biraz kuruyemiş ezmesi sür.
 peanut butter|fıstık ezmesi|He likes peanut butter on his toast.|Tostuna fıstık ezmesi sürmeyi sever.
@@ -1992,7 +1992,7 @@ salted|tuzlu|The salted almonds were delicious.|Tuzlu bademler çok lezzetliydi.
 unsalted|tuzsuz|He prefers unsalted nuts.|Tuzsuz kuruyemişi tercih eder.
 raw|çiğ|Raw almonds are good for baking.|Çiğ badem pişirmek için iyidir.
 crack|kırmak (kabuğunu)|Crack the walnuts with a nutcracker.|Cevizlerin kabuğunu fındık kıracağı ile kır.
-snack|atıştırmalık|Nuts are a healthy snack.|Kuruyemiş sağlıklı bir atıştırmalıktır.
+snack|atıştırmalık|Nuts are a popular snack.|Kuruyemiş sevilen bir atıştırmalıktır.
 dried mulberry|kuru dut|Dried mulberries are sweet and sticky.|Kuru dut tatlı ve yapışkandır.
 candied|şekerlenmiş|She bought candied chestnuts.|Şekerlenmiş kestane aldı.
 ` },
@@ -2747,7 +2747,7 @@ tenure|kadrolu öğretim üyeliği|She was granted tenure after six years.|Altı
   { id: 'bilgisayar', group: 'İş ve meslek', name: 'Bilgisayar', code: 'PC', note: 'Yazılım, donanım, internet', items: `
 software|yazılım|The software is free to download.|Yazılım ücretsiz indirilebilir.
 hardware|donanım|The shop sells computer hardware.|Dükkân bilgisayar donanımı satıyor.
-operating system|işletim sistemi|Windows is an operating system.|Windows bir işletim sistemidir.
+operating system|işletim sistemi|Every computer needs an operating system.|Her bilgisayarın bir işletim sistemine ihtiyacı vardır.
 browser|tarayıcı|Open the link in your browser.|Bağlantıyı tarayıcında aç.
 search engine|arama motoru|Type the word into the search engine.|Kelimeyi arama motoruna yaz.
 server|sunucu|The server is down.|Sunucu çalışmıyor.
